@@ -12,7 +12,7 @@ module StraightEngine
     # Third-Party services or the local blockchain copy
     # represented by wrapper classes that make all the necessary queries
     # to check certain addresses or transactions.
-    BLOCKCHAIN_ADAPTERS = []
+    DEFAULT_BLOCKCHAIN_ADAPTERS = []
 
     STATUSES = {
       new:          0, # no transactions received
@@ -30,14 +30,15 @@ module StraightEngine
     # is created. We do not store neither pubkey, nor the incrementer number anywhere.
     attr_reader :pubkey
 
-    # Amount is always an Integer, in Satoshis
+    # Amount is always an Integer, in satoshis
     attr_reader :amount
-
+    
     def initialize(
-      amount:, pubkey:,
+      amount:,
+      pubkey:,
       next_address_index:     0,
       confirmations_required: 0,
-      blockchain_adapters:    BLOCKCHAIN_ADAPTERS,
+      blockchain_adapters:    DEFAULT_BLOCKCHAIN_ADAPTERS,
       status_check_schedule:  nil
     )
       @pubkey                 = pubkey

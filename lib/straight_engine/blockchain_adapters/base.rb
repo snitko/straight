@@ -17,7 +17,7 @@ module StraightEngine
 
       private
 
-        # Converts transaction info recieved from the source into the
+        # Converts transaction info received from the source into the
         # unified format expected by users of BlockchainAdapter instances.
         def straighten_transaction(transaction)
         end

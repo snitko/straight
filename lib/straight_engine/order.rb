@@ -15,11 +15,11 @@ module StraightEngine
     BLOCKCHAIN_ADAPTERS = []
 
     STATUSES = {
-      new:               0, # no transactions received
-      unconfirmed:       1, # transaction has been received doesn't have enough confirmations yet
-      paid:              2, # transaction received with enough confirmations and the correct amount
-      amount_not_enough: 3, # amount that was received in a transaction was not enough
-      amount_too_large:  4  # amount that was received in a transaction was too large
+      new:          0, # no transactions received
+      unconfirmed:  1, # transaction has been received doesn't have enough confirmations yet
+      paid:         2, # transaction received with enough confirmations and the correct amount
+      underpaid:    3, # amount that was received in a transaction was not enough
+      overpaid:     4  # amount that was received in a transaction was too large
     }
 
     class IncorrectAmount < Exception; end
@@ -35,13 +35,13 @@ module StraightEngine
 
     def initialize(
       amount:, pubkey:,
-      next_address_counter:   0,
+      next_address_index:     0,
       confirmations_required: 0,
       blockchain_adapters:    BLOCKCHAIN_ADAPTERS,
       status_check_schedule:  nil
     )
       @pubkey                 = pubkey
-      @next_address_counter   = next_address_counter
+      @next_address_index     = next_address_index
       @confirmations_required = confirmations_required
       @created_at             = Time.now
       @blockchain_adapters    = blockchain_adapters

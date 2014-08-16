@@ -12,7 +12,7 @@ module StraightEngine
     # Third-Party services or the local blockchain copy
     # represented by wrapper classes that make all the necessary queries
     # to check certain addresses or transactions.
-    SOURCES = []
+    BLOCKCHAIN_ADAPTERS = []
 
     STATUSES = {
       new:               0, # no transactions received
@@ -37,14 +37,14 @@ module StraightEngine
       amount:, pubkey:,
       next_address_counter:   0,
       confirmations_required: 0,
-      sources: Order::SOURCES,
-      status_check_schedule: nil
+      blockchain_adapters:    BLOCKCHAIN_ADAPTERS,
+      status_check_schedule:  nil
     )
       @pubkey                 = pubkey
       @next_address_counter   = next_address_counter
       @confirmations_required = confirmations_required
       @created_at             = Time.now
-      @sources                = sources
+      @blockchain_adapters    = blockchain_adapters
       @status_check_schedule  = nil
 
       raise Order::IncorrectAmount if amount.nil? || !amount.kind_of?(Integer) || amount <= 0
@@ -70,7 +70,7 @@ module StraightEngine
     # the last transaction made to the address.
     def transactions(reload: false)
       # if reload true
-        # asks one of the (or all) @sources to reload all transactions for the current address
+        # asks one of the (or all) @blockchain_adapters to reload all transactions for the current address
     end
 
     # Last transaction made to the address. Always use this method to check whether a transaction
@@ -78,7 +78,7 @@ module StraightEngine
     # always assume it's the last transaction that we want to check.
     def transaction(reload: false)
       # if reload true
-        # asks one of the (or all) @sources to reload info about the transaction with that id
+        # asks one of the (or all) @blockchain_adapters to reload info about the transaction with that id
     end
 
     # Checks #transaction and returns one of the STATUSES based

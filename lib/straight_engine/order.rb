@@ -15,9 +15,9 @@ module StraightEngine
     SOURCES = []
 
     STATUSES = {
-      new:  0,        # no transactions received
-      unconfirmed: 1, # transaction has been received doesn't have enough confirmations yet
-      paid: 2,        # transaction received with enough confirmations and the correct amount
+      new:               0, # no transactions received
+      unconfirmed:       1, # transaction has been received doesn't have enough confirmations yet
+      paid:              2, # transaction received with enough confirmations and the correct amount
       amount_not_enough: 3, # amount that was received in a transaction was not enough
       amount_too_large:  4  # amount that was received in a transaction was too large
     }

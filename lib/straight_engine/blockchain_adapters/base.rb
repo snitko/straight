@@ -5,8 +5,8 @@ module StraightEngine
     # all blockchain adapters as well as supplying some useful methods.
     class Base
 
-      attr_accessor :api_base_url
-      
+      require 'json'
+
       # Returns transaction info for the tid
       def fetch_transaction(tid)
       end

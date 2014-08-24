@@ -8,6 +8,12 @@ module StraightEngine
       require 'net/http'
       require 'uri'
 
+      # When we call calculate_confirmations, it doesn't always make a new
+      # request to the blockchain API. Instead, it checks if cached_id matches the one in
+      # the hash. It's useful when we want to calculate confirmations for all transactions for
+      # a certain address without making any new requests to the Blockchain API.
+      @@latest_block = { cache_timestamp: nil, block: nil }
+
       API_BASE_URL = "http://blockchain.info"
 
       class << self
@@ -36,7 +42,33 @@ module StraightEngine
               total_amount += out['value']
               outs << { amount: out['value'], receiving_address: out['addr'] }
             end
-            { total_amount: total_amount, outs: outs }
+
+            {
+              total_amount:  total_amount,
+              confirmations: calculate_confirmations(transaction),
+              outs:          outs
+            }
+          end
+
+          def calculate_confirmations(transaction, force_latest_block_reload: false)
+
+            # If we checked Blockchain.info latest block data
+            # more than a minute ago, check again. Otherwise, use cached version.
+            if @@latest_block[:cache_timestamp].nil?              ||
+               @@latest_block[:cache_timestamp] < (Time.now - 60) ||
+               force_latest_block_reload
+              @@latest_block = {
+                cache_timestamp: Time.now,
+                block: JSON.parse(Net::HTTP.get(URI.parse("#{API_BASE_URL}/latestblock")))
+              }
+            end
+
+            if transaction["block_height"]
+              @@latest_block[:block]["height"] - transaction["block_height"] + 1
+            else
+              0
+            end
+
           end
 
       end

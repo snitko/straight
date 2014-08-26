@@ -3,12 +3,6 @@ module StraightEngine
 
     class HelloblockIo < Base
 
-      # When we call calculate_confirmations, it doesn't always make a new
-      # request to the blockchain API. Instead, it checks if cached_id matches the one in
-      # the hash. It's useful when we want to calculate confirmations for all transactions for
-      # a certain address without making any new requests to the Blockchain API.
-      @@latest_block = { cache_timestamp: nil, block: nil }
-
       API_BASE_URL = "https://mainnet.helloblock.io/v1"
 
       class << self

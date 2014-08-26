@@ -11,7 +11,7 @@ RSpec.describe StraightEngine::BlockchainAdapter::BlockchainInfo do
 
   it "fetches a single transaction" do
     address = "3B1QZ8FpAaHBgkSB5gFt76ag5AW9VeP8xp"
-    expect(adapter.fetch_transactions_for(address)[:balance]).to eq(21022060)
+    expect(adapter.fetch_transactions_for(address)[:balance]).to be_kind_of(Integer)
   end
 
   it "calculates the number of confirmations for each transaction" do
@@ -20,12 +20,17 @@ RSpec.describe StraightEngine::BlockchainAdapter::BlockchainInfo do
   end
 
   it "caches blockchain.info latestblock requests" do
-    expect(Net::HTTP).to receive(:get).once.and_return('{ "height": 1 }')
+    expect(adapter).to receive(:http_request).once.and_return('{ "height": 1 }')
     adapter.send(:calculate_confirmations, { "block_height" => 1 }, force_latest_block_reload: true)
     adapter.send(:calculate_confirmations, { "block_height" => 1 })
     adapter.send(:calculate_confirmations, { "block_height" => 1 })
     adapter.send(:calculate_confirmations, { "block_height" => 1 })
     adapter.send(:calculate_confirmations, { "block_height" => 1 })
+  end
+  
+  it "raises an exception when something goes wrong with fetching datd" do
+    allow_any_instance_of(URI).to receive(:read).and_raise(OpenURI::HTTPError)
+    expect( -> { adapter.http_request("http://blockchain.info/a-timed-out-request") }).to raise_error(StraightEngine::BlockchainAdapter::RequestError)
   end
 
 end

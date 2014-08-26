@@ -5,9 +5,6 @@ module StraightEngine
     # all blockchain adapters as well as supplying some useful methods.
     class BlockchainInfo < Base
 
-      require 'net/http'
-      require 'uri'
-
       # When we call calculate_confirmations, it doesn't always make a new
       # request to the blockchain API. Instead, it checks if cached_id matches the one in
       # the hash. It's useful when we want to calculate confirmations for all transactions for
@@ -20,12 +17,12 @@ module StraightEngine
       
         # Returns transaction info for the tid
         def fetch_transaction(tid)
-          straighten_transaction JSON.parse(Net::HTTP.get(URI.parse("#{API_BASE_URL}/rawtx/#{tid}")))
+          straighten_transaction JSON.parse(http_request("#{API_BASE_URL}/rawtx/#{tid}"))
         end
 
         # Returns all transactions for the address
         def fetch_transactions_for(address)
-          address      = JSON.parse(Net::HTTP.get(URI.parse("#{API_BASE_URL}/rawaddr/#{address}")))
+          address      = JSON.parse(http_request("#{API_BASE_URL}/rawaddr/#{address}"))
           transactions = address['txs']
           transactions.map! { |t| straighten_transaction(t) }
           { balance: address['final_balance'] , transactions: transactions }
@@ -59,7 +56,7 @@ module StraightEngine
                force_latest_block_reload
               @@latest_block = {
                 cache_timestamp: Time.now,
-                block: JSON.parse(Net::HTTP.get(URI.parse("#{API_BASE_URL}/latestblock")))
+                block: JSON.parse(http_request("#{API_BASE_URL}/latestblock"))
               }
             end
 

@@ -22,8 +22,12 @@ module StraightEngine
         def fetch_transactions_for(address)
           address      = JSON.parse(http_request("#{API_BASE_URL}/rawaddr/#{address}"))
           transactions = address['txs']
-          transactions.map! { |t| straighten_transaction(t) }
-          { balance: address['final_balance'] , transactions: transactions }
+          transactions.map { |t| straighten_transaction(t) }
+        end
+
+        # Returns the current balance of the address
+        def fetch_balance_for(address)
+          JSON.parse(http_request("#{API_BASE_URL}/rawaddr/#{address}"))['final_balance']
         end
 
         private

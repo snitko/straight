@@ -9,9 +9,9 @@ RSpec.describe StraightEngine::BlockchainAdapter::HelloblockIo do
     expect(adapter.fetch_transactions_for(address)).not_to be_empty
   end
 
-  it "fetches the balance for a give address" do
+  it "fetches the balance for a given address" do
     address = "3B1QZ8FpAaHBgkSB5gFt76ag5AW9VeP8xp"
-    expect(adapter.fetch_balance_for(address)).not_to be_kind_of(Integer)
+    expect(adapter.fetch_balance_for(address)).to be_kind_of(Integer)
   end
 
   it "fetches a single transaction" do

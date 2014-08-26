@@ -33,7 +33,7 @@ module StraightEngine
         def http_request(url)
           uri = URI.parse(url)
           begin
-            http = uri.read
+            http = uri.read(read_timeout: 4)
           rescue OpenURI::HTTPError => e
             raise RequestError, YAML::dump(e)
           end

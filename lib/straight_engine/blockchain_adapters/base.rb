@@ -20,10 +20,17 @@ module StraightEngine
 
         # Returns transaction info for the tid
         def fetch_transaction(tid)
+          raise "abstract method #fetch_transaction, please reload it in #{self.to_s}"
         end
 
         # Returns all transactions for the address
         def fetch_transactions_for(address)
+          raise "abstract method #fetch_transactions_for, please reload it in #{self.to_s}"
+        end
+
+        # Returns the current balance of the address
+        def fetch_balance_for(address)
+          raise "abstract method #fetch_balance_for, please reload it in #{self.to_s}"
         end
 
         # This method is a wrapper for creating an HTTP request
@@ -44,6 +51,7 @@ module StraightEngine
         # Converts transaction info received from the source into the
         # unified format expected by users of BlockchainAdapter instances.
         def straighten_transaction(transaction)
+          raise "abstract method #straighten_transaction, please reload it in #{self.to_s}"
         end
 
       end

@@ -1,8 +1,6 @@
 module StraightEngine
   module BlockchainAdapter
 
-    # An almost abstract class, providing guidance for the interfaces of
-    # all blockchain adapters as well as supplying some useful methods.
     class BlockchainInfo < Base
 
       # When we call calculate_confirmations, it doesn't always make a new

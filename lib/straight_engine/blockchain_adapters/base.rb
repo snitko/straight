@@ -22,6 +22,18 @@ module StraightEngine
           end
         end
 
+        def fetch_transaction(tid)
+          raise "Please implement #fetch_transaction in #{self.to_s}"
+        end
+
+        def fetch_transactions_for(address)
+          raise "Please implement #fetch_transactions_for in #{self.to_s}"
+        end
+
+        def fetch_balance_for(address)
+          raise "Please implement #fetch_balance_for in #{self.to_s}"
+        end
+
         private
 
           # Converts transaction info received from the source into the

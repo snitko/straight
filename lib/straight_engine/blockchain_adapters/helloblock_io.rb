@@ -1,11 +1,13 @@
 module StraightEngine
-  module BlockchainAdapter
+  class BlockchainAdapter
 
     class HelloblockIo < Base
 
       API_BASE_URL = "https://mainnet.helloblock.io/v1"
 
       class << self
+
+        BlockchainAdapter.register_adapter self
       
         # Returns transaction info for the tid
         def fetch_transaction(tid)

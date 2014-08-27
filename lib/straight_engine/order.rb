@@ -86,8 +86,7 @@ module StraightEngine
     # For compliance, there's also a #transaction method which always returns
     # the last transaction made to the address.
     def transactions(reload: false)
-      # if reload true
-        # asks one of the (or all) @blockchain_adapters to reload all transactions for the current address
+      #reload || !@@transactions ? @@transactions = adapter
     end
 
     # Last transaction made to the address. Always use this method to check whether a transaction

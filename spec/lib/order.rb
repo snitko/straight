@@ -10,4 +10,10 @@ RSpec.describe StraightEngine::Order do
     order.check_status_on_schedule
   end
 
+  it "gets the last transaction for the current address" do
+  end
+
+  it "gets all transactions for the current address" do
+  end
+
 end

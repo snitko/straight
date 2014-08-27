@@ -1,5 +1,5 @@
 module StraightEngine
-  module BlockchainAdapter
+  class BlockchainAdapter
 
     class BlockchainInfo < Base
 
@@ -12,6 +12,8 @@ module StraightEngine
       API_BASE_URL = "http://blockchain.info"
 
       class << self
+
+        BlockchainAdapter.register_adapter self
       
         # Returns transaction info for the tid
         def fetch_transaction(tid)

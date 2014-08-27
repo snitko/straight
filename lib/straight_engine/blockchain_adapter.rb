@@ -21,6 +21,7 @@ module StraightEngine
       end
 
       def method_missing(method_name, *args)
+        puts "#{method_name}, #{args.inspect}"
         exception = nil
         @@adapters.each do |a|
           begin

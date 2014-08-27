@@ -9,11 +9,6 @@ module StraightEngine
   # in memory. Storing orders is entirely up to you.
   class Order
 
-    # Third-Party services or the local blockchain copy
-    # represented by wrapper classes that make all the necessary queries
-    # to check certain addresses or transactions.
-    DEFAULT_BLOCKCHAIN_ADAPTERS = []
-    
     # Determines the algorithm for consequitive checks of the order status.
     DEFAULT_STATUS_CHECK_SCHEDULE = -> (period, iteration_index) do
       return false if period > 640
@@ -40,28 +35,23 @@ module StraightEngine
     # however, is determined by the #next_address_counter property set when an object
     # is created. We do not store neither pubkey, nor the incrementer number anywhere.
     attr_reader :pubkey
+    
+    attr_reader   :amount # Amount is always an Integer, in satoshis
+    attr_accessor :status_callback # This should contain a lambda to be called whenever the status changes
+    attr_writer   :address
 
-    # Amount is always an Integer, in satoshis
-    attr_reader :amount
-
-    # This should contain a lambda to be called whenever the status changes
-    attr_accessor :status_callback
-
-    attr_writer :address
     
     def initialize(
       amount:,
       pubkey:,
       next_address_index:     0,
       confirmations_required: 0,
-      blockchain_adapters:    DEFAULT_BLOCKCHAIN_ADAPTERS,
       status_check_schedule:  DEFAULT_STATUS_CHECK_SCHEDULE
     )
       @pubkey                 = pubkey
       @next_address_index     = next_address_index
       @confirmations_required = confirmations_required
       @created_at             = Time.now
-      @blockchain_adapters    = blockchain_adapters
       @status_check_schedule  = status_check_schedule
 
       raise Order::IncorrectAmount if amount.nil? || !amount.kind_of?(Integer) || amount <= 0
@@ -86,15 +76,15 @@ module StraightEngine
     # For compliance, there's also a #transaction method which always returns
     # the last transaction made to the address.
     def transactions(reload: false)
-      #reload || !@@transactions ? @@transactions = adapter
+      @transactions = BlockchainAdapter.fetch_transactions_for(address) if reload || !@transactions
+      @transactions
     end
 
     # Last transaction made to the address. Always use this method to check whether a transaction
     # for this order has arrived. We pick last and not first because an address may be reused and we
     # always assume it's the last transaction that we want to check.
     def transaction(reload: false)
-      # if reload true
-        # asks one of the (or all) @blockchain_adapters to reload info about the transaction with that id
+      transactions(reload: reload).first
     end
 
     # Checks #transaction and returns one of the STATUSES based

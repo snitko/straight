@@ -13,8 +13,6 @@ module StraightEngine
 
       class << self
 
-        BlockchainAdapter.register_adapter self
-      
         # Returns transaction info for the tid
         def fetch_transaction(tid)
           straighten_transaction JSON.parse(http_request("#{API_BASE_URL}/rawtx/#{tid}"))

@@ -2,10 +2,10 @@ require 'spec_helper'
 
 RSpec.describe StraightEngine::BlockchainAdapter do
 
-  subject(:adapter) { StraightEngine::BlockchainAdapter }
+  subject(:adapter) { StraightEngine::BlockchainAdapter.new }
 
   before(:each) do
-    subject.class_variable_set('@@adapters', [])
+    subject.instance_variable_set('@adapters', [])
     @mock_adapter = double("mock blockchain adapter")
     adapter.register_adapter(@mock_adapter)
   end

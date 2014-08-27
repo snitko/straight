@@ -54,6 +54,10 @@ module StraightEngine
       @created_at             = Time.now
       @status_check_schedule  = status_check_schedule
 
+      # This is temporary, TODO: move this to the Gateway class
+      @blockchain_adapter = BlockchainAdapter.new
+      @blockchain_adapter.register_adapter(BlockchainAdapter::BlockchainInfo)
+
       raise Order::IncorrectAmount if amount.nil? || !amount.kind_of?(Integer) || amount <= 0
       @amount = amount # In satoshis
 

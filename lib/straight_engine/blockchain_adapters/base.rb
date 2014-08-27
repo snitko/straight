@@ -1,6 +1,8 @@
 module StraightEngine
   class BlockchainAdapter
 
+    # An almost abstract class, providing guidance for the interfaces of
+    # all blockchain adapters as well as supplying some useful methods.
     class Base
       require 'json'
       require 'uri'

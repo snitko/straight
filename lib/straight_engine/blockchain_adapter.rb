@@ -1,8 +1,10 @@
 module StraightEngine
-  class BlockchainAdapter
 
-    # An almost abstract class, providing guidance for the interfaces of
-    # all blockchain adapters as well as supplying some useful methods.
+  # This class is used to access the blockchain data.
+  # It manages various blockchain adapters which are responsible for making all
+  # the necessary requests and fetching data and which are not supposed to
+  # be accessed directly.
+  class BlockchainAdapter
     
     # Raised when blockchain data cannot be retrived for any reason.
     # We're not really intereste in the precise reason, although it is

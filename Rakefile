@@ -14,8 +14,8 @@ require 'rake'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://guides.rubygems.org/specification-reference/ for more options
-  gem.name = "straight_engine"
-  gem.homepage = "http://github.com/snitko/straight_engine"
+  gem.name = "straight"
+  gem.homepage = "http://github.com/snitko/straight"
   gem.license = "MIT"
   gem.summary = %Q{An engine for the Straight payment gateway software}
   gem.description = %Q{An engine for the Straight payment gateway software. Requires no state to be saved (that is, no storage or DB). Its responsibilities only include processing data coming from an actual gateway.}

@@ -1,4 +1,4 @@
-module StraightEngine
+module Straight
 
   # Instances of this class are generated when we'd like to start watching
   # some addresses to check whether a transaction containing a certain amount

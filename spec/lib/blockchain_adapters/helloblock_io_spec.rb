@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-RSpec.describe StraightEngine::BlockchainAdapter::HelloblockIo do
+RSpec.describe Straight::BlockchainAdapter::HelloblockIo do
 
-  subject(:adapter) { StraightEngine::BlockchainAdapter::HelloblockIo }
+  subject(:adapter) { Straight::BlockchainAdapter::HelloblockIo }
 
   it "fetches all transactions for the current address" do
     address = "3B1QZ8FpAaHBgkSB5gFt76ag5AW9VeP8xp"
@@ -26,7 +26,7 @@ RSpec.describe StraightEngine::BlockchainAdapter::HelloblockIo do
 
   it "raises an exception when something goes wrong with fetching datd" do
     allow_any_instance_of(URI).to receive(:read).and_raise(OpenURI::HTTPError)
-    expect( -> { adapter.http_request("http://blockchain.info/a-timed-out-request") }).to raise_error(StraightEngine::BlockchainAdapter::RequestError)
+    expect( -> { adapter.http_request("http://blockchain.info/a-timed-out-request") }).to raise_error(Straight::BlockchainAdapter::RequestError)
   end
 
 end

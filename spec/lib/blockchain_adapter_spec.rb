@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-RSpec.describe StraightEngine::BlockchainAdapter do
+RSpec.describe Straight::BlockchainAdapter do
 
-  subject(:adapter) { StraightEngine::BlockchainAdapter.new }
+  subject(:adapter) { Straight::BlockchainAdapter.new }
 
   before(:each) do
     subject.instance_variable_set('@adapters', [])

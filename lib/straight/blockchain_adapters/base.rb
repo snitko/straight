@@ -1,4 +1,4 @@
-module StraightEngine
+module Straight
   class BlockchainAdapter
 
     # An almost abstract class, providing guidance for the interfaces of

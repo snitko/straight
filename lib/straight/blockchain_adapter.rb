@@ -1,4 +1,4 @@
-module StraightEngine
+module Straight
 
   # Гsed to access the blockchain data.
   # It manages various blockchain adapters which are responsible for making all

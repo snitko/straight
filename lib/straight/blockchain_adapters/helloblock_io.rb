@@ -1,4 +1,4 @@
-module StraightEngine
+module Straight
   class BlockchainAdapter
 
     class HelloblockIo < Base

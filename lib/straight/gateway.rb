@@ -15,14 +15,21 @@ module Straight
 
     DEFAULT_BLOCKCHAIN_ADAPTERS = [BlockchainAdapter::BlockchainInfo, BlockchainAdapter::HelloblockIo]
 
-    attr_reader :status_check_schedule
+    attr_reader :status_check_schedule, :orders
+
+    # Extended public key according to BIP32 from which addresses will be
+    # derived deterministically and sequentially. Current sequence number,
+    # however, is determined by the #next_address_counter property set when an object
+    # is created. We do not store neither pubkey, nor the incrementer number anywhere.
+    attr_reader :pubkey
 
     def initialize(
       pubkey:,
-      next_address_index:     0,
+      next_address_index:     1,
       confirmations_required: 0,
       status_check_schedule:  DEFAULT_STATUS_CHECK_SCHEDULE,
-      blockchain_adapters:    DEFAULT_BLOCKCHAIN_ADAPTERS
+      blockchain_adapters:    DEFAULT_BLOCKCHAIN_ADAPTERS,
+      keep_orders_in_memory:  false
     )
 
       @pubkey                 = pubkey
@@ -30,18 +37,34 @@ module Straight
       @confirmations_required = confirmations_required
       @status_check_schedule  = status_check_schedule
       @blockchain_adapters    = blockchain_adapters
+      @keep_orders_in_memory  = keep_orders_in_memory
+
+      @orders = []
 
     end
 
-    def method_missing(method_name, *args)
-      if [:fetch_transaction, :fetch_transactions_for, :fetch_balance_for].include?(method_name)
-        call_blockchain_adapter_method(method_name, *args)
-      else
-        raise NoMethodError, message: "No such method ##{method} for #{self.class.to_s}"
-      end
+    def create_order(amount)
+      order = Order.new(amount: amount, gateway: self, address: next_address)
+      @orders << order if @keep_orders_in_memory
+    end
+
+    # Returns a Base58-encoded Bitcoin address to which the payment transaction
+    # is expected to arrive.
+    def next_address
+      @next_address_index += 1
+      @address ||= 'new address' # TODO: actually generate an address
     end
 
     private
+
+
+      def method_missing(method_name, *args)
+        if [:fetch_transaction, :fetch_transactions_for, :fetch_balance_for].include?(method_name)
+          call_blockchain_adapter_method(method_name, *args)
+        else
+          raise NoMethodError, message: "No such method ##{method} for #{self.class.to_s}"
+        end
+      end
 
       def call_blockchain_adapter_method(method_name, *args)
         exception = nil

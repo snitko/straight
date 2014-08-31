@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Straight::Gateway do
 
-  subject(:gateway) { Straight::Gateway.new(pubkey: 'pubkey') }
+  subject(:gateway) { Straight::Gateway.new(pubkey: 'pubkey', keep_orders_in_memory: true) }
 
   before(:each) do
     @mock_adapter = double("mock blockchain adapter")
@@ -20,6 +20,12 @@ RSpec.describe Straight::Gateway do
     allow(@mock_adapter).to receive(:fetch_transaction).once.and_raise(Exception) 
     expect(another_mock_adapter).to receive(:fetch_transaction).once 
     gateway.fetch_transaction
+  end
+
+  it "creates new orders and increments next_address_index" do
+    gateway.create_order(1)
+    expect(gateway.orders.size).to eq(1)
+    expect(gateway.instance_variable_get('@next_address_index')).to eq(2)
   end
 
 end

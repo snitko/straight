@@ -35,7 +35,7 @@ RSpec.describe Straight::BlockchainAdapter::BlockchainInfo do
   
   it "raises an exception when something goes wrong with fetching datd" do
     allow_any_instance_of(URI).to receive(:read).and_raise(OpenURI::HTTPError)
-    expect( -> { adapter.http_request("http://blockchain.info/a-timed-out-request") }).to raise_error(Straight::BlockchainAdapter::RequestError)
+    expect( -> { adapter.http_request("http://blockchain.info/a-timed-out-request") }).to raise_error(Straight::BlockchainAdapter::Base::RequestError)
   end
 
 end

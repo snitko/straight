@@ -9,17 +9,6 @@ module Straight
   # in memory. Storing orders is entirely up to you.
   class Order
 
-    # Determines the algorithm for consequitive checks of the order status.
-    DEFAULT_STATUS_CHECK_SCHEDULE = -> (period, iteration_index) do
-      return false if period > 640
-      iteration_index += 1
-      if iteration_index > 5
-        period          *= 2
-        iteration_index  = 0
-      end
-      return { period: period, iteration_index: iteration_index }
-    end
-
     STATUSES = {
       new:          0, # no transactions received
       unconfirmed:  1, # transaction has been received doesn't have enough confirmations yet
@@ -41,26 +30,11 @@ module Straight
     attr_writer   :address
 
     
-    def initialize(
-      amount:,
-      pubkey:,
-      next_address_index:     0,
-      confirmations_required: 0,
-      status_check_schedule:  DEFAULT_STATUS_CHECK_SCHEDULE
-    )
-      @pubkey                 = pubkey
-      @next_address_index     = next_address_index
-      @confirmations_required = confirmations_required
-      @created_at             = Time.now
-      @status_check_schedule  = status_check_schedule
-
-      # This is temporary, TODO: move this to the Gateway class
-      @blockchain_adapter = BlockchainAdapter.new
-      @blockchain_adapter.register_adapter(BlockchainAdapter::BlockchainInfo)
-
-      raise Order::IncorrectAmount if amount.nil? || !amount.kind_of?(Integer) || amount <= 0
+    def initialize(amount:, gateway:)
+      @created_at         = Time.now
+      @gateway            = gateway
+      raise IncorrectAmount if amount.nil? || !amount.kind_of?(Integer) || amount <= 0
       @amount = amount # In satoshis
-
     end
 
     # Returns a Base58-encoded Bitcoin address to which the payment transaction
@@ -80,7 +54,7 @@ module Straight
     # For compliance, there's also a #transaction method which always returns
     # the last transaction made to the address.
     def transactions(reload: false)
-      @transactions = BlockchainAdapter.fetch_transactions_for(address) if reload || !@transactions
+      @transactions = @gateway.fetch_transactions_for(address) if reload || !@transactions
       @transactions
     end
 
@@ -117,7 +91,7 @@ module Straight
     
     def check_status_on_schedule(period: 10, iteration_index: 0)
       self.status(reload: true)
-      schedule = @status_check_schedule.call(period, iteration_index)
+      schedule = @gateway.status_check_schedule.call(period, iteration_index)
       if schedule
         sleep period
         check_status_on_schedule(

@@ -54,32 +54,38 @@ module Straight
       @next_address_index += 1
       @address ||= 'new address' # TODO: actually generate an address
     end
+    
+    # Fetches transaction from the first available adapter. If one adapter fails, tries another one.
+    def fetch_transaction(tid)
+      try_blockchain_adapters {|b| b.fetch_transaction(tid) }
+    end
+    
+    def fetch_transactions_for(address)
+      try_blockchain_adapters {|b| b.fetch_transactions_for(address) }
+    end
+    
+    def fetch_balance_for(address)
+      try_blockchain_adapters {|b| b.fetch_balance_for(address) }
+    end
 
     private
-
-
-      def method_missing(method_name, *args)
-        if [:fetch_transaction, :fetch_transactions_for, :fetch_balance_for].include?(method_name)
-          call_blockchain_adapter_method(method_name, *args)
-        else
-          raise NoMethodError, message: "No such method ##{method} for #{self.class.to_s}"
-        end
-      end
-
-      def call_blockchain_adapter_method(method_name, *args)
-        exception = nil
-        @blockchain_adapters.each do |a|
+      
+      # Calls the block with each blockchain adapter until one of them does not fail.
+      # Fails with the last exception.
+      def try_blockchain_adapters(&block)
+        last_exception = nil
+        @blockchain_adapters.each do |adapter|
           begin
-            result = a.send(method_name, *args)
-            exception = nil
+            result = yield(adapter)
+            last_exception = nil
             return result
           rescue Exception => e
-            exception = e
+            last_exception = e
             # If an Exception is raised, it passes on
             # to the next adapter and attempts to call a method on it.
           end
         end
-        raise exception if exception
+        raise last_exception if exception
       end
 
   end

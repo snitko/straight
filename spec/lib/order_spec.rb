@@ -4,7 +4,7 @@ RSpec.describe Straight::Order do
 
   before(:each) do
     @gateway = double("Straight Gateway mock")
-    @order   = Straight::Order.new(amount: 1, gateway: @gateway)
+    @order   = Straight::Order.new(amount: 1, gateway: @gateway, address: 'address')
   end
 
   it "follows status check schedule" do

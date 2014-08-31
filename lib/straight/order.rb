@@ -19,28 +19,17 @@ module Straight
 
     class IncorrectAmount < Exception; end
 
-    # Extended public key according to BIP32 from which addresses will be
-    # derived deterministically and sequentially. Current sequence number,
-    # however, is determined by the #next_address_counter property set when an object
-    # is created. We do not store neither pubkey, nor the incrementer number anywhere.
-    attr_reader :pubkey
+    attr_reader   :amount           # Amount is always an Integer, in satoshis
+    attr_accessor :status_callback  # This should contain a lambda to be called
+                                    # whenever the status changes
+    attr_accessor :address
     
-    attr_reader   :amount # Amount is always an Integer, in satoshis
-    attr_accessor :status_callback # This should contain a lambda to be called whenever the status changes
-    attr_writer   :address
-
-    
-    def initialize(amount:, gateway:)
+    def initialize(amount:, gateway:, address:)
       @created_at         = Time.now
       @gateway            = gateway
+      @address            = address
       raise IncorrectAmount if amount.nil? || !amount.kind_of?(Integer) || amount <= 0
       @amount = amount # In satoshis
-    end
-
-    # Returns a Base58-encoded Bitcoin address to which the payment transaction
-    # is expected to arrive.
-    def address
-      @address ||= 'new address' # TODO: actually generate an address
     end
 
     # Returns an array of transactions for the order's address, each as a hash:

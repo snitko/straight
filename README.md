@@ -37,8 +37,14 @@ your very own database and it may be enormously combersome to implement in a gen
 and make it generate and keep the private keys, but this would be highly insecure. Keys stored on popular hosting solutions would quickly invite 
 all sorts of attacks to get money from them.
 
+Requirements
+------------
+
+Ruby 2.1 or later.
+
+
 Authors
-------
+-------
 
 Roman Snitko <roman.snitko@gmail.com>
 

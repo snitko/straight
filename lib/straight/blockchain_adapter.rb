@@ -43,7 +43,7 @@ module Straight
       # Converts transaction info received from the source into the
       # unified format expected by users of BlockchainAdapter instances.
       def straighten_transaction(transaction)
-        raise "abstract method #straighten_transaction, please reload it in #{self.to_s}"
+        raise "Please implement #straighten_transaction in #{self.to_s}"
       end
 
   end

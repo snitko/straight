@@ -1,11 +1,6 @@
 module Straight
   class BlockchainInfoAdapter < BlockchainAdapter
 
-    # When we call calculate_confirmations, it doesn't always make a new
-    # request to the blockchain API. Instead, it checks if cached_id matches the one in
-    # the hash. It's useful when we want to calculate confirmations for all transactions for
-    # a certain address without making any new requests to the Blockchain API.
-
     def self.mainnet_adapter
       self.new("http://blockchain.info")
     end
@@ -55,6 +50,11 @@ module Straight
         }
       end
 
+
+      # When we call #calculate_confirmations, it doesn't always make a new
+      # request to the blockchain API. Instead, it checks if cached_id matches the one in
+      # the hash. It's useful when we want to calculate confirmations for all transactions for
+      # a certain address without making any new requests to the Blockchain API.
       def calculate_confirmations(transaction, force_latest_block_reload: false)
 
         # If we checked Blockchain.info latest block data

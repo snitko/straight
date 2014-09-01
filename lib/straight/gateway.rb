@@ -34,13 +34,13 @@ module Straight
       @next_address_index     = next_address_index
       @confirmations_required = confirmations_required
       @status_check_schedule  = status_check_schedule
-      @blockchain_adapters    = blockchain_adapters || [BlockchainAdapter::BlockchainInfo, BlockchainAdapter::HelloblockIo]
+      @blockchain_adapters    = blockchain_adapters || [BlockchainAdapter::BlockchainInfo.mainnet_adapter, BlockchainAdapter::HelloblockIo.mainnet_adapter]
       @keep_orders_in_memory  = keep_orders_in_memory
 
       @orders = []
 
     end
-    
+
     def create_order(amount)
       order = Order.new(amount: amount, gateway: self, address: next_address)
       @orders << order if @keep_orders_in_memory

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Straight::BlockchainInfoAdapter do
 
-  subject(:adapter) { Straight::BlockchainInfoAdapter }
+  subject(:adapter) { Straight::BlockchainInfoAdapter.mainnet_adapter }
 
   it "fetches all transactions for the current address" do
     address = "3B1QZ8FpAaHBgkSB5gFt76ag5AW9VeP8xp"

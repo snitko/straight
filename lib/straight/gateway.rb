@@ -34,7 +34,7 @@ module Straight
       @next_address_index     = next_address_index
       @confirmations_required = confirmations_required
       @status_check_schedule  = status_check_schedule
-      @blockchain_adapters    = blockchain_adapters || [BlockchainAdapter::BlockchainInfo.mainnet_adapter, BlockchainAdapter::HelloblockIo.mainnet_adapter]
+      @blockchain_adapters    = blockchain_adapters || [BlockchainInfoAdapter.mainnet_adapter, HelloblockIoAdapter.mainnet_adapter]
       @keep_orders_in_memory  = keep_orders_in_memory
 
       @orders = []

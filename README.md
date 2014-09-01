@@ -1,7 +1,9 @@
 
 
-Straight: receive bitcoin payments directly into your wallet
-============================================================
+Straight
+========
+
+> Receive bitcoin payments directly into your wallet
 
 Straight is a built-in stateless gateway to receive bitcoin payments for 
 your online shop. Drop in this library, set your public key and start receiving payments.
@@ -39,6 +41,7 @@ Authors
 ------
 
 Roman Snitko <roman.snitko@gmail.com>
+
 Oleg Andreev <oleganza@gmail.com>
 
 

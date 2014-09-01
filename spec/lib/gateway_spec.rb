@@ -2,8 +2,6 @@ require 'spec_helper'
 
 RSpec.describe Straight::Gateway do
 
-  subject(:gateway) {  }
-
   it "passes methods on to the available adapter" do
     
     mock_adapter = double("mock blockchain adapter")

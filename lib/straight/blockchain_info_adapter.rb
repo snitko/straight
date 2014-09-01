@@ -14,7 +14,7 @@ module Straight
       raise "Not Supported Yet"
     end
     
-    def initializa(base_url)
+    def initialize(base_url)
       @latest_block = { cache_timestamp: nil, block: nil }
       @base_url = base_url
     end

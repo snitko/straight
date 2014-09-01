@@ -9,7 +9,7 @@ module Straight
       raise "Not Supported Yet"
     end
     
-    def initializa(base_url)
+    def initialize(base_url)
       @base_url = base_url
     end
     

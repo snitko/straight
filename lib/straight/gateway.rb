@@ -13,8 +13,6 @@ module Straight
       return { period: period, iteration_index: iteration_index }
     end
 
-    DEFAULT_BLOCKCHAIN_ADAPTERS = [BlockchainAdapter::BlockchainInfo, BlockchainAdapter::HelloblockIo]
-
     attr_reader :status_check_schedule, :orders
 
     # Extended public key according to BIP32 from which addresses will be
@@ -28,7 +26,7 @@ module Straight
       next_address_index:     1,
       confirmations_required: 0,
       status_check_schedule:  DEFAULT_STATUS_CHECK_SCHEDULE,
-      blockchain_adapters:    DEFAULT_BLOCKCHAIN_ADAPTERS,
+      blockchain_adapters:    nil,
       keep_orders_in_memory:  false
     )
 
@@ -36,13 +34,13 @@ module Straight
       @next_address_index     = next_address_index
       @confirmations_required = confirmations_required
       @status_check_schedule  = status_check_schedule
-      @blockchain_adapters    = blockchain_adapters
+      @blockchain_adapters    = blockchain_adapters || [BlockchainAdapter::BlockchainInfo, BlockchainAdapter::HelloblockIo]
       @keep_orders_in_memory  = keep_orders_in_memory
 
       @orders = []
 
     end
-
+    
     def create_order(amount)
       order = Order.new(amount: amount, gateway: self, address: next_address)
       @orders << order if @keep_orders_in_memory

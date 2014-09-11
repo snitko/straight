@@ -19,7 +19,7 @@ module Straight
     # derived deterministically and sequentially. Current sequence number,
     # however, is determined by the #next_address_counter property set when an object
     # is created. We do not store neither pubkey, nor the incrementer number anywhere.
-    attr_reader :pubkey
+    attr_accessor :pubkey
 
     def initialize(
       pubkey:,
@@ -41,29 +41,34 @@ module Straight
 
     end
 
-    def create_order(amount)
-      order = Order.new(amount: amount, gateway: self, address: next_address)
-      @orders << order if @keep_orders_in_memory
+    # Creates a new order for the address derived from the pubkey and the pubkey_id argument provided.
+    # See explanation of this pubkey_id argument is in the description for the #address_for_id method.
+    def order_for_id(amount: amount, pubkey_id: id)
+      order = Order.new(amount: amount, gateway: self, address: address_for_id(pubkey_id))
     end
 
     # Returns a Base58-encoded Bitcoin address to which the payment transaction
-    # is expected to arrive.
-    def next_address
-      @next_address_index += 1
-      @address ||= 'new address' # TODO: actually generate an address
+    # is expected to arrive. pubkey_id is an an integer > 0 (hopefully not too large and hopefully
+    # the one a user of this class is going to properly increment) that is used to generate a
+    # an BIP32 bitcoin address deterministically.
+    def address_for_id(id)
+      wallet.node_for_path("m/0/#{id}/2").to_address
     end
     
-    # Fetches transaction from the first available adapter. If one adapter fails, tries another one.
     def fetch_transaction(tid)
-      try_blockchain_adapters {|b| b.fetch_transaction(tid) }
+      try_blockchain_adapters { |b| b.fetch_transaction(tid) }
     end
     
     def fetch_transactions_for(address)
-      try_blockchain_adapters {|b| b.fetch_transactions_for(address) }
+      try_blockchain_adapters { |b| b.fetch_transactions_for(address) }
     end
     
     def fetch_balance_for(address)
-      try_blockchain_adapters {|b| b.fetch_balance_for(address) }
+      try_blockchain_adapters { |b| b.fetch_balance_for(address) }
+    end
+
+    def wallet
+      @wallet ||= MoneyTree::Node.from_serialized_address(@pubkey)
     end
 
     private

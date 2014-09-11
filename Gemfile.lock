@@ -8,6 +8,7 @@ GEM
     diff-lcs (1.2.5)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
+    ffi (1.9.3)
     git (1.2.8)
     github_api (0.12.0)
       addressable (~> 2.3)
@@ -31,6 +32,8 @@ GEM
     json (1.8.1)
     jwt (1.0.0)
     mini_portile (0.6.0)
+    money-tree (0.8.7)
+      ffi
     multi_json (1.10.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
@@ -66,4 +69,5 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.0)
   jeweler (~> 2.0.1)
+  money-tree
   rspec

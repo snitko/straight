@@ -22,10 +22,10 @@ RSpec.describe Straight::Gateway do
     gateway.fetch_transaction("xxx")
   end
 
-  it "creates new orders and increments next_address_index" do
-    gateway.create_order(1)
-    expect(gateway.orders.size).to eq(1)
-    expect(gateway.instance_variable_get('@next_address_index')).to eq(2)
+  it "creates new orders and addresses for them" do
+    gateway.pubkey   = MoneyTree::Master.new.to_serialized_address 
+    expected_address = MoneyTree::Node.from_serialized_address(gateway.pubkey).node_for_path("m/0/1/2").to_address
+    expect(gateway.order_for_id(amount: 1, pubkey_id: 1).address).to eq(expected_address)
   end
 
 end

@@ -13,7 +13,7 @@ module Straight
       return { period: period, iteration_index: iteration_index }
     end
 
-    attr_reader :status_check_schedule
+    attr_reader :status_check_schedule, :confirmations_required
 
     # Extended public key according to BIP32 from which addresses will be
     # derived deterministically and sequentially. Current sequence number,
@@ -23,19 +23,15 @@ module Straight
 
     def initialize(
       pubkey:,
-      next_address_index:     1,
       confirmations_required: 0,
       status_check_schedule:  DEFAULT_STATUS_CHECK_SCHEDULE,
-      blockchain_adapters:    nil,
-      keep_orders_in_memory:  false
+      blockchain_adapters:    nil
     )
 
       @pubkey                 = pubkey
-      @next_address_index     = next_address_index
       @confirmations_required = confirmations_required
       @status_check_schedule  = status_check_schedule
       @blockchain_adapters    = blockchain_adapters || [BlockchainInfoAdapter.mainnet_adapter, HelloblockIoAdapter.mainnet_adapter]
-      @keep_orders_in_memory  = keep_orders_in_memory
 
     end
 

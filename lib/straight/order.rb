@@ -19,10 +19,8 @@ module Straight
 
     class IncorrectAmount < Exception; end
 
-    attr_reader   :amount           # Amount is always an Integer, in satoshis
-    attr_accessor :status_callback  # This should contain a lambda to be called
-                                    # whenever the status changes
-    attr_accessor :address
+    attr_reader   :amount  # Amount is always an Integer, in satoshis
+    attr_accessor :address # An address to which the payment is supposed to be sent
     
     def initialize(amount:, gateway:, address:)
       @created_at         = Time.now
@@ -56,16 +54,30 @@ module Straight
 
     # Checks #transaction and returns one of the STATUSES based
     # on the meaning of each status and the contents of transaction
-    # If as_string is set to true, then each status is returned as Symbol, otherwise
+    # If as_sym is set to true, then each status is returned as Symbol, otherwise
     # an equivalent Integer from STATUSES is returned.
     def status(as_sym: false, reload: false)
+      if reload || !@status
+        t = transaction(reload: reload)
+        @status = if t.nil?
+          STATUSES[:new]
+        else
+          if t[:confirmations] >= @gateway.confirmations_required
+            if t[:total_amount] == amount
+              STATUSES[:paid]
+            elsif t[:total_amount] < amount
+              STATUSES[:underpaid]
+            else
+              STATUSES[:overpaid]
+            end
+          else
+            STATUSES[:unconfirmed]
+          end
+        end
+      end
+      as_sym ? STATUSES.invert[@status] : @status 
     end
     
-    def status=(s)
-      @status = s
-      # invoke a callback from @status_callback if it's not nil
-    end
-
     # Starts a loop which calls #status(reload: true) according to the schedule
     # determined in @status_check_schedule. This method is supposed to be
     # called in a separate thread, for example:

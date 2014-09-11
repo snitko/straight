@@ -88,7 +88,7 @@ module Straight
             # to the next adapter and attempts to call a method on it.
           end
         end
-        raise last_exception if exception
+        raise last_exception if last_exception
       end
 
   end

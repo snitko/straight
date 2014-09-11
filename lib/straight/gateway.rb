@@ -52,7 +52,7 @@ module Straight
     # the one a user of this class is going to properly increment) that is used to generate a
     # an BIP32 bitcoin address deterministically.
     def address_for_id(id)
-      wallet.node_for_path("m/0/#{id}/2").to_address
+      keychain.node_for_path(id.to_s).to_address
     end
     
     def fetch_transaction(tid)
@@ -67,8 +67,8 @@ module Straight
       try_blockchain_adapters { |b| b.fetch_balance_for(address) }
     end
 
-    def wallet
-      @wallet ||= MoneyTree::Node.from_serialized_address(@pubkey)
+    def keychain
+      @keychain ||= MoneyTree::Node.from_serialized_address(@pubkey)
     end
 
     private

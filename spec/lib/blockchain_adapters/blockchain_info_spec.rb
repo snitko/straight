@@ -38,4 +38,9 @@ RSpec.describe Straight::BlockchainInfoAdapter do
     expect( -> { adapter.http_request("http://blockchain.info/a-timed-out-request") }).to raise_error(Straight::BlockchainAdapter::RequestError)
   end
 
+  it "calculates total_amount of a transaction for the given address only" do
+    t = { 'out' => [{ 'value' => 1, 'addr' => 'address1'}, { 'value' => 1, 'addr' => 'address2'}] }
+    expect(adapter.send(:straighten_transaction, t, address: 'address1')[:total_amount]).to eq(1)
+  end
+
 end

@@ -49,8 +49,8 @@ module Straight
       keychain.node_for_path(id.to_s).to_address
     end
     
-    def fetch_transaction(tid)
-      try_blockchain_adapters { |b| b.fetch_transaction(tid) }
+    def fetch_transaction(tid, address: nil)
+      try_blockchain_adapters { |b| b.fetch_transaction(tid, address: address) }
     end
     
     def fetch_transactions_for(address)

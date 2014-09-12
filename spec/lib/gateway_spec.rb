@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Straight::Gateway do
 
-  subject(:gateway) { Straight::Gateway.new(pubkey: 'pubkey', keep_orders_in_memory: true) }
+  subject(:gateway) { Straight::Gateway.new(pubkey: 'pubkey') }
 
   before(:each) do
     @mock_adapter = double("mock blockchain adapter")

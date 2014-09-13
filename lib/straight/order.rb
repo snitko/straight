@@ -57,6 +57,12 @@ module Straight
     # If as_sym is set to true, then each status is returned as Symbol, otherwise
     # an equivalent Integer from STATUSES is returned.
     def status(as_sym: false, reload: false)
+
+      old_status = @status
+      
+      # Prohibit status update if the order was paid in some way
+      return if @status && @status > 1 
+
       if reload || !@status
         t = transaction(reload: reload)
         @status = if t.nil?
@@ -75,6 +81,7 @@ module Straight
           end
         end
       end
+      @gateway.order_status_changed(self) unless old_status == @status
       as_sym ? STATUSES.invert[@status] : @status 
     end
     

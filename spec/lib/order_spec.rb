@@ -5,6 +5,7 @@ RSpec.describe Straight::Order do
   before(:each) do
     @gateway = double("Straight Gateway mock")
     @order   = Straight::Order.new(amount: 10, gateway: @gateway, address: 'address')
+    allow(@gateway).to receive(:order_status_changed).with(@order)
   end
 
   it "follows status check schedule" do
@@ -35,7 +36,7 @@ RSpec.describe Straight::Order do
     end
 
     it "doesn't reload the transaction unless forced" do
-      @order.instance_variable_set(:@status, true)
+      @order.instance_variable_set(:@status, 2)
       expect(@order).to_not receive(:transaction)
       @order.status
     end
@@ -67,6 +68,13 @@ RSpec.describe Straight::Order do
       transaction = { confirmations: 1, total_amount: @order.amount+1 }
       expect(@order).to receive(:transaction).and_return(transaction)
       expect(@order.status).to eq(4)
+    end
+
+    it "invokes a callback on the gateway when status changes" do
+      transaction = { confirmations: 1, total_amount: @order.amount }
+      allow(@order).to receive(:transaction).and_return(transaction)
+      expect(@gateway).to receive(:order_status_changed).with(@order)
+      @order.status
     end
 
   end

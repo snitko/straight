@@ -9,12 +9,17 @@ module Straight
   # in memory. Storing orders is entirely up to you.
   class Order
 
+    # Worth noting that statuses above 1 are immutable. That is, an order status cannot be changed
+    # if it is more than 1. It makes sense because if an order is paid (5) or expired (2), nothing
+    # else should be able to change the status back. Similarly, if an order is overpaid (4) or
+    # underpaid (5), it requires admin supervision and possibly a new order to be created.
     STATUSES = {
       new:          0, # no transactions received
       unconfirmed:  1, # transaction has been received doesn't have enough confirmations yet
       paid:         2, # transaction received with enough confirmations and the correct amount
       underpaid:    3, # amount that was received in a transaction was not enough
-      overpaid:     4  # amount that was received in a transaction was too large
+      overpaid:     4, # amount that was received in a transaction was too large
+      expired:      5  # too much time passed since creating an order
     }
 
     class IncorrectAmount < Exception; end
@@ -57,15 +62,17 @@ module Straight
     # If as_sym is set to true, then each status is returned as Symbol, otherwise
     # an equivalent Integer from STATUSES is returned.
     def status(as_sym: false, reload: false)
-
-      old_status = @status
       
-      # Prohibit status update if the order was paid in some way
-      return if @status && @status > 1 
+      # Prohibit status update if the order was paid in some way.
+      # This is just a caching workaround so we don't query
+      # the blockchain needlessly. The actual safety switch is in the setter.
+      # Therefore, even if you remove the following line, status won't actually
+      # be allowed to change.
+      return @status if @status && @status > 1 
 
       if reload || !@status
         t = transaction(reload: reload)
-        @status = if t.nil?
+        self.status = if t.nil?
           STATUSES[:new]
         else
           if t[:confirmations] >= @gateway.confirmations_required
@@ -81,8 +88,16 @@ module Straight
           end
         end
       end
-      @gateway.order_status_changed(self) unless old_status == @status
       as_sym ? STATUSES.invert[@status] : @status 
+    end
+
+    def status=(new_status)
+      # Prohibit status update if the order was paid in some way,
+      # so statuses above 1 are in fact immutable.
+      return false if @status && @status > 1 
+      
+      @gateway.order_status_changed(self) unless @status == new_status
+      @status = new_status
     end
     
     # Starts a loop which calls #status(reload: true) according to the schedule
@@ -100,12 +115,14 @@ module Straight
     def check_status_on_schedule(period: 10, iteration_index: 0)
       self.status(reload: true)
       schedule = @gateway.status_check_schedule.call(period, iteration_index)
-      if schedule
+      if schedule && self.status < 2 # Stop checking if status is >= 2
         sleep period
         check_status_on_schedule(
           period:          schedule[:period],
           iteration_index: schedule[:iteration_index]
         )
+      else
+        self.status = STATUSES[:expired]
       end
     end
 

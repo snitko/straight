@@ -4,7 +4,7 @@ RSpec.describe Straight::Order do
 
   before(:each) do
     @gateway = double("Straight Gateway mock")
-    @order   = Straight::Order.new(amount: 10, gateway: @gateway, address: 'address')
+    @order   = Straight::Order.new(amount: 10, gateway: @gateway, address: 'address', keychain_id: 1)
     allow(@gateway).to receive(:order_status_changed).with(@order)
   end
 

@@ -27,10 +27,11 @@ module Straight
     attr_reader   :amount  # Amount is always an Integer, in satoshis
     attr_accessor :address # An address to which the payment is supposed to be sent
     
-    def initialize(amount:, gateway:, address:)
+    def initialize(amount:, gateway:, address:, keychain_id:)
       @created_at         = Time.now
       @gateway            = gateway
       @address            = address
+      @keychain_id        = keychain_id
       raise IncorrectAmount if amount.nil? || !amount.kind_of?(Integer) || amount <= 0
       @amount = amount # In satoshis
     end

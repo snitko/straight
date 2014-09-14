@@ -39,8 +39,8 @@ module Straight
 
     # Creates a new order for the address derived from the pubkey and the keychain_id argument provided.
     # See explanation of this keychain_id argument is in the description for the #address_for_id method.
-    def order_for_id(amount: amount, keychain_id: id)
-      order = Order.new(amount: amount, gateway: self, address: address_for_id(keychain_id))
+    def order_for_id(amount:, keychain_id:)
+      order = Order.new(amount: amount, gateway: self, address: address_for_id(keychain_id), keychain_id: keychain_id)
     end
 
     # Returns a Base58-encoded Bitcoin address to which the payment transaction

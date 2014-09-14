@@ -28,6 +28,7 @@ module Straight
     attr_accessor :address # An address to which the payment is supposed to be sent
     
     def initialize(amount:, gateway:, address:, keychain_id:)
+      @status             = 0
       @created_at         = Time.now
       @gateway            = gateway
       @address            = address

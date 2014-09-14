@@ -43,38 +43,38 @@ RSpec.describe Straight::Order do
 
     it "sets status to :new if no transaction issued" do
       expect(@order).to receive(:transaction).and_return(nil)
-      expect(@order.status).to eq(0)
+      expect(@order.status(reload: true)).to eq(0)
     end
 
     it "sets status to :unconfirmed if transaction doesn't have enough confirmations" do
       transaction = { confirmations: 0 }
       expect(@order).to receive(:transaction).and_return(transaction)
-      expect(@order.status).to eq(1)
+      expect(@order.status(reload: true)).to eq(1)
     end
 
     it "sets status to :paid if transaction has enough confirmations and the amount is correct" do
       transaction = { confirmations: 1, total_amount: @order.amount }
       expect(@order).to receive(:transaction).and_return(transaction)
-      expect(@order.status).to eq(2)
+      expect(@order.status(reload: true)).to eq(2)
     end
 
     it "sets status to :underpaid if the total amount in a transaction is less than the amount of order" do
       transaction = { confirmations: 1, total_amount: @order.amount-1 }
       expect(@order).to receive(:transaction).and_return(transaction)
-      expect(@order.status).to eq(3)
+      expect(@order.status(reload: true)).to eq(3)
     end
 
     it "sets status to :overderpaid if the total amount in a transaction is more than the amount of order" do
       transaction = { confirmations: 1, total_amount: @order.amount+1 }
       expect(@order).to receive(:transaction).and_return(transaction)
-      expect(@order.status).to eq(4)
+      expect(@order.status(reload: true)).to eq(4)
     end
 
     it "invokes a callback on the gateway when status changes" do
       transaction = { confirmations: 1, total_amount: @order.amount }
       allow(@order).to receive(:transaction).and_return(transaction)
       expect(@gateway).to receive(:order_status_changed).with(@order)
-      @order.status
+      @order.status(reload: true)
     end
 
   end

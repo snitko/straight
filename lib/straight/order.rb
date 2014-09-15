@@ -16,7 +16,7 @@ module Straight
       base.class_eval do
         [:amount, :address, :gateway, :keychain_id, :status].each do |field|
           attr_reader field unless base.method_defined?(field)
-          attr_writer field unless method_defined?("#{field}=")
+          attr_writer field unless base.method_defined?("#{field}=")
         end
       end
     end

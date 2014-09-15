@@ -1,6 +1,18 @@
 module Straight
 
-  class Gateway
+  module Gateway
+
+    # Only add getters and setters for those properties in the extended class
+    # that don't already have them. This is very useful with ActiveRecord for example
+    # where we don't want to override AR getters and setters that set attribtues.
+    def self.prepended(base)
+      base.class_eval do
+        [:pubkey, :confirmations_required, :status_check_schedule, :blockchain_adapters, :order_callbacks, :order_class].each do |field|
+          attr_reader field unless base.method_defined?(field)
+          attr_writer field unless method_defined?("#{field}=")
+        end
+      end
+    end
 
     # Determines the algorithm for consequitive checks of the order status.
     DEFAULT_STATUS_CHECK_SCHEDULE = -> (period, iteration_index) do
@@ -13,34 +25,15 @@ module Straight
       return { period: period, iteration_index: iteration_index }
     end
 
-    attr_reader :status_check_schedule, :confirmations_required
-
-    # Extended public key according to BIP32 from which addresses will be
-    # derived deterministically and sequentially. Current sequence number,
-    # however, is determined by the #next_address_counter property set when an object
-    # is created. We do not store neither pubkey, nor the incrementer number anywhere.
-    attr_accessor :pubkey
-
-    def initialize(
-      pubkey:,
-      confirmations_required: 0,
-      status_check_schedule:  DEFAULT_STATUS_CHECK_SCHEDULE,
-      blockchain_adapters:    nil,
-      order_callbacks:        []
-    )
-
-      @pubkey                 = pubkey
-      @confirmations_required = confirmations_required
-      @status_check_schedule  = status_check_schedule
-      @blockchain_adapters    = blockchain_adapters || [BlockchainInfoAdapter.mainnet_adapter, HelloblockIoAdapter.mainnet_adapter]
-      @order_callbacks        = order_callbacks
-
-    end
-
     # Creates a new order for the address derived from the pubkey and the keychain_id argument provided.
     # See explanation of this keychain_id argument is in the description for the #address_for_id method.
     def order_for_id(amount:, keychain_id:)
-      order = Order.new(amount: amount, gateway: self, address: address_for_id(keychain_id), keychain_id: keychain_id)
+      order = Kernel.const_get(order_class).new
+      order.amount      = amount
+      order.gateway     = self
+      order.address     = address_for_id(keychain_id)
+      order.keychain_id = keychain_id
+      order
     end
 
     # Returns a Base58-encoded Bitcoin address to which the payment transaction

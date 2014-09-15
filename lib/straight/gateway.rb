@@ -4,7 +4,7 @@ module Straight
 
     # Only add getters and setters for those properties in the extended class
     # that don't already have them. This is very useful with ActiveRecord for example
-    # where we don't want to override AR getters and setters that set attribtues.
+    # where we don't want to override AR getters and setters that set attributes.
     def self.prepended(base)
       base.class_eval do
         [:pubkey, :confirmations_required, :status_check_schedule, :blockchain_adapters, :order_callbacks, :order_class].each do |field|

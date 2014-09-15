@@ -2,9 +2,24 @@ require 'spec_helper'
 
 RSpec.describe Straight::Order do
 
+  class Order
+
+    prepend Straight::Order
+
+    def status=(new_value)
+      # we later make sure this method also gets called
+      @original_status_setter_called = true
+    end
+
+  end
+
   before(:each) do
     @gateway = double("Straight Gateway mock")
-    @order   = Straight::Order.new(amount: 10, gateway: @gateway, address: 'address', keychain_id: 1)
+    @order   = Order.new
+    @order.amount      = 10
+    @order.gateway     = @gateway
+    @order.address     = 'address'
+    @order.keychain_id = 1
     allow(@gateway).to receive(:order_status_changed).with(@order)
   end
 
@@ -75,6 +90,12 @@ RSpec.describe Straight::Order do
       allow(@order).to receive(:transaction).and_return(transaction)
       expect(@gateway).to receive(:order_status_changed).with(@order)
       @order.status(reload: true)
+    end
+
+    it "calls the original status setter of the class that the module is included into" do
+      expect(@order.instance_variable_get(:@original_status_setter_called)).to be_falsy
+      @order.status = 1
+      expect(@order.instance_variable_get(:@original_status_setter_called)).to be_truthy
     end
 
   end

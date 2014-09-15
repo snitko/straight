@@ -7,7 +7,19 @@ module Straight
   # It is worth noting that instances do not know how store themselves anywhere,
   # so as the class is written here, those instances are only supposed to exist
   # in memory. Storing orders is entirely up to you.
-  class Order
+  module Order
+
+    # Only add getters and setters for those properties in the extended class
+    # that don't already have them. This is very useful with ActiveRecord for example
+    # where we don't want to override AR getters and setters that set attribtues.
+    def self.prepended(base)
+      base.class_eval do
+        [:amount, :address, :gateway, :keychain_id, :status].each do |field|
+          attr_reader field unless base.method_defined?(field)
+          attr_writer field unless method_defined?("#{field}=")
+        end
+      end
+    end
 
     # Worth noting that statuses above 1 are immutable. That is, an order status cannot be changed
     # if it is more than 1. It makes sense because if an order is paid (5) or expired (2), nothing
@@ -23,20 +35,7 @@ module Straight
     }
 
     class IncorrectAmount < Exception; end
-
-    attr_reader   :amount  # Amount is always an Integer, in satoshis
-    attr_accessor :address # An address to which the payment is supposed to be sent
     
-    def initialize(amount:, gateway:, address:, keychain_id:)
-      @status             = 0
-      @created_at         = Time.now
-      @gateway            = gateway
-      @address            = address
-      @keychain_id        = keychain_id
-      raise IncorrectAmount if amount.nil? || !amount.kind_of?(Integer) || amount <= 0
-      @amount = amount # In satoshis
-    end
-
     # Returns an array of transactions for the order's address, each as a hash:
     #   [ {"txid": "feba9e7bfea...", "amount": 1202000, ...} ]
     #
@@ -48,7 +47,7 @@ module Straight
     # For compliance, there's also a #transaction method which always returns
     # the last transaction made to the address.
     def transactions(reload: false)
-      @transactions = @gateway.fetch_transactions_for(address) if reload || !@transactions
+      @transactions = gateway.fetch_transactions_for(address) if reload || !@transactions
       @transactions
     end
 
@@ -64,7 +63,7 @@ module Straight
     # If as_sym is set to true, then each status is returned as Symbol, otherwise
     # an equivalent Integer from STATUSES is returned.
     def status(as_sym: false, reload: false)
-      
+
       # Prohibit status update if the order was paid in some way.
       # This is just a caching workaround so we don't query
       # the blockchain needlessly. The actual safety switch is in the setter.
@@ -77,7 +76,7 @@ module Straight
         self.status = if t.nil?
           STATUSES[:new]
         else
-          if t[:confirmations] >= @gateway.confirmations_required
+          if t[:confirmations] >= gateway.confirmations_required
             if t[:total_amount] == amount
               STATUSES[:paid]
             elsif t[:total_amount] < amount
@@ -94,14 +93,15 @@ module Straight
     end
 
     def status=(new_status)
+      super if defined?(super)
       # Prohibit status update if the order was paid in some way,
       # so statuses above 1 are in fact immutable.
       return false if @status && @status > 1 
       
-      @gateway.order_status_changed(self) unless @status == new_status
+      gateway.order_status_changed(self) unless @status == new_status
       @status = new_status
     end
-    
+
     # Starts a loop which calls #status(reload: true) according to the schedule
     # determined in @status_check_schedule. This method is supposed to be
     # called in a separate thread, for example:
@@ -116,7 +116,7 @@ module Straight
     
     def check_status_on_schedule(period: 10, iteration_index: 0)
       self.status(reload: true)
-      schedule = @gateway.status_check_schedule.call(period, iteration_index)
+      schedule = gateway.status_check_schedule.call(period, iteration_index)
       if schedule && self.status < 2 # Stop checking if status is >= 2
         sleep period
         check_status_on_schedule(

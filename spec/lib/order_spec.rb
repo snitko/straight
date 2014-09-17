@@ -2,9 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Straight::Order do
 
-  class Order
-
-    prepend Straight::Order
+  class Straight::Order
 
     def status=(new_value)
       # we later make sure this method also gets called
@@ -15,7 +13,7 @@ RSpec.describe Straight::Order do
 
   before(:each) do
     @gateway = double("Straight Gateway mock")
-    @order   = Order.new
+    @order   = Straight::Order.new
     @order.amount      = 10
     @order.gateway     = @gateway
     @order.address     = 'address'

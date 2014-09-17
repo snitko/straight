@@ -7,7 +7,7 @@ module Straight
   # It is worth noting that instances do not know how store themselves anywhere,
   # so as the class is written here, those instances are only supposed to exist
   # in memory. Storing orders is entirely up to you.
-  module Order
+  module OrderModule
 
     # Only add getters and setters for those properties in the extended class
     # that don't already have them. This is very useful with ActiveRecord for example
@@ -128,6 +128,10 @@ module Straight
       end
     end
 
+  end
+
+  class Order
+    prepend OrderModule
   end
 
 end

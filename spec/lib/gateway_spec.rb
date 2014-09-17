@@ -2,21 +2,13 @@ require 'spec_helper'
 
 RSpec.describe Straight::Gateway do
 
-  class Gateway
-    prepend Straight::Gateway
-  end
-
-  class Order
-    prepend Straight::Order
-  end
-
   before(:each) do
     @mock_adapter                  = double("mock blockchain adapter")
-    @gateway                       = Gateway.new
+    @gateway                       = Straight::Gateway.new
     @gateway.pubkey                = "pubkey"
-    @gateway.order_class           = "Order"
+    @gateway.order_class           = "Straight::Order"
     @gateway.blockchain_adapters   = @mock_adapter
-    @gateway.status_check_schedule = Gateway::DEFAULT_STATUS_CHECK_SCHEDULE
+    @gateway.status_check_schedule = Straight::Gateway::DEFAULT_STATUS_CHECK_SCHEDULE
     @gateway.order_callbacks       = []
   end
 

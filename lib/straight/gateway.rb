@@ -7,7 +7,15 @@ module Straight
     # where we don't want to override AR getters and setters that set attributes.
     def self.prepended(base)
       base.class_eval do
-        [:pubkey, :confirmations_required, :status_check_schedule, :blockchain_adapters, :order_callbacks, :order_class].each do |field|
+        [
+          :pubkey,
+          :confirmations_required,
+          :status_check_schedule,
+          :blockchain_adapters,
+          :order_callbacks,
+          :order_class,
+          :name
+        ].each do |field|
           attr_reader field unless base.method_defined?(field)
           attr_writer field unless base.method_defined?("#{field}=")
         end

@@ -34,12 +34,12 @@ module Straight
     end
 
     # Creates a new order for the address derived from the pubkey and the keychain_id argument provided.
-    # See explanation of this keychain_id argument is in the description for the #address_for_id method.
+    # See explanation of this keychain_id argument is in the description for the #address_for_keychain_id method.
     def order_for_keychain_id(amount:, keychain_id:)
       order             = Kernel.const_get(order_class).new
       order.amount      = amount
       order.gateway     = self
-      order.address     = address_for_id(keychain_id)
+      order.address     = address_for_keychain_id(keychain_id)
       order.keychain_id = keychain_id
       order
     end
@@ -48,7 +48,7 @@ module Straight
     # is expected to arrive. id is an an integer > 0 (hopefully not too large and hopefully
     # the one a user of this class is going to properly increment) that is used to generate a
     # an BIP32 bitcoin address deterministically.
-    def address_for_id(id)
+    def address_for_keychain_id(id)
       keychain.node_for_path(id.to_s).to_address
     end
     

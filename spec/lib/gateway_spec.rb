@@ -29,7 +29,7 @@ RSpec.describe Straight::Gateway do
   it "creates new orders and addresses for them" do
     @gateway.pubkey   = MoneyTree::Master.new.to_serialized_address 
     expected_address  = MoneyTree::Node.from_serialized_address(@gateway.pubkey).node_for_path("1").to_address
-    expect(@gateway.order_for_id(amount: 1, keychain_id: 1).address).to eq(expected_address)
+    expect(@gateway.order_for_keychain_id(amount: 1, keychain_id: 1).address).to eq(expected_address)
   end
 
   it "calls all the order callbacks" do
@@ -38,7 +38,7 @@ RSpec.describe Straight::Gateway do
     @gateway.pubkey          = MoneyTree::Master.new.to_serialized_address
     @gateway.order_callbacks = [callback1, callback2]
 
-    order = @gateway.order_for_id(amount: 1, keychain_id: 1)
+    order = @gateway.order_for_keychain_id(amount: 1, keychain_id: 1)
     expect(callback1).to receive(:call).with(order)
     expect(callback2).to receive(:call).with(order)
     @gateway.order_status_changed(order)

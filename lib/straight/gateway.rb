@@ -35,7 +35,7 @@ module Straight
 
     # Creates a new order for the address derived from the pubkey and the keychain_id argument provided.
     # See explanation of this keychain_id argument is in the description for the #address_for_id method.
-    def order_for_id(amount:, keychain_id:)
+    def order_for_keychain_id(amount:, keychain_id:)
       order             = Kernel.const_get(order_class).new
       order.amount      = amount
       order.gateway     = self

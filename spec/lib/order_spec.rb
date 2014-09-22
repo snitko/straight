@@ -19,6 +19,7 @@ RSpec.describe Straight::Order do
     @order.address     = 'address'
     @order.keychain_id = 1
     allow(@gateway).to receive(:order_status_changed).with(@order)
+    allow(@gateway).to receive(:fetch_transactions_for).with(@order.address).and_return([{ tid: 'xxx'}])
   end
 
   it "follows status check schedule" do
@@ -42,6 +43,11 @@ RSpec.describe Straight::Order do
     expect(@order.transaction).to eq('t1')
   end
 
+  it "sets transaction id when the status is changed from 0" do
+    @order.status = 2
+    expect(@order.tid).to eq('xxx') # xxx because that's what we set in the allow() in before(:each) block
+  end
+
   describe "assigning statuses" do
 
     before(:each) do
@@ -55,31 +61,31 @@ RSpec.describe Straight::Order do
     end
 
     it "sets status to :new if no transaction issued" do
-      expect(@order).to receive(:transaction).and_return(nil)
+      expect(@order).to receive(:transaction).at_most(3).times.and_return(nil)
       expect(@order.status(reload: true)).to eq(0)
     end
 
     it "sets status to :unconfirmed if transaction doesn't have enough confirmations" do
       transaction = { confirmations: 0 }
-      expect(@order).to receive(:transaction).and_return(transaction)
+      expect(@order).to receive(:transaction).at_most(3).times.and_return(transaction)
       expect(@order.status(reload: true)).to eq(1)
     end
 
     it "sets status to :paid if transaction has enough confirmations and the amount is correct" do
       transaction = { confirmations: 1, total_amount: @order.amount }
-      expect(@order).to receive(:transaction).and_return(transaction)
+      expect(@order).to receive(:transaction).at_most(3).times.and_return(transaction)
       expect(@order.status(reload: true)).to eq(2)
     end
 
     it "sets status to :underpaid if the total amount in a transaction is less than the amount of order" do
       transaction = { confirmations: 1, total_amount: @order.amount-1 }
-      expect(@order).to receive(:transaction).and_return(transaction)
+      expect(@order).to receive(:transaction).at_most(3).times.and_return(transaction)
       expect(@order.status(reload: true)).to eq(3)
     end
 
     it "sets status to :overderpaid if the total amount in a transaction is more than the amount of order" do
       transaction = { confirmations: 1, total_amount: @order.amount+1 }
-      expect(@order).to receive(:transaction).and_return(transaction)
+      expect(@order).to receive(:transaction).at_most(3).times.and_return(transaction)
       expect(@order.status(reload: true)).to eq(4)
     end
 

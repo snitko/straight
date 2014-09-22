@@ -19,6 +19,11 @@ RSpec.describe Straight::HelloblockIoAdapter do
     expect(adapter.fetch_transaction(tid)[:total_amount]).to eq(832947)
   end
 
+  it "gets a transaction id among other data" do
+    tid = 'ae0d040f48d75fdc46d9035236a1782164857d6f0cca1f864640281115898560'
+    expect(adapter.fetch_transaction(tid)[:tid]).to eq(tid)
+  end
+
   it "returns the number of confirmations for a transaction" do
     tid = 'ae0d040f48d75fdc46d9035236a1782164857d6f0cca1f864640281115898560'
     expect(adapter.fetch_transaction(tid)[:confirmations]).to be > 0

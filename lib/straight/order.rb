@@ -14,7 +14,7 @@ module Straight
     # where we don't want to override AR getters and setters that set attribtues.
     def self.prepended(base)
       base.class_eval do
-        [:amount, :address, :gateway, :keychain_id, :status].each do |field|
+        [:amount, :address, :gateway, :keychain_id, :status, :tid].each do |field|
           attr_reader field unless base.method_defined?(field)
           attr_writer field unless base.method_defined?("#{field}=")
         end
@@ -97,6 +97,8 @@ module Straight
       # Prohibit status update if the order was paid in some way,
       # so statuses above 1 are in fact immutable.
       return false if @status && @status > 1 
+
+      self.tid = transaction[:tid] if transaction
       
       gateway.order_status_changed(self) unless @status == new_status
       @status = new_status

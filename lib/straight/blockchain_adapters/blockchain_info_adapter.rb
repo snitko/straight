@@ -44,6 +44,7 @@ module Straight
         end
 
         {
+          tid:           transaction['hash'],
           total_amount:  total_amount,
           confirmations: calculate_confirmations(transaction),
           outs:          outs

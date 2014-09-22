@@ -24,6 +24,11 @@ RSpec.describe Straight::BlockchainInfoAdapter do
     expect(adapter.fetch_transaction(tid)[:confirmations]).to be > 0
   end
 
+  it "gets a transaction id among other data" do
+    tid = 'ae0d040f48d75fdc46d9035236a1782164857d6f0cca1f864640281115898560'
+    expect(adapter.fetch_transaction(tid)[:tid]).to eq(tid)
+  end
+
   it "caches blockchain.info latestblock requests" do
     expect(adapter).to receive(:http_request).once.and_return('{ "height": 1 }')
     adapter.send(:calculate_confirmations, { "block_height" => 1 }, force_latest_block_reload: true)

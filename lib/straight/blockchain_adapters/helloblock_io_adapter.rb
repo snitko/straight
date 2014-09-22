@@ -39,6 +39,7 @@ module Straight
           { amount: out['value'], receiving_address: out['address'] } if address.nil? || address == out['address']
         end.compact
         {
+          tid:           transaction['txHash'],
           total_amount:  outs.inject(0) { |sum, o| sum + o[:amount] },
           confirmations: transaction['confirmations'],
           outs:          outs

@@ -48,6 +48,11 @@ RSpec.describe Straight::Order do
     expect(@order.tid).to eq('xxx') # xxx because that's what we set in the allow() in before(:each) block
   end
 
+  it "displays order attributes as json" do
+    allow(@order).to receive(:status).and_return(1)
+    expect(@order.to_json).to eq('{"status":1,"amount":10,"address":"address","tid":null}')
+  end
+
   describe "assigning statuses" do
 
     before(:each) do

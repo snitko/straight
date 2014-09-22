@@ -130,6 +130,14 @@ module Straight
       end
     end
 
+    def to_json
+      to_h.to_json
+    end
+
+    def to_h
+      { status: status, amount: amount, address: address, tid: tid }
+    end
+
   end
 
   class Order

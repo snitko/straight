@@ -100,8 +100,16 @@ module Straight
 
       self.tid = transaction[:tid] if transaction
       
-      gateway.order_status_changed(self) unless @status == new_status
-      @status = new_status
+      # Pay special attention to the order of these statements. If you place
+      # the assignment @status = new_status below the callback call,
+      # you may get a "Stack level too deep" error if the callback checks
+      # for the status and it's nil (therefore, force reload and the cycle continues).
+      # 
+      # The order in which these statements currently are prevents that error, because
+      # by the time a callback checks the status it's already set.
+      status_changed = (@status != new_status)
+      @status        = new_status
+      gateway.order_status_changed(self) if status_changed
     end
 
     # Starts a loop which calls #status(reload: true) according to the schedule

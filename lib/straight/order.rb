@@ -37,7 +37,7 @@ module Straight
     class IncorrectAmount < Exception; end
     
     # Returns an array of transactions for the order's address, each as a hash:
-    #   [ {"txid": "feba9e7bfea...", "amount": 1202000, ...} ]
+    #   [ {tid: "feba9e7bfea...", amount: 1202000, ...} ]
     #
     # An order is supposed to have only one transaction to its address, but we cannot
     # always guarantee that (especially when a merchant decides to reuse the address

@@ -109,7 +109,6 @@ module Straight
       # For compliance, there's also a #transaction method which always returns
       # the last transaction made to the address.
       def transactions(reload: false)
-        super if defined?(super)
         @transactions = gateway.fetch_transactions_for(address) if reload || !@transactions
         @transactions
       end
@@ -118,7 +117,6 @@ module Straight
       # for this order has arrived. We pick last and not first because an address may be reused and we
       # always assume it's the last transaction that we want to check.
       def transaction(reload: false)
-        super if defined?(super)
         transactions(reload: reload).first
       end
 

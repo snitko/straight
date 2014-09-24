@@ -20,8 +20,7 @@ module Straight
 
     # Returns all transactions for the address
     def fetch_transactions_for(address)
-      address      = JSON.parse(http_request("#{@base_url}/addresses/#{address}/transactions"))['data']
-      transactions = address['transactions']
+      transactions = JSON.parse(http_request("#{@base_url}/addresses/#{address}/transactions"))['data']['transactions']
       transactions.map { |t| straighten_transaction(t, address: address) }
     end
 

@@ -47,6 +47,7 @@ module Straight
     # For compliance, there's also a #transaction method which always returns
     # the last transaction made to the address.
     def transactions(reload: false)
+      super if defined?(super)
       @transactions = gateway.fetch_transactions_for(address) if reload || !@transactions
       @transactions
     end
@@ -55,6 +56,7 @@ module Straight
     # for this order has arrived. We pick last and not first because an address may be reused and we
     # always assume it's the last transaction that we want to check.
     def transaction(reload: false)
+      super if defined?(super)
       transactions(reload: reload).first
     end
 
@@ -125,10 +127,12 @@ module Straight
     #   end
     #
     def start_periodic_status_check
+      super if defined?(super)
       check_status_on_schedule
     end
     
     def check_status_on_schedule(period: 10, iteration_index: 0)
+      super if defined?(super)
       self.status(reload: true)
       schedule = gateway.status_check_schedule.call(period, iteration_index)
       if schedule && self.status < 2 # Stop checking if status is >= 2
@@ -143,10 +147,12 @@ module Straight
     end
 
     def to_json
+      super if defined?(super)
       to_h.to_json
     end
 
     def to_h
+      super if defined?(super)
       { status: status, amount: amount, address: address, tid: tid }
     end
 

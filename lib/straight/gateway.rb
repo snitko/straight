@@ -104,7 +104,8 @@ module Straight
     prepend GatewayModule
 
     def initialize
-      @blockchain_adapters = [BlockchainInfoAdapter.mainnet_adapter, HelloblockIoAdapter.mainnet_adapter]
+      @blockchain_adapters   = [BlockchainInfoAdapter.mainnet_adapter, HelloblockIoAdapter.mainnet_adapter]
+      @status_check_schedule = DEFAULT_STATUS_CHECK_SCHEDULE
     end
 
     def order_class

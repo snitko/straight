@@ -103,6 +103,10 @@ module Straight
 
     prepend GatewayModule
 
+    def initialize
+      @blockchain_adapters = [BlockchainInfoAdapter.mainnet_adapter, HelloblockIoAdapter.mainnet_adapter]
+    end
+
     def order_class
       "Straight::Order"
     end

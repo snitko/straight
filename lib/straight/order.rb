@@ -96,7 +96,11 @@ module Straight
       super if defined?(super)
       # Prohibit status update if the order was paid in some way,
       # so statuses above 1 are in fact immutable.
-      return false if @status && @status > 1 
+      return false if @status && @status > 1
+
+      # If we don't assign 0 to status and leave it nil, then no actual change of status
+      # (from nil to 0) may invoke an Gateway#order_status_change callback, which is not good.
+      @status = 0 unless @status
 
       self.tid = transaction[:tid] if transaction
       

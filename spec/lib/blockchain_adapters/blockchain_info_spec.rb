@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-RSpec.describe Straight::BlockchainInfoAdapter do
+RSpec.describe Straight::Blockchain::BlockchainInfoAdapter do
 
-  subject(:adapter) { Straight::BlockchainInfoAdapter.mainnet_adapter }
+  subject(:adapter) { Straight::Blockchain::BlockchainInfoAdapter.mainnet_adapter }
 
   it "fetches all transactions for the current address" do
     address = "3B1QZ8FpAaHBgkSB5gFt76ag5AW9VeP8xp"
@@ -41,7 +41,7 @@ RSpec.describe Straight::BlockchainInfoAdapter do
   
   it "raises an exception when something goes wrong with fetching datd" do
     allow_any_instance_of(URI).to receive(:read).and_raise(OpenURI::HTTPError)
-    expect( -> { adapter.http_request("http://blockchain.info/a-timed-out-request") }).to raise_error(Straight::BlockchainAdapter::RequestError)
+    expect( -> { adapter.http_request("http://blockchain.info/a-timed-out-request") }).to raise_error(Straight::Blockchain::Adapter::RequestError)
   end
 
   it "calculates total_amount of a transaction for the given address only" do

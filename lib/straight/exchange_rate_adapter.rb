@@ -3,7 +3,13 @@ module Straight
 
     class Adapter
 
-      class CurrencyNotFound < Exception; end
+      class CurrencyNotFound     < Exception; end
+      class FetchingFailed       < Exception; end
+      class CurrencyNotSupported < Exception; end
+
+      def initialize(rates_expire_in: 1800)
+        @rates_expire_in = rates_expire_in # in seconds
+      end
 
       def convert_from_currency(amount_in_currency, btc_denomination: :satoshi, currency: 'USD')
         btc_amount = amount_in_currency/rate_for(currency)
@@ -15,7 +21,22 @@ module Straight
         amount_in_btc*rate_for(currency)
       end
 
+      def fetch_rates!
+        raise "FETCH_URL is not defined!" unless self.class::FETCH_URL
+        uri = URI.parse(self.class::FETCH_URL)
+        begin
+          @rates            = JSON.parse(uri.read(read_timeout: 4))
+          @rates_updated_at = Time.now
+        rescue OpenURI::HTTPError => e
+          raise FetchingFailed
+        end
+      end
+
       def rate_for(currency_code)
+        if !@rates_updated_at || (Time.now - @rates_updated_at) > @rates_expire_in
+          fetch_rates!
+        end
+        nil # this should be changed in descendant classes
       end
 
     end

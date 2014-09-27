@@ -1,8 +1,3 @@
-require 'json'
-require 'uri'
-require 'open-uri'
-require 'yaml'
-
 module Straight
   # A base class, providing guidance for the interfaces of
   # all blockchain adapters as well as supplying some useful methods.

@@ -61,6 +61,7 @@ GEM
     rspec-mocks (3.1.0)
       rspec-support (~> 3.1.0)
     rspec-support (3.1.0)
+    satoshi-unit (0.1.6)
     thread_safe (0.3.4)
 
 PLATFORMS
@@ -72,3 +73,4 @@ DEPENDENCIES
   jeweler (~> 2.0.1)
   money-tree
   rspec
+  satoshi-unit

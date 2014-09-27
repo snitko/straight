@@ -12,8 +12,10 @@ module Straight
           :confirmations_required,
           :status_check_schedule,
           :blockchain_adapters,
+          :exchange_rate_adapters,
           :order_callbacks,
           :order_class,
+          :default_currency,
           :name
         ].each do |field|
           attr_reader field unless base.method_defined?(field)
@@ -43,7 +45,14 @@ module Straight
 
       # Creates a new order for the address derived from the pubkey and the keychain_id argument provided.
       # See explanation of this keychain_id argument is in the description for the #address_for_keychain_id method.
-      def order_for_keychain_id(amount:, keychain_id:)
+      def order_for_keychain_id(amount:, keychain_id:, currency: nil, btc_denomination: :satoshi)
+
+        amount = amount_from_exchange_rate(
+          amount,
+          currency:             currency,
+          btc_denomination: btc_denomination
+        )
+
         order             = Kernel.const_get(order_class).new
         order.amount      = amount
         order.gateway     = self
@@ -61,15 +70,15 @@ module Straight
       end
       
       def fetch_transaction(tid, address: nil)
-        try_blockchain_adapters { |b| b.fetch_transaction(tid, address: address) }
+        try_adapters(@blockchain_adapters) { |b| b.fetch_transaction(tid, address: address) }
       end
       
       def fetch_transactions_for(address)
-        try_blockchain_adapters { |b| b.fetch_transactions_for(address) }
+        try_adapters(@blockchain_adapters) { |b| b.fetch_transactions_for(address) }
       end
       
       def fetch_balance_for(address)
-        try_blockchain_adapters { |b| b.fetch_balance_for(address) }
+        try_adapters(@blockchain_adapters) { |b| b.fetch_balance_for(address) }
       end
 
       def keychain
@@ -84,13 +93,25 @@ module Straight
         end
       end
 
+      def amount_from_exchange_rate(amount, currency:, btc_denomination: :satoshi)
+        currency = self.default_currency if currency.nil?
+        currency = currency.to_s.upcase
+        if currency == 'BTC'
+          return Satoshi.new(amount, from_unit: btc_denomination).to_i
+        end
+
+        try_adapters(@exchange_rate_adapters) do |a|
+          a.convert_from_currency(amount, currency: currency)
+        end
+      end
+
       private
         
-        # Calls the block with each blockchain adapter until one of them does not fail.
+        # Calls the block with each adapter until one of them does not fail.
         # Fails with the last exception.
-        def try_blockchain_adapters(&block)
+        def try_adapters(adapters, &block)
           last_exception = nil
-          @blockchain_adapters.each do |adapter|
+          adapters.each do |adapter|
             begin
               result = yield(adapter)
               last_exception = nil
@@ -106,16 +127,24 @@ module Straight
 
     end
 
-
-
   end
+
 
   class Gateway
 
     include GatewayModule
 
     def initialize
-      @blockchain_adapters   = [Blockchain::BlockchainInfoAdapter.mainnet_adapter, Blockchain::HelloblockIoAdapter.mainnet_adapter]
+      @default_currency = 'BTC'
+      @blockchain_adapters = [
+        Blockchain::BlockchainInfoAdapter.mainnet_adapter,
+        Blockchain::HelloblockIoAdapter.mainnet_adapter
+      ]
+      @exchange_rate_adapters = [
+        ExchangeRate::BitpayAdapter.new,
+        ExchangeRate::CoinbaseAdapter.new,
+        ExchangeRate::BitstampAdapter.new
+      ]
       @status_check_schedule = DEFAULT_STATUS_CHECK_SCHEDULE
     end
 

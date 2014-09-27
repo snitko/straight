@@ -7,7 +7,7 @@ RSpec.describe Straight::Gateway do
     @gateway                       = Straight::Gateway.new
     @gateway.pubkey                = "pubkey"
     @gateway.order_class           = "Straight::Order"
-    @gateway.blockchain_adapters   = @mock_adapter
+    @gateway.blockchain_adapters   = [@mock_adapter]
     @gateway.status_check_schedule = Straight::Gateway::DEFAULT_STATUS_CHECK_SCHEDULE
     @gateway.order_callbacks       = []
   end
@@ -42,6 +42,30 @@ RSpec.describe Straight::Gateway do
     expect(callback1).to receive(:call).with(order)
     expect(callback2).to receive(:call).with(order)
     @gateway.order_status_changed(order)
+  end
+
+  describe "exchange rate calculation" do
+
+    it "sets order amount in satoshis calculated from another currency" do
+      adapter = Straight::ExchangeRate::BitpayAdapter.new
+      allow(adapter).to receive(:rate_for).and_return(450.5412)
+      @gateway.exchange_rate_adapters = [adapter]
+      expect(@gateway.amount_from_exchange_rate(2252.706, currency: 'USD')).to eq(500000000)
+    end
+
+    it "tries various exchange adapters until one of them actually returns an exchange rate" do
+      adapter1 = Straight::ExchangeRate::BitpayAdapter.new
+      adapter2 = Straight::ExchangeRate::BitpayAdapter.new
+      allow(adapter1).to receive(:rate_for).and_return( -> { raise "connection problem" })
+      allow(adapter2).to receive(:rate_for).and_return(450.5412)
+      @gateway.exchange_rate_adapters = [adapter1, adapter2]
+      expect(@gateway.amount_from_exchange_rate(2252.706, currency: 'USD')).to eq(500000000)
+    end
+
+    it "converts btc denomination into satoshi if provided with :btc_denomination" do
+      expect(@gateway.amount_from_exchange_rate(5, currency: 'BTC', btc_denomination: :btc)).to eq(500000000)
+    end
+
   end
 
 end

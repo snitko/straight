@@ -30,6 +30,11 @@ RSpec.describe Straight::ExchangeRate::Adapter do
       expect(@exchange_adapter.convert_to_currency(5, currency: 'USD', btc_denomination: :btc)).to eq(2252.706)
     end
 
+    it "accepts string as amount and converts it properly" do
+      expect(@exchange_adapter.convert_from_currency('2252.706', currency: 'USD', btc_denomination: :btc)).to eq(5)
+      expect(@exchange_adapter.convert_to_currency('5', currency: 'USD', btc_denomination: :btc)).to eq(2252.706)
+    end
+
   end
 
   it "when checking for rates, only calls fetch_rates! if they were checked long time ago or never" do

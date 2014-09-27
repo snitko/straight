@@ -66,6 +66,10 @@ RSpec.describe Straight::Gateway do
       expect(@gateway.amount_from_exchange_rate(5, currency: 'BTC', btc_denomination: :btc)).to eq(500000000)
     end
 
+    it "accepts string as amount and converts it properly" do
+      expect(@gateway.amount_from_exchange_rate('0.5', currency: 'BTC', btc_denomination: :btc)).to eq(50000000)
+    end
+
   end
 
 end

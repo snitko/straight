@@ -49,7 +49,7 @@ module Straight
 
         amount = amount_from_exchange_rate(
           amount,
-          currency:             currency,
+          currency:         currency,
           btc_denomination: btc_denomination
         )
 
@@ -94,7 +94,8 @@ module Straight
       end
 
       def amount_from_exchange_rate(amount, currency:, btc_denomination: :satoshi)
-        currency = self.default_currency if currency.nil?
+        currency         = self.default_currency if currency.nil?
+        btc_denomination = :satoshi              if btc_denomination.nil?
         currency = currency.to_s.upcase
         if currency == 'BTC'
           return Satoshi.new(amount, from_unit: btc_denomination).to_i

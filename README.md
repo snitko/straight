@@ -1,6 +1,7 @@
 Straight
 ========
 > Receive bitcoin payments directly into your wallet
+> Website: http://straight.romansnitko.com
 
 Straight is a built-in stateless gateway to receive bitcoin payments for 
 your online store. Drop in this library, set your public key and start receiving payments.
@@ -16,6 +17,8 @@ an application, such as Ruby On Rails. Most likely, you want
 [straight-server](https://github.com/snitko/straight-server), it is a server,
 which holds the state of all orders for you and has a RESTful API you can use
 with any application written in in language or platform.
+
+Bitcoin donations are appreciated: 1D3PknG4Lw1gFuJ9SYenA7pboF9gtXtdcD 
 
 How it works
 ------------

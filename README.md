@@ -4,10 +4,10 @@ Straight
 
 > Website: http://straight.romansnitko.com
 
-Straight is a built-in stateless gateway to receive bitcoin payments for 
-your online store. Drop in this library, set your public key and start receiving payments.
-Your BIP32-compatible wallet will see payments automatically without any need for integration
-with your database.
+Straight is a built-in stateless gateway library written in Ruby.
+It allows you to receive bitcoin payments for your online store. Drop in this library,
+set your public key and start receiving payments. Your BIP32-compatible wallet will
+see payments automatically without any need for integration with your database.
 
 Straight cares about security and privacy. No private keys are stored on the server,
 each order uses unique payment address. Straight notifies your application when payment is 

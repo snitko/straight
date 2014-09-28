@@ -62,6 +62,7 @@ Usage
     gateway.name                   = 'my gateway'
 
     # Set the callback for orders' status changes
+    # (see lib/straight/order.rb for status attribute values and their meanings)
     #
     gateway.order_callbacks = [
       lambda { |order| puts "Order status changed to #{order.status}" }
@@ -102,8 +103,8 @@ When this module is included, it doesn't actually *include* all the methods, som
 It is important specifically for getters and setters and as a general rule only getters and setters are prepended.
 
 If you don't want to bother yourself with modules, please use `Straight::Order` class and simply create new instances of it.
-However, if you are contributing to the library, all new functionality should go to either Straight::OrderModule::Includable or
-Straight::OrderModule::Prependable (most likely the former).
+However, if you are contributing to the library, all new functionality should go to either `Straight::OrderModule::Includable` or
+`Straight::OrderModule::Prependable` (most likely the former).
 
 
 Important Considerations

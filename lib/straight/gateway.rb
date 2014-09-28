@@ -1,5 +1,20 @@
 module Straight
 
+  # This module should be included into your own class to extend it with Gateway functionality.
+  # For example, if you have a ActiveRecord model called Gateway, you can include GatewayModule into it
+  # and you'll now be able to do everything Straight::Gateway can do, but you'll also get AR Database storage
+  # funcionality, its validations etc.
+  #
+  # The right way to implement this would be to do it the other way: inherit from Straight::Gateway, then
+  # include ActiveRecord, but at this point ActiveRecord doesn't work this way. Furthermore, some other libraries, like Sequel,
+  # also require you to inherit from them. Thus, the module.
+  #
+  # When this module is included, it doesn't actually *include* all the methods, some are prepended (see Ruby docs on #prepend).
+  # It is important specifically for getters and setters and as a general rule only getters and setters are prepended.
+  #
+  # If you don't want to bother yourself with modules, please use Straight::Gateway class and simply create new instances of it.
+  # However, if you are contributing to the library, all new funcionality should go to either Straight::GatewayModule::Includable or
+  # Straight::GatewayModule::Prependable (most likely the former).
   module GatewayModule
 
     # Only add getters and setters for those properties in the extended class
@@ -37,8 +52,12 @@ module Straight
       return { period: period, iteration_index: iteration_index }
     end
 
+    # If you are defining methods in this module, it means you most likely want to
+    # call super() somehwere inside those methods.
+    #
+    # In short, the idea is to let the class we're being prepended to do its magic
+    # after out methods are finished.
     module Prependable
-      # Only getters and setters for attributes should be here
     end
 
     module Includable
@@ -93,6 +112,11 @@ module Straight
         end
       end
 
+      # Gets exchange rates from one of the exchange rate adapters,
+      # then calculates how much BTC does the amount in the given currency represents.
+      # 
+      # You can also feed this method various bitcoin denominations.
+      # It will always return amount in Satoshis.
       def amount_from_exchange_rate(amount, currency:, btc_denomination: :satoshi)
         currency         = self.default_currency if currency.nil?
         btc_denomination = :satoshi              if btc_denomination.nil?

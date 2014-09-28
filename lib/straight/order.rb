@@ -1,12 +1,20 @@
 module Straight
 
-  # Instances of this class are generated when we'd like to start watching
-  # some addresses to check whether a transaction containing a certain amount
-  # has arrived to it.
+  # This module should be included into your own class to extend it with Order functionality.
+  # For example, if you have a ActiveRecord model called Order, you can include OrderModule into it
+  # and you'll now be able to do everything to check order's status, but you'll also get AR Database storage
+  # funcionality, its validations etc.
   #
-  # It is worth noting that instances do not know how store themselves anywhere,
-  # so as the class is written here, those instances are only supposed to exist
-  # in memory. Storing orders is entirely up to you.
+  # The right way to implement this would be to do it the other way: inherit from Straight::Order, then
+  # include ActiveRecord, but at this point ActiveRecord doesn't work this way. Furthermore, some other libraries, like Sequel,
+  # also require you to inherit from them. Thus, the module.
+  #
+  # When this module is included, it doesn't actually *include* all the methods, some are prepended (see Ruby docs on #prepend).
+  # It is important specifically for getters and setters and as a general rule only getters and setters are prepended.
+  #
+  # If you don't want to bother yourself with modules, please use Straight::Order class and simply create new instances of it.
+  # However, if you are contributing to the library, all new funcionality should go to either Straight::OrderModule::Includable or
+  # Straight::OrderModule::Prependable (most likely the former).
   module OrderModule
 
     # Only add getters and setters for those properties in the extended class
@@ -38,6 +46,14 @@ module Straight
 
     class IncorrectAmount < Exception; end
 
+    # If you are defining methods in this module, it means you most likely want to
+    # call super() somehwere inside those methods. An example would be the #status=
+    # setter. We do our thing, then call super() so that the class this module is prepended to
+    # could do its thing. For instance, if we included it into ActiveRecord, then after
+    # #status= is executed, it would call ActiveRecord model setter #status=
+    #
+    # In short, the idea is to let the class we're being prepended to do its magic
+    # after out methods are finished.
     module Prependable
 
       # Checks #transaction and returns one of the STATUSES based
@@ -132,6 +148,8 @@ module Straight
         check_status_on_schedule
       end
       
+      # Recursion here! Keeps calling itself according to the schedule until
+      # either the status changes or the schedule tells it to stop.
       def check_status_on_schedule(period: 10, iteration_index: 0)
         self.status(reload: true)
         schedule = gateway.status_check_schedule.call(period, iteration_index)
@@ -158,6 +176,13 @@ module Straight
 
   end
 
+  # Instances of this class are generated when we'd like to start watching
+  # some addresses to check whether a transaction containing a certain amount
+  # has arrived to it.
+  #
+  # It is worth noting that instances do not know how store themselves anywhere,
+  # so as the class is written here, those instances are only supposed to exist
+  # in memory. Storing orders is entirely up to you.
   class Order
     include OrderModule
 

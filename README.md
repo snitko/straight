@@ -17,7 +17,7 @@ IMPORTANT: this is a gem, not a server. It has no state and is intended to use w
 an application, such as Ruby On Rails. Most likely, you want
 [straight-server](https://github.com/snitko/straight-server), it is a server,
 which holds the state of all orders for you and has a RESTful API you can use
-with any application written in in language or platform.
+with any application written in any language or platform.
 
 Bitcoin donations are appreciated: 1D3PknG4Lw1gFuJ9SYenA7pboF9gtXtdcD 
 

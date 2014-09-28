@@ -1,6 +1,7 @@
 Straight
 ========
 > Receive bitcoin payments directly into your wallet
+
 > Website: http://straight.romansnitko.com
 
 Straight is a built-in stateless gateway to receive bitcoin payments for 

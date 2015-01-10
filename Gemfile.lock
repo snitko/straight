@@ -61,7 +61,7 @@ GEM
     rspec-mocks (3.1.0)
       rspec-support (~> 3.1.0)
     rspec-support (3.1.0)
-    satoshi-unit (0.1.6)
+    satoshi-unit (0.1.7)
     thread_safe (0.3.4)
 
 PLATFORMS

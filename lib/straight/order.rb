@@ -172,6 +172,11 @@ module Straight
         { status: status, amount: amount, address: address, tid: tid }
       end
 
+      def amount_in_btc(as: :number)
+        a = Satoshi.new(amount, from_unit: :satoshi, to_unit: :btc)
+        as == :string ? a.to_unit(as: :string) : a.to_unit
+      end
+
     end
 
   end

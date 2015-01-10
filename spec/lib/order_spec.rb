@@ -53,6 +53,12 @@ RSpec.describe Straight::Order do
     expect(@order.to_json).to eq('{"status":1,"amount":10,"address":"address","tid":null}')
   end
 
+  it "returns amount in btc as a string" do
+    @order.amount = 1
+    expect(@order.amount_in_btc).to eq(0.00000001) 
+    expect(@order.amount_in_btc(as: :string)).to eq('0.00000001') 
+  end
+
   describe "assigning statuses" do
 
     before(:each) do

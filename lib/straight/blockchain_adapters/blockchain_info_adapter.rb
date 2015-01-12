@@ -4,7 +4,7 @@ module Straight
     class BlockchainInfoAdapter < Adapter
 
       def self.mainnet_adapter
-        self.new("http://blockchain.info")
+        self.new("https://blockchain.info")
       end
       
       def self.testnet_adapter

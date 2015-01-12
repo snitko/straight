@@ -31,8 +31,8 @@ RSpec.describe Straight::Blockchain::HelloblockIoAdapter do
   end
 
   it "raises an exception when something goes wrong with fetching datd" do
-    allow_any_instance_of(URI).to receive(:read).and_raise(OpenURI::HTTPError)
-    expect( -> { adapter.http_request("http://blockchain.info/a-timed-out-request") }).to raise_error(Straight::Blockchain::Adapter::RequestError)
+    allow_any_instance_of(URI::HTTPS).to receive(:read).and_raise(OpenURI::HTTPError.new("https timeout error", nil))
+    expect( -> { adapter.http_request("https://helloblock.io/a-timed-out-request") }).to raise_error(Straight::Blockchain::Adapter::RequestError)
   end
 
   it "calculates total_amount of a transaction for the given address only" do

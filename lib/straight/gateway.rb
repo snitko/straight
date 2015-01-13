@@ -43,7 +43,6 @@ module Straight
 
     # Determines the algorithm for consequitive checks of the order status.
     DEFAULT_STATUS_CHECK_SCHEDULE = -> (period, iteration_index) do
-      return false if period > 640
       iteration_index += 1
       if iteration_index > 5
         period          *= 2

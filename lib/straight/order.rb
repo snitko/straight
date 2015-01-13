@@ -144,22 +144,32 @@ module Straight
       #     order.start_periodic_status_check
       #   end
       #
-      def start_periodic_status_check
-        check_status_on_schedule
+      # `duration` argument (value is in seconds) allows you to
+      # control in what time an order expires. In other words, we
+      # keep checking for new transactions until the time passes.
+      # Then we stop and set Order's status to STATUS[:expired]. See
+      # #check_status_on_schedule for the implementation details.
+      def start_periodic_status_check(duration: 600)
+        check_status_on_schedule(duration: duration)
       end
       
       # Recursion here! Keeps calling itself according to the schedule until
       # either the status changes or the schedule tells it to stop.
-      def check_status_on_schedule(period: 10, iteration_index: 0)
+      def check_status_on_schedule(period: 10, iteration_index: 0, duration: 600, time_passed: 0)
         self.status(reload: true)
-        schedule = gateway.status_check_schedule.call(period, iteration_index)
-        if schedule && self.status < 2 # Stop checking if status is >= 2
-          sleep period
-          check_status_on_schedule(
-            period:          schedule[:period],
-            iteration_index: schedule[:iteration_index]
-          )
-        else
+        time_passed += period
+        if duration >= time_passed # Stop checking if status is >= 2
+          if self.status < 2
+            schedule = gateway.status_check_schedule.call(period, iteration_index)
+            sleep period
+            check_status_on_schedule(
+              period:          schedule[:period],
+              iteration_index: schedule[:iteration_index],
+              duration:        duration,
+              time_passed:     time_passed
+            )
+          end
+        elsif self.status < 2
           self.status = STATUSES[:expired]
         end
       end

@@ -63,7 +63,14 @@ module Straight
       def status(as_sym: false, reload: false)
 
         if defined?(super)
-          @status = (as_sym || reload) ? super : super()
+          begin 
+            @status = super
+          # if no method with arguments found in the class
+          # we're prepending to, then let's use a standard getter
+          # with no argument.
+          rescue ArgumentError
+            @status = super()
+          end
         end
 
         # Prohibit status update if the order was paid in some way.

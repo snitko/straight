@@ -61,7 +61,11 @@ module Straight
       # If as_sym is set to true, then each status is returned as Symbol, otherwise
       # an equivalent Integer from STATUSES is returned.
       def status(as_sym: false, reload: false)
-        @status = super() if defined?(super)
+
+        if defined?(super)
+          @status = (as_sym || reload) ? super : super()
+        end
+
         # Prohibit status update if the order was paid in some way.
         # This is just a caching workaround so we don't query
         # the blockchain needlessly. The actual safety switch is in the setter.

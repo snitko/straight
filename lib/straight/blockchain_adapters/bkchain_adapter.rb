@@ -23,17 +23,16 @@ module Straight
         straighten_transaction JSON.parse(http_request("#{@base_url}/tx/hash/#{tid}"), address: address)
       end
 
+      # CANT FIND API REQUEST TO GET THAT DATA
       # Returns all transactions for the address
       def fetch_transactions_for(address)
-        debugger
-        # transactions = JSON.parse(http_request("#{@base_url}/tx/hash/#{tid}"))['txs']
+        transactions = JSON.parse(http_request("#{@base_url}/tx/hash/#{tid}"))['txs']
         transactions.map { |t| straighten_transaction(t, address: address) }
       end
 
       # Returns the current balance of the address
       def fetch_balance_for(address)
-        debugger
-        JSON.parse(http_request("#{@base_url}/address/balance/#{address}?confirmations=3"))[0]["balance"].to_i
+        JSON.parse(http_request("#{@base_url}/address/balance/#{address}"))[0]["balance"].to_i
       end
 
       private

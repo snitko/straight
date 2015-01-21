@@ -1,5 +1,4 @@
 require 'spec_helper'
-# require 'byebug'; debugger
 
 RSpec.describe Straight::Blockchain::BiteasyAdapter do
 

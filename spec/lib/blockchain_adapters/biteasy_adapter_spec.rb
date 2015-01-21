@@ -26,4 +26,19 @@ RSpec.describe Straight::Blockchain::BiteasyAdapter do
     expect(adapter.fetch_transactions_for(address)).not_to be_empty
   end
 
+  it "calculates the number of confirmations for each transaction" do
+    tid = 'ae0d040f48d75fdc46d9035236a1782164857d6f0cca1f864640281115898560'
+    expect(adapter.fetch_transaction(tid)[:confirmations]).to be > 0
+  end
+
+  it "gets a transaction id among other data" do
+    tid = 'ae0d040f48d75fdc46d9035236a1782164857d6f0cca1f864640281115898560'
+    expect(adapter.fetch_transaction(tid)[:tid]).to eq(tid)
+  end
+
+  it "raises an exception when something goes wrong with fetching datd" do
+    allow_any_instance_of(URI::HTTPS).to receive(:read).and_raise(OpenURI::HTTPError.new('https connection error', nil))
+    expect( -> { adapter.http_request("https://blockchain.info/a-timed-out-request") }).to raise_error(Straight::Blockchain::Adapter::RequestError)
+  end
+
 end

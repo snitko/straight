@@ -27,6 +27,12 @@ module Straight
         straighten_transaction JSON.parse(http_request("#{@base_url}/transactions/#{tid}"), address: address)
       end
 
+      # Returns all transactions for the address
+      def fetch_transactions_for(address)
+        transactions = JSON.parse(http_request("#{@base_url}/transactions?address=#{address}"))['data']['transactions']
+        transactions.map { |t| straighten_transaction(t, address: address) }
+      end
+
       private
 
         # Converts transaction info received from the source into the

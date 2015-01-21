@@ -20,4 +20,10 @@ RSpec.describe Straight::Blockchain::BiteasyAdapter do
     expect(adapter.send(:straighten_transaction, t, address: 'address1')[:total_amount]).to eq(1)
   end
 
+  it "fetches all transactions for the current address" do
+    address = "3B1QZ8FpAaHBgkSB5gFt76ag5AW9VeP8xp"
+    expect(adapter).to receive(:straighten_transaction).with(anything, address: address).at_least(:once)
+    expect(adapter.fetch_transactions_for(address)).not_to be_empty
+  end
+
 end

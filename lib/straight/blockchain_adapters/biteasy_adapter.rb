@@ -22,6 +22,31 @@ module Straight
         JSON.parse(http_request("#{@base_url}/addresses/#{address}"))['data']['balance']
       end
 
+      # Returns transaction info for the tid
+      def fetch_transaction(tid, address: nil)
+        straighten_transaction JSON.parse(http_request("#{@base_url}/transactions/#{tid}"), address: address)
+      end
+
+      private
+
+        # Converts transaction info received from the source into the
+        # unified format expected by users of BlockchainAdapter instances.
+        def straighten_transaction(transaction, address: nil)
+          outs         = []
+          total_amount = 0
+          transaction['data']['outputs'].each do |out|
+            total_amount += out['value'] if address.nil? || address == out['to_address']
+            outs << { amount: out['value'], receiving_address: out['to_address'] } 
+          end
+
+          {
+            tid:           transaction['data']['hash'],
+            total_amount:  total_amount,
+            confirmations: transaction['data']['confirmations'],
+            outs:          outs
+          }
+        end
+
     end
 
   end

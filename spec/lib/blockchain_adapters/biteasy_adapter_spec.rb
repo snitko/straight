@@ -37,7 +37,7 @@ RSpec.describe Straight::Blockchain::BiteasyAdapter do
 
   it "raises an exception when something goes wrong with fetching datd" do
     allow_any_instance_of(URI::HTTPS).to receive(:read).and_raise(OpenURI::HTTPError.new('https connection error', nil))
-    expect( -> { adapter.http_request("https://blockchain.info/a-timed-out-request") }).to raise_error(Straight::Blockchain::Adapter::RequestError)
+    expect( -> { adapter.http_request("https://api.biteasy.com/a-timed-out-request") }).to raise_error(Straight::Blockchain::Adapter::RequestError)
   end
 
 end

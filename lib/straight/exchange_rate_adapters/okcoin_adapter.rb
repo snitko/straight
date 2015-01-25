@@ -8,7 +8,7 @@ module Straight
       def rate_for(currency_code)
         super
         raise CurrencyNotSupported if currency_code != 'USD'
-        @rates['last'].to_f
+        @rates['ticker']['last'].to_f
       end
 
     end

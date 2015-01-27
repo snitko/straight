@@ -3,7 +3,6 @@ module Straight
 
     class Adapter
 
-      class CurrencyNotFound     < Exception; end
       class FetchingFailed       < Exception; end
       class CurrencyNotSupported < Exception; end
 

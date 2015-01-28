@@ -11,4 +11,12 @@ RSpec.describe Straight::ExchangeRate::LocalbitcoinsAdapter do
     expect( -> { @exchange_adapter.rate_for('FEDcoin') }).to raise_error(Straight::ExchangeRate::Adapter::CurrencyNotSupported)
   end
 
+  it "rases exception if rate is nil" do
+    uri_mock = double('uri mock')
+    allow(URI).to       receive(:parse).and_return(uri_mock)
+    expect(uri_mock).to receive(:read).with(read_timeout: 4).and_return(nil)
+    expect(JSON).to     receive(:parse).and_return({})
+    expect( -> { @exchange_adapter.rate_for('USD') }).to raise_error(Straight::ExchangeRate::Adapter::CurrencyNotSupported)
+  end
+
 end

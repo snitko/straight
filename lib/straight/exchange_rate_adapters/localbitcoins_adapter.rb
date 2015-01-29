@@ -7,11 +7,8 @@ module Straight
 
       def rate_for(currency_code)
         super
-        if rate = @rates[currency_code.upcase]
-          rate_to_f(rate['rates']['last'])
-        else
-          raise CurrencyNotSupported
-        end
+        rate = get_rate_value_from_hash(@rates, currency_code.upcase, 'rates', 'last')
+        rate ? rate_to_f(rate) : raise(CurrencyNotSupported)
       end
 
     end

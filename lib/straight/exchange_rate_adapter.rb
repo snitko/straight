@@ -40,6 +40,19 @@ module Straight
         nil # this should be changed in descendant classes
       end
 
+      # If response returnes hash, this method will get value we are interested in according to
+      # *keys we pass or return nil if it cant get that value, its used in child adapters and 
+      # prevent failing with 'undefined method [] for Nil' if at some point hash doesnt have such key value pair
+      def get_rate_value_from_hash(rates_hash, *keys)
+        keys.inject(rates_hash) do |intermediate, key|
+          if intermediate.respond_to?(:[])
+            intermediate[key]
+          else
+            raise CurrencyNotSupported 
+          end
+        end
+      end
+
       # this method will be used in #rate_for method in child classes, and will be checking that 
       # rate value != nil
       def rate_to_f(rate)

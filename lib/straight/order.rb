@@ -117,8 +117,12 @@ module Straight
         # by the time a callback checks the status it's already set.
         @status_changed = (@status != new_status)
         @status         = new_status
-        gateway.order_status_changed(self) if @status_changed
+        gateway.order_status_changed(self) if status_changed?
         super if defined?(super)
+      end
+
+      def status_changed?
+        @status_changed
       end
 
     end

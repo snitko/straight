@@ -3,10 +3,10 @@ module Straight
 
     class AverageRateAdapter
 
-      # Takes exchange rate adapters class names as an arguments
-      def initialize(*adapter_names)
+      # Takes exchange rate adapters instances as an arguments
+      def initialize(*adapter_instances)
         @rates = []
-        adapter_names.each do |adapter|
+        adapter_instances.each do |adapter|
           @rates << adapter.rate_for('USD')
         end
       end

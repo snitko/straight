@@ -17,4 +17,8 @@ RSpec.describe Straight::ExchangeRate::AverageRateAdapter do
     expect( -> { @average_rates_adapter.rate_for('FEDcoin') }).to raise_error(Straight::ExchangeRate::Adapter::CurrencyNotSupported)
   end
 
+  it "raises exception if unallowed method is called" do # fetch_rates! is not to be used in AverageRateAdapter itself
+    expect( -> { @average_rates_adapter.fetch_rates! }).to raise_error("This method is not supposed to be used in #{@average_rates_adapter.class}.")
+  end
+
 end

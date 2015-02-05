@@ -8,6 +8,10 @@ module Straight
         @adapters = adapters.map{ |adapter| adapter.respond_to?(:new) ? adapter.new : adapter }
       end
 
+      def fetch_rates!
+        raise "This method is not supposed to be used in #{self.class}."
+      end
+
       def rate_for(currency_code)
         rates = []
         @adapters.each do |adapter| 

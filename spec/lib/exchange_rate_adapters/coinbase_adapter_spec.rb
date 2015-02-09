@@ -13,8 +13,8 @@ RSpec.describe Straight::ExchangeRate::CoinbaseAdapter do
 
   it "raises exception if rate is nil" do
     json_response_1 = '{}'
-    json_response_2 = '{"btc_to_urd":"224.41","usd_to_xpf":"105.461721","bsd_to_btc":"0.004456"'
-    json_response_3 = '{"btc_to_usd":"null","usd_to_xpf":"105.461721","bsd_to_btc":"0.004456"}'
+    json_response_2 = '{"btc_to_urd":"224.41","usd_to_xpf":"105.461721","bsd_to_btc":"0.004456"}'
+    json_response_3 = '{"btc_to_usd":null,"usd_to_xpf":"105.461721","bsd_to_btc":"0.004456"}'
     uri_mock = double('uri mock')
     allow(uri_mock).to receive(:read).with(read_timeout: 4).and_return(json_response_1, json_response_2, json_response_3)
     allow(URI).to      receive(:parse).and_return(uri_mock)

@@ -8,7 +8,8 @@ module Straight
       def rate_for(currency_code)
         super
         raise CurrencyNotSupported if currency_code != 'USD'
-        @rates['last'].to_f
+        rate = get_rate_value_from_hash(@rates, "last")
+        rate_to_f(rate)
       end
 
     end

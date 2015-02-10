@@ -3,13 +3,15 @@ module Straight
 
     class AverageRateAdapter < Adapter
 
-      # Takes exchange rate adapters instances or classes as an arguments
+      # Takes exchange rate adapters instances or classes as arguments
       def initialize(*adapters)
         @adapters = adapters.map{ |adapter| adapter.respond_to?(:new) ? adapter.new : adapter }
       end
 
       def fetch_rates!
-        raise "This method is not supposed to be used in #{self.class}."
+        @adapters.each do |adapter|
+          adapter.fetch_rates!
+        end
       end
 
       def rate_for(currency_code)
@@ -28,6 +30,14 @@ module Straight
         else
           raise CurrencyNotSupported
         end
+      end
+
+      def get_rate_value_from_hash(rates_hash, *keys)
+        raise "This method is not supposed to be used in #{self.class}."
+      end
+
+      def rate_to_f(rate)
+        raise "This method is not supposed to be used in #{self.class}."
       end
 
     end

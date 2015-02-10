@@ -7,8 +7,11 @@ module Straight
 
       def rate_for(currency_code)
         super
-        @rates.each do |r|
-          return r['rate'].to_f if r['code'] == currency_code
+        @rates.each do |rt|
+          if rt['code'] == currency_code
+            rate = get_rate_value_from_hash(rt, 'rate')
+            return rate_to_f(rate)
+          end
         end
         raise CurrencyNotSupported 
       end

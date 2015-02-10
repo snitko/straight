@@ -19,6 +19,7 @@ RSpec.describe Straight::ExchangeRate::KrakenAdapter do
     allow(uri_mock).to receive(:read).with(read_timeout: 4).and_return(json_response_1, json_response_2, json_response_3)
     allow(URI).to      receive(:parse).and_return(uri_mock)
     3.times do
+      @exchange_adapter.fetch_rates!
       expect( -> { @exchange_adapter.rate_for('USD') }).to raise_error(Straight::ExchangeRate::Adapter::CurrencyNotSupported)
     end
   end

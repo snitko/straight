@@ -18,6 +18,8 @@ require_relative 'straight/exchange_rate_adapters/localbitcoins_adapter'
 require_relative 'straight/exchange_rate_adapters/okcoin_adapter'
 require_relative 'straight/exchange_rate_adapters/btce_adapter'
 require_relative 'straight/exchange_rate_adapters/kraken_adapter'
+require_relative 'straight/exchange_rate_adapters/average_rate_adapter'
+
 
 require_relative 'straight/order'
 require_relative 'straight/gateway'

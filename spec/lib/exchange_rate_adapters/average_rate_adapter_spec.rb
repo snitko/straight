@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Straight::ExchangeRate::AverageRateAdapter do
 
-  before(:all) do
+  before(:each) do
     @average_rates_adapter = Straight::ExchangeRate::AverageRateAdapter.new(
       Straight::ExchangeRate::BitstampAdapter, 
       Straight::ExchangeRate::BitpayAdapter.new,
@@ -20,6 +20,15 @@ RSpec.describe Straight::ExchangeRate::AverageRateAdapter do
 
   it "fetches rates for all adapters" do
     expect(@average_rates_adapter.fetch_rates!).not_to be_empty
+  end
+
+  it 'raises error if all adapters failed to fetch rates' do
+    adapter_mocks = [double('adapter_1'), double('adapter_2')]
+    adapter_mocks.each do |adapter|
+      expect(adapter).to receive(:fetch_rates!).and_raise(Straight::ExchangeRate::Adapter::FetchingFailed)
+    end
+    average_rates_adapter = Straight::ExchangeRate::AverageRateAdapter.new(*adapter_mocks)
+    expect( -> { average_rates_adapter.fetch_rates! }).to raise_error(Straight::ExchangeRate::Adapter::FetchingFailed)
   end
 
   it "raises exception if all adapters fail to get rates" do

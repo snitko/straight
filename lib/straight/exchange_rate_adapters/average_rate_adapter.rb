@@ -9,8 +9,14 @@ module Straight
       end
 
       def fetch_rates!
+        failed_fetches = 0
         @adapters.each do |adapter|
-          adapter.fetch_rates!
+          begin
+            adapter.fetch_rates!
+          rescue Exception => e
+            failed_fetches += 1
+            raise e if failed_fetches == @adapters.size
+          end
         end
       end
 

@@ -55,7 +55,7 @@ module Straight
     # call super() somehwere inside those methods.
     #
     # In short, the idea is to let the class we're being prepended to do its magic
-    # after out methods are finished.
+    # after our methods are finished.
     module Prependable
     end
 

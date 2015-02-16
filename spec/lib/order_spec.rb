@@ -71,6 +71,11 @@ RSpec.describe Straight::Order do
       @order.status
     end
 
+    it "sets status to :new upon order creation" do
+      expect(@order.instance_variable_get(:@status)).to eq(0)
+      expect(@order.instance_variable_get(:@old_status)).to eq(nil)
+    end
+
     it "sets status to :new if no transaction issued" do
       expect(@order).to receive(:transaction).at_most(3).times.and_return(nil)
       expect(@order.status(reload: true)).to eq(0)
@@ -111,6 +116,11 @@ RSpec.describe Straight::Order do
       expect(@order.instance_variable_get(:@original_status_setter_called)).to be_falsy
       @order.status = 1
       expect(@order.instance_variable_get(:@original_status_setter_called)).to be_truthy
+    end
+
+    it "saves the old status in the old_status property" do
+      @order.status = 2
+      expect(@order.old_status).to eq(0)
     end
 
   end

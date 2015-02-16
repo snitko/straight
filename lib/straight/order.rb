@@ -44,6 +44,8 @@ module Straight
       expired:      5  # too much time passed since creating an order
     }
 
+    attr_reader :old_status
+
     class IncorrectAmount < Exception; end
 
     # If you are defining methods in this module, it means you most likely want to
@@ -116,6 +118,7 @@ module Straight
         # The order in which these statements currently are prevents that error, because
         # by the time a callback checks the status it's already set.
         @status_changed = (@status != new_status)
+        @old_status     = @status
         @status         = new_status
         gateway.order_status_changed(self) if status_changed?
         super if defined?(super)

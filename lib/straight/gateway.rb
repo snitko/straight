@@ -100,7 +100,7 @@ module Straight
       end
 
       def keychain
-        @keychain ||= MoneyTree::Node.from_serialized_address(@pubkey)
+        @keychain ||= MoneyTree::Node.from_serialized_address(pubkey)
       end
 
       # This is a callback method called from each order

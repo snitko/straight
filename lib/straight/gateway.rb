@@ -129,6 +129,14 @@ module Straight
         end
       end
 
+      def current_exchange_rate(currency)
+        currency = self.default_currency if currency.nil?
+        currency = currency.to_s.upcase
+        try_adapters(@exchange_rate_adapters) do |a|
+          a.rate_for(currency)
+        end
+      end
+
       private
         
         # Calls the block with each adapter until one of them does not fail.

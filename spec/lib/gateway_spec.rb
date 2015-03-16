@@ -70,6 +70,10 @@ RSpec.describe Straight::Gateway do
       expect(@gateway.amount_from_exchange_rate('0.5', currency: 'BTC', btc_denomination: :btc)).to eq(50000000)
     end
 
+    it "simply fetches current exchange rate for 1 BTC" do
+      expect(@gateway.current_exchange_rate('USD')).not_to be_nil
+    end
+
   end
 
 end

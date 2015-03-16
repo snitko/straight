@@ -129,8 +129,7 @@ module Straight
         end
       end
 
-      def current_exchange_rate(currency)
-        currency = self.default_currency if currency.nil?
+      def current_exchange_rate(currency=self.default_currency)
         currency = currency.to_s.upcase
         try_adapters(@exchange_rate_adapters) do |a|
           a.rate_for(currency)

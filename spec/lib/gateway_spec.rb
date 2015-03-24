@@ -12,6 +12,20 @@ RSpec.describe Straight::Gateway do
     @gateway.order_callbacks       = []
   end
 
+  it "shares exchange rate adapter(s) instances between all/multiple gateway instances" do
+    gateway_2 = Straight::Gateway.new.tap do |gateway|
+      gateway.pubkey                = "pubkey"
+      gateway.order_class           = "Straight::Order"
+      gateway.blockchain_adapters   = [@mock_adapter]
+      gateway.status_check_schedule = Straight::Gateway::DEFAULT_STATUS_CHECK_SCHEDULE
+      gateway.order_callbacks       = []
+    end
+    # Checking if exchange rate adapters are the same objects for both gateways
+    @gateway.instance_variable_get(:@exchange_rate_adapters).each_with_index do |adapter, i|
+      expect(gateway_2.instance_variable_get(:@exchange_rate_adapters)[i]).to equal adapter
+    end
+  end
+
   it "passes methods on to the available adapter" do
     @gateway.instance_variable_set('@blockchain_adapters', [@mock_adapter])
     expect(@mock_adapter).to receive(:fetch_transaction).once 

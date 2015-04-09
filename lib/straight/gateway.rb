@@ -168,8 +168,7 @@ module Straight
     def initialize
       @default_currency = 'BTC'
       @blockchain_adapters = [
-        Blockchain::BlockchainInfoAdapter.mainnet_adapter,
-        Blockchain::HelloblockIoAdapter.mainnet_adapter
+        Blockchain::BlockchainInfoAdapter.mainnet_adapter
       ]
       @exchange_rate_adapters = [
         ExchangeRate::BitpayAdapter.new,

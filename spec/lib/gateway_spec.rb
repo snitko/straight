@@ -27,8 +27,8 @@ RSpec.describe Straight::Gateway do
   end
 
   it "creates new orders and addresses for them" do
-    @gateway.pubkey   = MoneyTree::Master.new.to_serialized_address 
-    expected_address  = MoneyTree::Node.from_serialized_address(@gateway.pubkey).node_for_path("1").to_address
+    @gateway.pubkey   = 'xpub661MyMwAqRbcFhUeRviyfia1NdfX4BAv5zCsZ6HqsprRjdBDK8vwh3kfcnTvqNbmi5S1yZ5qL9ugZTyVqtyTZxccKZzMVMCQMhARycvBZvx' 
+    expected_address  = '1NEvrcxS3REbJgup8rMA4QvMFFSdWTLvM'
     expect(@gateway.order_for_keychain_id(amount: 1, keychain_id: 1).address).to eq(expected_address)
   end
 

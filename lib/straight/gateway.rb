@@ -172,12 +172,28 @@ module Straight
         Blockchain::BlockchainInfoAdapter.mainnet_adapter
       ]
       @exchange_rate_adapters = [
-        ExchangeRate::BitpayAdapter.new,
-        ExchangeRate::CoinbaseAdapter.new,
-        ExchangeRate::BitstampAdapter.new
+        @@exchange_rate_adapters['Bitpay'],
+        @@exchange_rate_adapters['CoinBase'],
+        @@exchange_rate_adapters['Bitstamp'],
+        @@exchange_rate_adapters['Btce'],
+        @@exchange_rate_adapters['Kraken'],
+        @@exchange_rate_adapters['Localbitcoins'],
+        @@exchange_rate_adapters['Okcoin']
       ]
       @status_check_schedule = DEFAULT_STATUS_CHECK_SCHEDULE
     end
+
+    # Putting exchange rate adapters in class variable so they are 
+    # shared between all/multiple gateways instances, to save resources 
+    @@exchange_rate_adapters = {
+      'Bitpay'        => ExchangeRate::BitpayAdapter.new, 
+      'CoinBase'      => ExchangeRate::CoinbaseAdapter.new,
+      'Bitstamp'      => ExchangeRate::BitstampAdapter.new,
+      'Btce'          => ExchangeRate::BtceAdapter.new,
+      'Kraken'        => ExchangeRate::KrakenAdapter.new,
+      'Localbitcoins' => ExchangeRate::LocalbitcoinsAdapter.new,
+      'Okcoin'        => ExchangeRate::OkcoinAdapter.new
+    }
 
     def order_class
       "Straight::Order"

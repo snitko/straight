@@ -26,9 +26,9 @@ RSpec.describe Straight::Order do
     allow(@gateway).to receive(:fetch_transactions_for).with('address').and_return([])
     allow(@gateway).to receive(:status_check_schedule).and_return(Straight::Gateway::DEFAULT_STATUS_CHECK_SCHEDULE)
     [10, 20, 40, 80, 160, 320, 640].each do |i|
-      expect(@order).to receive(:sleep).with(i).exactly(6).times
+      expect(@order).to receive(:sleep).with(i).exactly(20).times
     end
-    @order.start_periodic_status_check(duration: 7620)
+    @order.start_periodic_status_check(duration: 25400)
   end
 
   it "gets the last transaction for the current address, caches the request" do

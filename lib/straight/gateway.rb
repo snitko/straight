@@ -44,7 +44,7 @@ module Straight
     # Determines the algorithm for consequitive checks of the order status.
     DEFAULT_STATUS_CHECK_SCHEDULE = -> (period, iteration_index) do
       iteration_index += 1
-      if iteration_index > 20
+      if iteration_index >= 20
         period          *= 2
         iteration_index  = 0
       end

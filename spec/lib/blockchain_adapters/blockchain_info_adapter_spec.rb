@@ -40,7 +40,7 @@ RSpec.describe Straight::Blockchain::BlockchainInfoAdapter do
   end
   
   it "raises an exception when something goes wrong with fetching datd" do
-    expect( -> { adapter.send(:api_request, "https://blockchain.info/a-404-request") }).to raise_error(Straight::Blockchain::Adapter::RequestError)
+    expect( -> { adapter.send(:api_request, "/a-404-request") }).to raise_error(Straight::Blockchain::Adapter::RequestError)
   end
 
   it "calculates total_amount of a transaction for the given address only" do

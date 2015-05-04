@@ -166,14 +166,7 @@ module Straight
 
     include GatewayModule
 
-    # Creating instances of blockchain and exchange rate adapters in class variables so they are 
-    # shared between all/multiple gateways instances, to save resources
-    #
-    # TODO: Refactor this. This should be moved away from the GatewayModule into Straight::Blockchain::Adapter etc.
-    @@blockchain_adapters = {
-      'BlockchainInfo' => Blockchain::BlockchainInfoAdapter.mainnet_adapter,
-      'Mycelium'       => Blockchain::MyceliumAdapter.mainnet_adapter
-    }
+    # TODO: is Singleton instead
     @@exchange_rate_adapters = {
       'Bitpay'        => ExchangeRate::BitpayAdapter.new, 
       'CoinBase'      => ExchangeRate::CoinbaseAdapter.new,
@@ -187,8 +180,8 @@ module Straight
     def initialize
       @default_currency = 'BTC'
       @blockchain_adapters = [
-        @@blockchain_adapters['BlockchainInfo'],
-        @@blockchain_adapters['Mycelium']
+        Blockchain::BlockchainInfoAdapter.mainnet_adapter,
+        Blockchain::MyceliumAdapter.mainnet_adapter
       ]
       @exchange_rate_adapters = [
         @@exchange_rate_adapters['Bitpay'],

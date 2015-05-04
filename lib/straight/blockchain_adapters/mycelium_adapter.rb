@@ -6,14 +6,18 @@ module Straight
       require 'base64'
 
       def self.mainnet_adapter
-        self.new("https://mws2.mycelium.com/wapi/wapi")
+        instance = self.instance
+        instance._initialize("https://mws2.mycelium.com/wapi/wapi")
+        instance
       end
       
       def self.testnet_adapter
-        raise "https://node3.mycelium.com/wapitestnet/wapi"
+        instance = self.instance
+        instance._initialize("https://node3.mycelium.com/wapitestnet/wapi")
+        instance
       end
       
-      def initialize(base_url)
+      def _initialize(base_url)
         @latest_block = { cache_timestamp: nil, block: nil }
         @base_url = base_url
       end
@@ -104,7 +108,6 @@ module Straight
             outs:          outs
           }
         end
-
 
         # When we call #calculate_confirmations, it doesn't always make a new
         # request to the blockchain API. Instead, it checks if cached_id matches the one in

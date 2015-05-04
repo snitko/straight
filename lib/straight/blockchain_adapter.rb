@@ -5,6 +5,17 @@ module Straight
     # all blockchain adapters as well as supplying some useful methods.
     class Adapter
 
+      def self.create_instances
+        @@blockchain_adapters = {
+          'BlockchainInfo' => Blockchain::BlockchainInfoAdapter.mainnet_adapter,
+          'Mycelium'       => Blockchain::MyceliumAdapter.mainnet_adapter
+        }
+      end
+
+      def self.blockchain_adapters
+        @@blockchain_adapters
+      end
+
       # Raised when blockchain data cannot be retrived for any reason.
       # We're not really intereste in the precise reason, although it is
       # stored in the message.

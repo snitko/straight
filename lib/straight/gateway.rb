@@ -166,10 +166,29 @@ module Straight
 
     include GatewayModule
 
+    # Creating instances of blockchain and exchange rate adapters in class variables so they are 
+    # shared between all/multiple gateways instances, to save resources
+    #
+    # TODO: Refactor this. This should be moved away from the GatewayModule into Straight::Blockchain::Adapter etc.
+    @@blockchain_adapters = {
+      'BlockchainInfo' => Blockchain::BlockchainInfoAdapter.mainnet_adapter,
+      'Mycelium'       => Blockchain::MyceliumAdapter.mainnet_adapter
+    }
+    @@exchange_rate_adapters = {
+      'Bitpay'        => ExchangeRate::BitpayAdapter.new, 
+      'CoinBase'      => ExchangeRate::CoinbaseAdapter.new,
+      'Bitstamp'      => ExchangeRate::BitstampAdapter.new,
+      'Btce'          => ExchangeRate::BtceAdapter.new,
+      'Kraken'        => ExchangeRate::KrakenAdapter.new,
+      'Localbitcoins' => ExchangeRate::LocalbitcoinsAdapter.new,
+      'Okcoin'        => ExchangeRate::OkcoinAdapter.new
+    }
+
     def initialize
       @default_currency = 'BTC'
       @blockchain_adapters = [
-        Blockchain::BlockchainInfoAdapter.mainnet_adapter
+        @@blockchain_adapters['BlockchainInfo'],
+        @@blockchain_adapters['Mycelium']
       ]
       @exchange_rate_adapters = [
         @@exchange_rate_adapters['Bitpay'],
@@ -182,18 +201,6 @@ module Straight
       ]
       @status_check_schedule = DEFAULT_STATUS_CHECK_SCHEDULE
     end
-
-    # Putting exchange rate adapters in class variable so they are 
-    # shared between all/multiple gateways instances, to save resources 
-    @@exchange_rate_adapters = {
-      'Bitpay'        => ExchangeRate::BitpayAdapter.new, 
-      'CoinBase'      => ExchangeRate::CoinbaseAdapter.new,
-      'Bitstamp'      => ExchangeRate::BitstampAdapter.new,
-      'Btce'          => ExchangeRate::BtceAdapter.new,
-      'Kraken'        => ExchangeRate::KrakenAdapter.new,
-      'Localbitcoins' => ExchangeRate::LocalbitcoinsAdapter.new,
-      'Okcoin'        => ExchangeRate::OkcoinAdapter.new
-    }
 
     def order_class
       "Straight::Order"

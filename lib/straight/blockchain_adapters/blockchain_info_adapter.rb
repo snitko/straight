@@ -58,6 +58,8 @@ module Straight
             response.body
           rescue HTTParty::Error => e
             raise RequestError, YAML::dump(e)
+          rescue JSON::ParserError => e
+            raise RequestError, YAML::dump(e)
           end
         end
 

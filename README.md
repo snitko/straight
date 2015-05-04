@@ -117,13 +117,21 @@ all orders should be indexed sequentially, not randomly.
 Why can't we just derive new addresses from order UUID, or assign them to orders? The reason is that your
 wallet will have to integrate with your very own database and it may be enormously cumbersome to implement
 in a generic way. Alternative would be to create a wallet within Straight and make it generate and keep the
-private keys, but this would be highly insecure. Keys stored on popular hosting solutions would quickly invite 
-all sorts of attacks to get money from them.
+private keys, but this would be highly insecure. Keys stored on popular hosting solutions would quickly
+invite all sorts of attacks to get money from them.
+
+
+A note about Mycelium blockchain adapter
+----------------------------------------
+If you wish to use Mycelium blockchain adapter you MUST install bitcoind on your server (you may run it in offline mode, no need to download the whole blockchain!) and have a `bitcoin-cli` in your PATH. This
+requirement is due to the need to parse raw bitcoin transaction received from Mycelium WAPI.
+By default, Mycelium is included as a second (fallback) adapter and will only be used in case
+BlockchainInfo one fails. It will not raise an exception until it actually tries to parse the trasaction
+and finds there is no `bitcoin-cli` in PATH.
 
 Requirements
 ------------
 Ruby 2.1 or later.
-
 
 Credits
 -------

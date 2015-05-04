@@ -3,6 +3,13 @@ module Straight
 
     class MyceliumAdapter < Adapter
 
+      class NoBitcoindInstalled < Exception
+        def message
+          "You need to install bitcoind on your server and have a `bitcoin-cli` executable in PATH.\n" +
+          "Note that you don't have to download the blockchain and you can run bitcoind in offline mode."
+        end
+      end
+
       require 'base64'
 
       def self.mainnet_adapter
@@ -91,7 +98,15 @@ module Straight
           transaction = transaction['binary'].unpack("m0").first.unpack("H*").first
 
           # Decoding with bitcoin-cli
-          transaction = JSON.parse(`bitcoin-cli decoderawtransaction #{transaction}`)
+          begin
+            transaction = JSON.parse(`bitcoin-cli decoderawtransaction #{transaction}`)
+          rescue Errno::ENOENT => e
+            if e.message == 'No such file or directory - bitcoin-cli'
+              raise NoBitcoindInstalled
+            else
+              raise e
+            end
+          end
 
           outs         = []
           total_amount = 0

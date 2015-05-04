@@ -32,7 +32,34 @@ module Straight
         JSON.parse(http_request("#{@base_url}/rawaddr/#{address}"))['final_balance']
       end
 
+      def latest_block(force_reload: false)
+        # If we checked Blockchain.info latest block data
+        # more than a minute ago, check again. Otherwise, use cached version.
+        if @latest_block[:cache_timestamp].nil?              ||
+           @latest_block[:cache_timestamp] < (Time.now - 60) ||
+           force_reload
+          @latest_block = {
+            cache_timestamp: Time.now,
+            block: JSON.parse(http_request("#{@base_url}/latestblock"))
+          }
+        else
+          @latest_block
+        end
+      end
+
       private
+
+        def http_request(url)
+          begin
+            response = HTTParty.get(url, timeout: 4, verify: false)
+            unless response.code == 200
+              raise RequestError, "Cannot access remote API, response code was #{response.code}"
+            end
+            response.body
+          rescue HTTParty::Error => e
+            raise RequestError, YAML::dump(e)
+          end
+        end
 
         # Converts transaction info received from the source into the
         # unified format expected by users of BlockchainAdapter instances.
@@ -59,19 +86,8 @@ module Straight
         # a certain address without making any new requests to the Blockchain API.
         def calculate_confirmations(transaction, force_latest_block_reload: false)
 
-          # If we checked Blockchain.info latest block data
-          # more than a minute ago, check again. Otherwise, use cached version.
-          if @latest_block[:cache_timestamp].nil?              ||
-             @latest_block[:cache_timestamp] < (Time.now - 60) ||
-             force_latest_block_reload
-            @latest_block = {
-              cache_timestamp: Time.now,
-              block: JSON.parse(http_request("#{@base_url}/latestblock"))
-            }
-          end
-
           if transaction["block_height"]
-            @latest_block[:block]["height"] - transaction["block_height"] + 1
+            latest_block(force_reload: force_latest_block_reload)[:block]["height"] - transaction["block_height"] + 1
           else
             0
           end

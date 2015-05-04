@@ -10,19 +10,6 @@ module Straight
       # stored in the message.
       class RequestError < Exception; end
 
-      # This method is a wrapper for creating an HTTP request
-      # to various services that ancestors of this class may use
-      # to retrieve blockchain data. Why do we need a wrapper?
-      # Because it respects timeouts.
-      def http_request(url)
-        uri = URI.parse(url)
-        begin
-          http = uri.read(read_timeout: 4)
-        rescue OpenURI::HTTPError => e
-          raise RequestError, YAML::dump(e)
-        end
-      end
-
       def fetch_transaction(tid)
         raise "Please implement #fetch_transaction in #{self.to_s}"
       end

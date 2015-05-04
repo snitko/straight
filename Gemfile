@@ -5,6 +5,7 @@ gem 'money-tree'
 
 # Used in exchange rate adapters
 gem 'satoshi-unit'
+gem 'httparty'
 
 group :development do
   gem "bundler", "~> 1.0"

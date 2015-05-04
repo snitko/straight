@@ -3,9 +3,9 @@ require 'spec_helper'
 RSpec.describe Straight::ExchangeRate::AverageRateAdapter do
 
   before(:each) do
-    @average_rates_adapter = Straight::ExchangeRate::AverageRateAdapter.new(
+    @average_rates_adapter = Straight::ExchangeRate::AverageRateAdapter.instance(
       Straight::ExchangeRate::BitstampAdapter, 
-      Straight::ExchangeRate::BitpayAdapter.new,
+      Straight::ExchangeRate::BitpayAdapter.instance,
     )
   end
 
@@ -27,7 +27,7 @@ RSpec.describe Straight::ExchangeRate::AverageRateAdapter do
     adapter_mocks.each do |adapter|
       expect(adapter).to receive(:fetch_rates!).and_raise(Straight::ExchangeRate::Adapter::FetchingFailed)
     end
-    average_rates_adapter = Straight::ExchangeRate::AverageRateAdapter.new(*adapter_mocks)
+    average_rates_adapter = Straight::ExchangeRate::AverageRateAdapter.instance(*adapter_mocks)
     expect( -> { average_rates_adapter.fetch_rates! }).to raise_error(Straight::ExchangeRate::Adapter::FetchingFailed)
   end
 

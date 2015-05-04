@@ -4,8 +4,10 @@ module Straight
     class AverageRateAdapter < Adapter
 
       # Takes exchange rate adapters instances or classes as arguments
-      def initialize(*adapters)
-        @adapters = adapters.map{ |adapter| adapter.respond_to?(:new) ? adapter.new : adapter }
+      def self.instance(*adapters)
+        instance = super()
+        instance.instance_variable_set(:@adapters, adapters.map { |adapter| adapter.respond_to?(:instance) ? adapter.instance : adapter })
+        instance
       end
 
       def fetch_rates!

@@ -7,7 +7,7 @@ RSpec.describe Straight::ExchangeRate::Adapter do
   end
 
   before(:each) do
-    @exchange_adapter = Straight::ExchangeRate::Adapter.new
+    @exchange_adapter = Straight::ExchangeRate::Adapter.instance
   end
 
   describe "converting currencies" do

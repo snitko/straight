@@ -61,15 +61,15 @@ RSpec.describe Straight::Gateway do
   describe "exchange rate calculation" do
 
     it "sets order amount in satoshis calculated from another currency" do
-      adapter = Straight::ExchangeRate::BitpayAdapter.new
+      adapter = Straight::ExchangeRate::BitpayAdapter.instance
       allow(adapter).to receive(:rate_for).and_return(450.5412)
       @gateway.exchange_rate_adapters = [adapter]
       expect(@gateway.amount_from_exchange_rate(2252.706, currency: 'USD')).to eq(500000000)
     end
 
     it "tries various exchange adapters until one of them actually returns an exchange rate" do
-      adapter1 = Straight::ExchangeRate::BitpayAdapter.new
-      adapter2 = Straight::ExchangeRate::BitpayAdapter.new
+      adapter1 = Straight::ExchangeRate::BitpayAdapter.instance
+      adapter2 = Straight::ExchangeRate::BitpayAdapter.instance
       allow(adapter1).to receive(:rate_for).and_return( -> { raise "connection problem" })
       allow(adapter2).to receive(:rate_for).and_return(450.5412)
       @gateway.exchange_rate_adapters = [adapter1, adapter2]

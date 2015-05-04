@@ -3,6 +3,8 @@ module Straight
 
     class Adapter
 
+      include Singleton
+
       class FetchingFailed       < Exception; end
       class CurrencyNotSupported < Exception; end
 

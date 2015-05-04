@@ -166,17 +166,6 @@ module Straight
 
     include GatewayModule
 
-    # TODO: is Singleton instead
-    @@exchange_rate_adapters = {
-      'Bitpay'        => ExchangeRate::BitpayAdapter.new, 
-      'CoinBase'      => ExchangeRate::CoinbaseAdapter.new,
-      'Bitstamp'      => ExchangeRate::BitstampAdapter.new,
-      'Btce'          => ExchangeRate::BtceAdapter.new,
-      'Kraken'        => ExchangeRate::KrakenAdapter.new,
-      'Localbitcoins' => ExchangeRate::LocalbitcoinsAdapter.new,
-      'Okcoin'        => ExchangeRate::OkcoinAdapter.new
-    }
-
     def initialize
       @default_currency = 'BTC'
       @blockchain_adapters = [
@@ -184,13 +173,13 @@ module Straight
         Blockchain::MyceliumAdapter.mainnet_adapter
       ]
       @exchange_rate_adapters = [
-        @@exchange_rate_adapters['Bitpay'],
-        @@exchange_rate_adapters['CoinBase'],
-        @@exchange_rate_adapters['Bitstamp'],
-        @@exchange_rate_adapters['Btce'],
-        @@exchange_rate_adapters['Kraken'],
-        @@exchange_rate_adapters['Localbitcoins'],
-        @@exchange_rate_adapters['Okcoin']
+        ExchangeRate::BitpayAdapter.instance, 
+        ExchangeRate::CoinbaseAdapter.instance,
+        ExchangeRate::BitstampAdapter.instance,
+        ExchangeRate::BtceAdapter.instance,
+        ExchangeRate::KrakenAdapter.instance,
+        ExchangeRate::LocalbitcoinsAdapter.instance,
+        ExchangeRate::OkcoinAdapter.instance
       ]
       @status_check_schedule = DEFAULT_STATUS_CHECK_SCHEDULE
     end

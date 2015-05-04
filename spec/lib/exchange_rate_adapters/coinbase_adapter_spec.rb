@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe Straight::ExchangeRate::CoinbaseAdapter do
 
   before(:each) do
-    @exchange_adapter = Straight::ExchangeRate::CoinbaseAdapter.new
+    @exchange_adapter = Straight::ExchangeRate::CoinbaseAdapter.instance
   end
 
   it "finds the rate for currency code" do

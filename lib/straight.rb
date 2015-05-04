@@ -4,6 +4,7 @@ require 'json'
 require 'uri'
 require 'open-uri'
 require 'yaml'
+require 'singleton'
 require 'httparty'
 
 require_relative 'straight/blockchain_adapter'

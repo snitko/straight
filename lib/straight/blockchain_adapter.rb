@@ -5,7 +5,6 @@ module Straight
     # all blockchain adapters as well as supplying some useful methods.
     class Adapter
 
-      require 'singleton'
       include Singleton
 
       # Raised when blockchain data cannot be retrived for any reason.

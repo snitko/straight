@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe Straight::ExchangeRate::BitpayAdapter do
 
   before(:each) do
-    @exchange_adapter = Straight::ExchangeRate::BitpayAdapter.new
+    @exchange_adapter = Straight::ExchangeRate::BitpayAdapter.instance
   end
 
   it "finds the rate for currency code" do

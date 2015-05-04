@@ -35,9 +35,14 @@ RSpec.describe Straight::Blockchain::BiteasyAdapter do
     expect(adapter.fetch_transaction(tid)[:tid]).to eq(tid)
   end
 
-  it "raises an exception when something goes wrong with fetching datd" do
-    allow_any_instance_of(URI::HTTPS).to receive(:read).and_raise(OpenURI::HTTPError.new('https connection error', nil))
-    expect( -> { adapter.http_request("https://api.biteasy.com/a-timed-out-request") }).to raise_error(Straight::Blockchain::Adapter::RequestError)
+  it "raises an exception when something goes wrong with fetching data" do
+    expect( -> { adapter.send(:api_request, "/a-404-request") }).to raise_error(Straight::Blockchain::Adapter::RequestError)
+  end
+
+  it "uses the same Singleton instance" do
+    a = Straight::Blockchain::BiteasyAdapter.mainnet_adapter
+    b = Straight::Blockchain::BiteasyAdapter.mainnet_adapter
+    expect(a).to eq(b)
   end
 
 end

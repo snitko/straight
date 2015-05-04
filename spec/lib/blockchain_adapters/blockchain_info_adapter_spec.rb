@@ -31,7 +31,7 @@ RSpec.describe Straight::Blockchain::BlockchainInfoAdapter do
   end
 
   it "caches blockchain.info latestblock requests" do
-    expect(adapter).to receive(:http_request).once.and_return('{ "height": 1 }')
+    expect(adapter).to receive(:api_request).once.and_return('{ "height": 1 }')
     adapter.send(:calculate_confirmations, { "block_height" => 1 }, force_latest_block_reload: true)
     adapter.send(:calculate_confirmations, { "block_height" => 1 })
     adapter.send(:calculate_confirmations, { "block_height" => 1 })
@@ -40,12 +40,18 @@ RSpec.describe Straight::Blockchain::BlockchainInfoAdapter do
   end
   
   it "raises an exception when something goes wrong with fetching datd" do
-    expect( -> { adapter.send(:http_request, "https://blockchain.info/a-404-request") }).to raise_error(Straight::Blockchain::Adapter::RequestError)
+    expect( -> { adapter.send(:api_request, "https://blockchain.info/a-404-request") }).to raise_error(Straight::Blockchain::Adapter::RequestError)
   end
 
   it "calculates total_amount of a transaction for the given address only" do
     t = { 'out' => [{ 'value' => 1, 'addr' => 'address1'}, { 'value' => 1, 'addr' => 'address2'}] }
     expect(adapter.send(:straighten_transaction, t, address: 'address1')[:total_amount]).to eq(1)
+  end
+
+  it "uses the same Singleton instance" do
+    a = Straight::Blockchain::BlockchainInfoAdapter.mainnet_adapter
+    b = Straight::Blockchain::BlockchainInfoAdapter.mainnet_adapter
+    expect(a).to eq(b)
   end
 
 end

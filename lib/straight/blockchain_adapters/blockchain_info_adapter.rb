@@ -4,32 +4,34 @@ module Straight
     class BlockchainInfoAdapter < Adapter
 
       def self.mainnet_adapter
-        self.new("https://blockchain.info")
+        instance = self.instance
+        instance._initialize("https://blockchain.info")
+        instance
       end
       
       def self.testnet_adapter
         raise "Not Supported Yet"
       end
       
-      def initialize(base_url)
+      def _initialize(base_url)
         @latest_block = { cache_timestamp: nil, block: nil }
         @base_url = base_url
       end
 
       # Returns transaction info for the tid
       def fetch_transaction(tid, address: nil)
-        straighten_transaction JSON.parse(http_request("#{@base_url}/rawtx/#{tid}"), address: address)
+        straighten_transaction JSON.parse(api_request("/rawtx/#{tid}"), address: address)
       end
 
       # Returns all transactions for the address
       def fetch_transactions_for(address)
-        transactions = JSON.parse(http_request("#{@base_url}/rawaddr/#{address}"))['txs']
+        transactions = JSON.parse(api_request("/rawaddr/#{address}"))['txs']
         transactions.map { |t| straighten_transaction(t, address: address) }
       end
 
       # Returns the current balance of the address
       def fetch_balance_for(address)
-        JSON.parse(http_request("#{@base_url}/rawaddr/#{address}"))['final_balance']
+        JSON.parse(api_request("/rawaddr/#{address}"))['final_balance']
       end
 
       def latest_block(force_reload: false)
@@ -40,7 +42,7 @@ module Straight
            force_reload
           @latest_block = {
             cache_timestamp: Time.now,
-            block: JSON.parse(http_request("#{@base_url}/latestblock"))
+            block: JSON.parse(api_request("/latestblock"))
           }
         else
           @latest_block
@@ -49,9 +51,9 @@ module Straight
 
       private
 
-        def http_request(url)
+        def api_request(url)
           begin
-            response = HTTParty.get(url, timeout: 4, verify: false)
+            response = HTTParty.get("#{@base_url}/#{url}", timeout: 4, verify: false)
             unless response.code == 200
               raise RequestError, "Cannot access remote API, response code was #{response.code}"
             end

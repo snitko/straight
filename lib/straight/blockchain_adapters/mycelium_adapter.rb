@@ -51,8 +51,6 @@ module Straight
         unspent
       end
 
-      # Here we are using Blockchain.info API at this point because I'm not sure how
-      # to get latest block from Mycelium WAPI
       def latest_block(force_reload: false)
         # If we checked Blockchain.info latest block data
         # more than a minute ago, check again. Otherwise, use cached version.
@@ -61,7 +59,7 @@ module Straight
            force_reload
           @latest_block = {
             cache_timestamp: Time.now,
-            block: JSON.parse(HTTParty.get("https://blockchain.info/latestblock", timeout: 4, verify: false).body)
+            block: api_request('queryUnspentOutputs', { addresses: []} )
           }
         else
           @latest_block

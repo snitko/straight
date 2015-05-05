@@ -30,10 +30,14 @@ RSpec.describe Straight::Blockchain::MyceliumAdapter do
     expect(adapter.fetch_transaction(tid)[:tid]).to eq(tid)
   end
 
-  it "caches blockchain.info latestblock requests" do
+  it "gets the latest block number" do
+    expect(adapter.latest_block[:block]["height"]).to be_kind_of(Integer)
+  end
+
+  it "caches latestblock requests" do
     latest_block_response = double('Blockchain info latest block response')
-    expect(latest_block_response).to receive(:body).and_return('{ "height": 1 }') 
-    expect(HTTParty).to receive(:get).with("https://blockchain.info/latestblock", timeout: 4, verify: false).once.and_return(latest_block_response)
+    expect(latest_block_response).to receive(:body).and_return('{ "r": { "height": 1 }}') 
+    expect(HTTParty).to receive(:post).with("https://mws2.mycelium.com/wapi/wapi/queryUnspentOutputs", anything).once.and_return(latest_block_response)
     adapter.send(:calculate_confirmations, 1, force_latest_block_reload: true)
     adapter.send(:calculate_confirmations, 1)
     adapter.send(:calculate_confirmations, 1)

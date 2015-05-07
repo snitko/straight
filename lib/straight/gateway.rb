@@ -17,6 +17,9 @@ module Straight
   # Straight::GatewayModule::Prependable (most likely the former).
   module GatewayModule
 
+    # Raised when adapter's list (either Exchange or Blockchain adapters) is empty
+    class NoAdaptersAvailable < Exception;end
+
     # Only add getters and setters for those properties in the extended class
     # that don't already have them. This is very useful with ActiveRecord for example
     # where we don't want to override AR getters and setters that set attributes.
@@ -89,15 +92,15 @@ module Straight
       end
       
       def fetch_transaction(tid, address: nil)
-        try_adapters(@blockchain_adapters) { |b| b.fetch_transaction(tid, address: address) }
+        try_adapters(@blockchain_adapters, type: "blockchain") { |b| b.fetch_transaction(tid, address: address) }
       end
       
       def fetch_transactions_for(address)
-        try_adapters(@blockchain_adapters) { |b| b.fetch_transactions_for(address) }
+        try_adapters(@blockchain_adapters, type: "blockchain") { |b| b.fetch_transactions_for(address) }
       end
       
       def fetch_balance_for(address)
-        try_adapters(@blockchain_adapters) { |b| b.fetch_balance_for(address) }
+        try_adapters(@blockchain_adapters, type: "blockchain") { |b| b.fetch_balance_for(address) }
       end
 
       def keychain
@@ -125,14 +128,14 @@ module Straight
           return Satoshi.new(amount, from_unit: btc_denomination).to_i
         end
 
-        try_adapters(@exchange_rate_adapters) do |a|
+        try_adapters(@exchange_rate_adapters, type: "exchange rate") do |a|
           a.convert_from_currency(amount, currency: currency)
         end
       end
 
       def current_exchange_rate(currency=self.default_currency)
         currency = currency.to_s.upcase
-        try_adapters(@exchange_rate_adapters) do |a|
+        try_adapters(@exchange_rate_adapters, type: "exchange rate") do |a|
           a.rate_for(currency)
         end
       end
@@ -141,7 +144,11 @@ module Straight
         
         # Calls the block with each adapter until one of them does not fail.
         # Fails with the last exception.
-        def try_adapters(adapters, &block)
+        def try_adapters(adapters, type: nil, &block)
+
+          # TODO: specify which adapters are unavailable (blockchain or exchange rate)
+          raise NoAdaptersAvailable, "the list of #{type} adapters is empty or nil" if adapters.nil? || adapters.empty?
+
           last_exception = nil
           adapters.each do |adapter|
             begin

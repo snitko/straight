@@ -87,8 +87,13 @@ module Straight
       # the one a user of this class is going to properly increment) that is used to generate a
       # an BIP32 bitcoin address deterministically.
       def address_for_keychain_id(id)
-        # The 'm/0/n' notation is used by both Electrum and Mycelium
-        keychain.node_for_path("m/0/#{id.to_s}").to_address
+        # First check the depth. If the depth is 4 use '/i' notation (Mycelium iOS wallet)
+        # TODO deal with other depths later. Currently only supports 0 and 4
+        if keychain.depth > 0
+          keychain.node_for_path(id.to_s).to_address
+        else # Otherwise, use 'm/0/n' - both Electrum and Mycelium on Android
+          keychain.node_for_path("m/0/#{id.to_s}").to_address
+        end
       end
       
       def fetch_transaction(tid, address: nil)

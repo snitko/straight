@@ -46,6 +46,11 @@ RSpec.describe Straight::Gateway do
     expect(@gateway.order_for_keychain_id(amount: 1, keychain_id: 1).address).to eq(expected_address)
   end
 
+  it "checks the depth of the xpub key and uses derivation notation according to the depth" do
+    @gateway.pubkey = 'xpub6DkF8MtNnbJY6NBR5tBSZ2NYQL16sT4fiT1R8U4D24bfSNmzzbhzNdP25LLgmis6c7EsVdzdUqv1MZoU8TNHaNNRHfTE1hqXRNMfPyJ2fCw'
+    expect(@gateway.address_for_keychain_id(0)).to eq("1GS7KMkpz27xpFKddFPkjqCAAPPo9eyUev")
+  end
+
   it "calls all the order callbacks" do
     callback1                = double('callback1')
     callback2                = double('callback1')

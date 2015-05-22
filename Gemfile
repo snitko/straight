@@ -1,7 +1,7 @@
 source "http://rubygems.org"
 
 # Used to generate bip32 addresses
-gem 'money-tree'
+gem 'money-tree', "0.9.0"
 
 # Used in exchange rate adapters
 gem 'satoshi-unit'

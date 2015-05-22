@@ -54,7 +54,7 @@ RSpec.describe Straight::Gateway do
   it "calls all the order callbacks" do
     callback1                = double('callback1')
     callback2                = double('callback1')
-    @gateway.pubkey          = MoneyTree::Master.new.to_serialized_address
+    @gateway.pubkey          = MoneyTree::Master.new.to_bip32
     @gateway.order_callbacks = [callback1, callback2]
 
     order = @gateway.order_for_keychain_id(amount: 1, keychain_id: 1)

@@ -41,7 +41,8 @@ module Straight
       paid:         2, # transaction received with enough confirmations and the correct amount
       underpaid:    3, # amount that was received in a transaction was not enough
       overpaid:     4, # amount that was received in a transaction was too large
-      expired:      5  # too much time passed since creating an order
+      expired:      5, # too much time passed since creating an order
+      canceled:     6, # user decides to economize
     }
 
     attr_reader :old_status

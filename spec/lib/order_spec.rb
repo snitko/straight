@@ -55,8 +55,8 @@ RSpec.describe Straight::Order do
 
   it "returns amount in btc as a string" do
     @order.amount = 1
-    expect(@order.amount_in_btc).to eq(0.00000001) 
-    expect(@order.amount_in_btc(as: :string)).to eq('0.00000001') 
+    expect(@order.amount_in_btc).to eq(0.00000001)
+    expect(@order.amount_in_btc(as: :string)).to eq('0.00000001')
   end
 
   describe "assigning statuses" do
@@ -79,6 +79,7 @@ RSpec.describe Straight::Order do
     it "sets status to :new if no transaction issued" do
       expect(@order).to receive(:transaction).at_most(3).times.and_return(nil)
       expect(@order.status(reload: true)).to eq(0)
+      expect(@order.status(as_sym: true)).to eq :new
     end
 
     it "sets status to :unconfirmed if transaction doesn't have enough confirmations" do
@@ -91,6 +92,7 @@ RSpec.describe Straight::Order do
       transaction = { confirmations: 1, total_amount: @order.amount }
       expect(@order).to receive(:transaction).at_most(3).times.and_return(transaction)
       expect(@order.status(reload: true)).to eq(2)
+      expect(@order.status(as_sym: true)).to eq :paid
     end
 
     it "sets status to :underpaid if the total amount in a transaction is less than the amount of order" do

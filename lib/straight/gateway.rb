@@ -91,8 +91,8 @@ module Straight
         order             = Kernel.const_get(order_class).new
         order.amount      = amount
         order.gateway     = self
-        order.address     = self.address_provider.new_address(args, self)
         order.keychain_id = args[:keychain_id]
+        order.address     = self.address_provider.new_address(args, self)
         order
       end
 

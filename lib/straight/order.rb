@@ -66,7 +66,7 @@ module Straight
       def status(as_sym: false, reload: false)
 
         if defined?(super)
-          begin 
+          begin
             @status = super
           # if no method with arguments found in the class
           # we're prepending to, then let's use a standard getter
@@ -81,7 +81,9 @@ module Straight
         # the blockchain needlessly. The actual safety switch is in the setter.
         # Therefore, even if you remove the following line, status won't actually
         # be allowed to change.
-        return @status if @status && @status > 1 
+        if @status && @status > 1
+          return as_sym ? STATUSES.invert[@status] : @status
+        end
 
         if reload || !@status
           t = transaction(reload: reload)
@@ -101,7 +103,7 @@ module Straight
             end
           end
         end
-        as_sym ? STATUSES.invert[@status] : @status 
+        as_sym ? STATUSES.invert[@status] : @status
       end
 
       def status=(new_status)
@@ -110,12 +112,12 @@ module Straight
         return false if @status && @status > 1
 
         self.tid = transaction[:tid] if transaction
-        
+
         # Pay special attention to the order of these statements. If you place
         # the assignment @status = new_status below the callback call,
         # you may get a "Stack level too deep" error if the callback checks
         # for the status and it's nil (therefore, force reload and the cycle continues).
-        # 
+        #
         # The order in which these statements currently are prevents that error, because
         # by the time a callback checks the status it's already set.
         @status_changed = (@status != new_status)
@@ -171,7 +173,7 @@ module Straight
       def start_periodic_status_check(duration: 600)
         check_status_on_schedule(duration: duration)
       end
-      
+
       # Recursion here! Keeps calling itself according to the schedule until
       # either the status changes or the schedule tells it to stop.
       def check_status_on_schedule(period: 10, iteration_index: 0, duration: 600, time_passed: 0)

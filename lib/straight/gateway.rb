@@ -75,7 +75,7 @@ module Straight
         # is because we don't know in advance which arguments are required for a particular
         # AddressAdapter. So we accpet all, check manually for required ones like :amount,
         # set default values where needed and then hand them all to address_adapter.
-        if args[:amount].nil? || !args[:amount].kind_of?(Integer) || args[:amount] <= 0
+        if args[:amount].nil? || !args[:amount].kind_of?(Numeric) || args[:amount] <= 0
           raise ArgumentError, message: "amount cannot be nil and should be more than 0" 
         end
         # Setting fefault values, only one so far

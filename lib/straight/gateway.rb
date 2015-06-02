@@ -36,7 +36,8 @@ module Straight
           :order_class,
           :default_currency,
           :name,
-          :address_provider
+          :address_provider,
+          :address_derivation_scheme,
         ].each do |field|
           attr_reader field unless base.method_defined?(field)
           attr_writer field unless base.method_defined?("#{field}=")

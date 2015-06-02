@@ -19,6 +19,7 @@ module Straight
 
     # Raised when adapter's list (either Exchange or Blockchain adapters) is empty
     class NoAdaptersAvailable < Exception;end
+    class OrderAmountInvalid  < ArgumentError;end
 
     # Only add getters and setters for those properties in the extended class
     # that don't already have them. This is very useful with ActiveRecord for example
@@ -76,7 +77,7 @@ module Straight
         # AddressAdapter. So we accpet all, check manually for required ones like :amount,
         # set default values where needed and then hand them all to address_adapter.
         if args[:amount].nil? || !args[:amount].kind_of?(Numeric) || args[:amount] <= 0
-          raise ArgumentError, message: "amount cannot be nil and should be more than 0" 
+          raise OrderAmountInvalid, "amount cannot be nil and should be more than 0" 
         end
         # Setting fefault values, only one so far
         args[:btc_denomination] = :satoshi unless args[:btc_denomination]

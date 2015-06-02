@@ -43,12 +43,7 @@ RSpec.describe Straight::Gateway do
   it "creates new orders and addresses for them" do
     @gateway.pubkey   = 'xpub661MyMwAqRbcFhUeRviyfia1NdfX4BAv5zCsZ6HqsprRjdBDK8vwh3kfcnTvqNbmi5S1yZ5qL9ugZTyVqtyTZxccKZzMVMCQMhARycvBZvx' 
     expected_address  = '1NEvrcxS3REbJgup8rMA4QvMFFSdWTLvM'
-    expect(@gateway.order_for_keychain_id(amount: 1, keychain_id: 1).address).to eq(expected_address)
-  end
-
-  it "checks the depth of the xpub key and uses derivation notation according to the depth" do
-    @gateway.pubkey = 'xpub6DkF8MtNnbJY6NBR5tBSZ2NYQL16sT4fiT1R8U4D24bfSNmzzbhzNdP25LLgmis6c7EsVdzdUqv1MZoU8TNHaNNRHfTE1hqXRNMfPyJ2fCw'
-    expect(@gateway.address_for_keychain_id(0)).to eq("1GS7KMkpz27xpFKddFPkjqCAAPPo9eyUev")
+    expect(@gateway.new_order(amount: 1, keychain_id: 1).address).to eq(expected_address)
   end
 
   it "calls all the order callbacks" do
@@ -57,7 +52,7 @@ RSpec.describe Straight::Gateway do
     @gateway.pubkey          = MoneyTree::Master.new.to_bip32
     @gateway.order_callbacks = [callback1, callback2]
 
-    order = @gateway.order_for_keychain_id(amount: 1, keychain_id: 1)
+    order = @gateway.new_order(amount: 1, keychain_id: 1)
     expect(callback1).to receive(:call).with(order)
     expect(callback2).to receive(:call).with(order)
     @gateway.order_status_changed(order)

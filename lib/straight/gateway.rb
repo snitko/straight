@@ -34,7 +34,8 @@ module Straight
           :order_callbacks,
           :order_class,
           :default_currency,
-          :name
+          :name,
+          :address_provider
         ].each do |field|
           attr_reader field unless base.method_defined?(field)
           attr_writer field unless base.method_defined?("#{field}=")
@@ -66,19 +67,31 @@ module Straight
 
       # Creates a new order for the address derived from the pubkey and the keychain_id argument provided.
       # See explanation of this keychain_id argument is in the description for the #address_for_keychain_id method.
-      def order_for_keychain_id(amount:, keychain_id:, currency: nil, btc_denomination: :satoshi)
+      def new_order(args)
+
+        # Args: amount:, keychain_id: nil, currency: nil, btc_denomination: :satoshi
+        # 
+        # The reason these arguments are supplied as a hash and not as named arguments
+        # is because we don't know in advance which arguments are required for a particular
+        # AddressAdapter. So we accpet all, check manually for required ones like :amount,
+        # set default values where needed and then hand them all to address_adapter.
+        if args[:amount].nil? || !args[:amount].kind_of?(Integer) || args[:amount] <= 0
+          raise ArgumentError, message: "amount cannot be nil and should be more than 0" 
+        end
+        # Setting fefault values, only one so far
+        args[:btc_denomination] = :satoshi unless args[:btc_denomination]
 
         amount = amount_from_exchange_rate(
-          amount,
-          currency:         currency,
-          btc_denomination: btc_denomination
+          args[:amount],
+          currency:         args[:currency],
+          btc_denomination: args[:btc_denomination]
         )
 
         order             = Kernel.const_get(order_class).new
         order.amount      = amount
         order.gateway     = self
-        order.address     = address_for_keychain_id(keychain_id)
-        order.keychain_id = keychain_id
+        order.address     = self.address_provider.new_address(args, self)
+        order.keychain_id = args[:keychain_id]
         order
       end
 
@@ -87,13 +100,7 @@ module Straight
       # the one a user of this class is going to properly increment) that is used to generate a
       # an BIP32 bitcoin address deterministically.
       def address_for_keychain_id(id)
-        # First check the depth. If the depth is 4 use '/i' notation (Mycelium iOS wallet)
-        # TODO deal with other depths later. Currently only supports 0 and 4
-        if keychain.depth > 0
-          keychain.node_for_path(id.to_s).to_address
-        else # Otherwise, use 'm/0/n' - both Electrum and Mycelium on Android
-          keychain.node_for_path("m/0/#{id.to_s}").to_address
-        end
+
       end
       
       def fetch_transaction(tid, address: nil)
@@ -194,6 +201,7 @@ module Straight
         ExchangeRate::OkcoinAdapter.instance
       ]
       @status_check_schedule = DEFAULT_STATUS_CHECK_SCHEDULE
+      @address_provider ||= AddressProvider::Bip32
     end
 
     def order_class

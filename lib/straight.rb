@@ -22,6 +22,7 @@ require_relative 'straight/exchange_rate_adapters/btce_adapter'
 require_relative 'straight/exchange_rate_adapters/kraken_adapter'
 require_relative 'straight/exchange_rate_adapters/average_rate_adapter'
 
+require_relative 'straight/address_providers/bip32'
 
 require_relative 'straight/order'
 require_relative 'straight/gateway'

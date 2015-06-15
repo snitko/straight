@@ -68,7 +68,7 @@ module Straight
     module Includable
 
       # Creates a new order for the address derived from the pubkey and the keychain_id argument provided.
-      # See explanation of this keychain_id argument is in the description for the #address_for_keychain_id method.
+      # See explanation of this keychain_id argument is in the description for the AddressProvider::Base#new_address method.
       def new_order(args)
 
         # Args: amount:, keychain_id: nil, currency: nil, btc_denomination: :satoshi
@@ -80,7 +80,7 @@ module Straight
         if args[:amount].nil? || !args[:amount].kind_of?(Numeric) || args[:amount] <= 0
           raise OrderAmountInvalid, "amount cannot be nil and should be more than 0" 
         end
-        # Setting fefault values, only one so far
+        # Setting default values, only one so far
         args[:btc_denomination] = :satoshi unless args[:btc_denomination]
 
         amount = amount_from_exchange_rate(
@@ -93,18 +93,10 @@ module Straight
         order.amount      = amount
         order.gateway     = self
         order.keychain_id = args[:keychain_id]
-        order.address     = self.address_provider.new_address(args, self)
+        order.address     = address_provider.new_address(**args)
         order
       end
 
-      # Returns a Base58-encoded Bitcoin address to which the payment transaction
-      # is expected to arrive. id is an an integer > 0 (hopefully not too large and hopefully
-      # the one a user of this class is going to properly increment) that is used to generate a
-      # an BIP32 bitcoin address deterministically.
-      def address_for_keychain_id(id)
-
-      end
-      
       def fetch_transaction(tid, address: nil)
         try_adapters(@blockchain_adapters, type: "blockchain") { |b| b.fetch_transaction(tid, address: address) }
       end
@@ -203,7 +195,7 @@ module Straight
         ExchangeRate::OkcoinAdapter.instance
       ]
       @status_check_schedule = DEFAULT_STATUS_CHECK_SCHEDULE
-      @address_provider ||= AddressProvider::Bip32
+      @address_provider ||= AddressProvider::Bip32.new(self)
     end
 
     def order_class

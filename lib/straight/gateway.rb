@@ -80,20 +80,27 @@ module Straight
         if args[:amount].nil? || !args[:amount].kind_of?(Numeric) || args[:amount] <= 0
           raise OrderAmountInvalid, "amount cannot be nil and should be more than 0" 
         end
-        # Setting default values, only one so far
-        args[:btc_denomination] = :satoshi unless args[:btc_denomination]
+        # Setting default values
+        args[:currency]         ||= default_currency
+        args[:btc_denomination] ||= :satoshi
 
-        amount = amount_from_exchange_rate(
+        amount = args[:amount_from_exchange_rate] = amount_from_exchange_rate(
           args[:amount],
           currency:         args[:currency],
           btc_denomination: args[:btc_denomination]
         )
 
+        if address_provider.takes_fees?
+          address, amount = address_provider.new_address_and_amount(**args)
+        else
+          address = address_provider.new_address(**args)
+        end
+
         order             = Kernel.const_get(order_class).new
-        order.amount      = amount
         order.gateway     = self
         order.keychain_id = args[:keychain_id]
-        order.address     = address_provider.new_address(**args)
+        order.address     = address
+        order.amount      = amount
         order
       end
 

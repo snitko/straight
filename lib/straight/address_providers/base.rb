@@ -17,7 +17,12 @@ module Straight
       def new_address(keychain_id:, **args)
         raise NotImplementedError
       end
+
+      # If this method returns true, then address provider is expected to define
+      # #new_address_and_amount which returns ['address', Integer(amount in satoshi)]
+      def takes_fees?
+        false
+      end
     end
   end
 end
-

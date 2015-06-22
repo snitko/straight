@@ -110,16 +110,17 @@ module Straight
           total_amount = 0
           transaction['vout'].each do |out|
             out['value'] = out['value']*10**8
-            total_amount += out['value'] if address.nil? || address == out['address']
-            outs << { amount: out['value'], receiving_address: out['address'] }
+            total_amount += out['value'] if address.nil? || out['scriptPubKey']['addresses'].include?(address)
+            outs << { amount: out['value'], receiving_address: out['scriptPubKey']['addresses'].first }
           end
 
-          {
+          result = {
             tid:           tid,
             total_amount:  total_amount,
             confirmations: calculate_confirmations(block_height),
             outs:          outs
           }
+          result
         end
 
         # When we call #calculate_confirmations, it doesn't always make a new

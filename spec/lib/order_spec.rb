@@ -59,6 +59,12 @@ RSpec.describe Straight::Order do
     expect(@order.amount_in_btc(as: :string)).to eq('0.00000001')
   end
 
+  it "returns amount_paid in btc as a string" do
+    @order.amount_paid = 1
+    expect(@order.amount_in_btc(field: @order.amount_paid)).to eq(0.00000001)
+    expect(@order.amount_in_btc(field: @order.amount_paid, as: :string)).to eq("0.00000001")
+  end
+
   describe "assigning statuses" do
 
     before(:each) do
@@ -125,6 +131,13 @@ RSpec.describe Straight::Order do
       expect(@order.old_status).to eq(0)
     end
 
+    it "check that order have paid status" do
+      @order.status = 0
+      expect(@order.paid_order?).to be_falsy
+      @order.status = 3
+      expect(@order.paid_order?).to be_truthy
+    end
+    
   end
 
 end

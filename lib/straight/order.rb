@@ -22,7 +22,7 @@ module Straight
     # where we don't want to override AR getters and setters that set attribtues.
     def self.included(base)
       base.class_eval do
-        [:amount, :address, :gateway, :keychain_id, :status, :tid].each do |field|
+        [:amount, :address, :gateway, :keychain_id, :status, :tid, :title, :callback_url].each do |field|
           attr_reader field unless base.method_defined?(field)
           attr_writer field unless base.method_defined?("#{field}=")
         end
@@ -135,6 +135,10 @@ module Straight
         @status_changed
       end
 
+      def paid_order?
+        %i(paid overpaid underpaid).include? STATUSES.key(@status)
+      end
+
     end
 
     module Includable
@@ -207,8 +211,8 @@ module Straight
         { status: status, amount: amount, address: address, tid: tid }
       end
 
-      def amount_in_btc(as: :number)
-        a = Satoshi.new(amount, from_unit: :satoshi, to_unit: :btc)
+      def amount_in_btc(field: amount, as: :number)
+        a = Satoshi.new(field, from_unit: :satoshi, to_unit: :btc)
         as == :string ? a.to_unit(as: :string) : a.to_unit
       end
 

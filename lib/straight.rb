@@ -6,6 +6,7 @@ require 'open-uri'
 require 'yaml'
 require 'singleton'
 require 'httparty'
+require 'btcruby'
 
 require_relative 'straight/blockchain_adapter'
 require_relative 'straight/blockchain_adapters/blockchain_info_adapter'

@@ -1,4 +1,7 @@
-source "http://rubygems.org"
+source "https://rubygems.org"
+
+# used by Blockchain::MyceliumAdapter
+gem 'btcruby'
 
 # Used to generate bip32 addresses
 gem 'money-tree', "0.9.0"

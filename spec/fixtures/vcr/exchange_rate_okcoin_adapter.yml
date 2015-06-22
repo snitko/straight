@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://www.okcoin.com/api/ticker.do?ok=1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Mon, 22 Jun 2015 14:22:53 GMT
+      Content-Type:
+      - text/html;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=defec7de9bd99274685a88ba518fe2c3b1434982972; expires=Tue, 21-Jun-16
+        14:22:52 GMT; path=/; domain=.okcoin.com; HttpOnly
+      - coin_session_id_o=166d1d53-8519-4816-94bb-491db382e0f9IDnr; Domain=okcoin.com;
+        Path=/; Secure; HttpOnly
+      - language=1; Expires=Mon, 29-Jun-2015 14:22:53 GMT; Path=/
+      Cache-Control:
+      - no-store
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Pragma:
+      - no-cache
+      X-Frame-Options:
+      - SAMEORIGIN
+      Cf-Ray:
+      - 1fa89b9c2ced16ac-ARN
+    body:
+      encoding: ASCII-8BIT
+      string: '{"date":"1434982973","ticker":{"buy":"245.7","high":"247.0","last":"245.72","low":"240.24","sell":"245.72","vol":"9381.637"}}'
+    http_version: 
+  recorded_at: Mon, 22 Jun 2015 14:22:53 GMT
+recorded_with: VCR 2.9.3

@@ -1,0 +1,110 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://localbitcoins.com/bitcoinaverage/ticker-all-currencies/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Mon, 22 Jun 2015 14:10:32 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d3dbc0404e4d267b836e4997004926bf71434982232; expires=Tue, 21-Jun-16
+        14:10:32 GMT; path=/; domain=.localbitcoins.com; HttpOnly
+      - django_language=en
+      - localbitcoinssession=None; Domain=localbitcoins.com; expires=Mon, 22-Jun-2015
+        20:10:32 GMT; httponly; Max-Age=21600; Path=/; secure
+      X-Content-Type-Options:
+      - nosniff
+      Content-Language:
+      - en
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Language,Cookie
+      X-Frame-Options:
+      - DENY
+      Cf-Ray:
+      - 1fa88986a2770a5a-ARN
+    body:
+      encoding: ASCII-8BIT
+      string: '{"ZAR": {"volume_btc": "88.58", "rates": {"last": "3739.61"}, "avg_1h":
+        3885.3916333565144, "avg_24h": 3779.2450448063473, "avg_12h": 3795.3951086149787},
+        "GBP": {"volume_btc": "673.63", "rates": {"last": "165.20"}, "avg_1h": 165.22515540287347,
+        "avg_24h": 160.919271063879, "avg_12h": 162.71870120643266}, "USD": {"volume_btc":
+        "820.60", "rates": {"last": "253.50"}, "avg_1h": 276.2394528995401, "avg_24h":
+        295.2421813585169, "avg_12h": 285.7764867342024}, "EUR": {"volume_btc": "554.07",
+        "rates": {"last": "216.67"}, "avg_1h": 227.55145712690702, "avg_24h": 209.7161676625416,
+        "avg_12h": 207.75169549642152}, "RUB": {"volume_btc": "226.75", "rates": {"last":
+        "14107.03"}, "avg_1h": 14041.683916726943, "avg_24h": 13825.710205304587,
+        "avg_12h": 13860.924280212983}, "CZK": {"volume_btc": "2.11", "rates": {"last":
+        "6086.43"}, "avg_1h": 6086.43, "avg_24h": 5971.985245125876, "avg_12h": 5936.248157091048},
+        "MYR": {"volume_btc": "17.14", "rates": {"last": "2200.22"}, "avg_1h": 1349.5260627530365,
+        "avg_24h": 964.9735515370705, "avg_12h": 963.8449197162815}, "VEF": {"volume_btc":
+        "4.68", "rates": {"last": "116279.07"}, "avg_1h": 0, "avg_24h": 116375.28697868338,
+        "avg_12h": 116279.07}, "AUD": {"volume_btc": "346.83", "rates": {"last": "390.00"},
+        "avg_1h": 349.6846390192452, "avg_24h": 332.2108522505623, "avg_12h": 331.9539576973287},
+        "RON": {"volume_btc": "7.26", "rates": {"last": "922.39"}, "avg_1h": 935.580697384807,
+        "avg_24h": 925.326271702585, "avg_12h": 930.23755968004}, "SEK": {"volume_btc":
+        "85.05", "rates": {"last": "1926.18"}, "avg_1h": 0, "avg_24h": 2070.678314310035,
+        "avg_12h": 2084.101771119344}, "HRK": {"volume_btc": "0.28", "rates": {"last":
+        "1733.95"}, "avg_1h": 0, "avg_24h": 1735.011853832442, "avg_12h": 1733.95},
+        "THB": {"volume_btc": "68.38", "rates": {"last": "8846.58"}, "avg_1h": 8826.159936511553,
+        "avg_24h": 8596.323150042701, "avg_12h": 8847.262272389526}, "CNY": {"volume_btc":
+        "2.40", "rates": {"last": "1469.78"}, "avg_1h": 0, "avg_24h": 1543.540706994959,
+        "avg_12h": 1536.0356773548526}, "INR": {"volume_btc": "33.02", "rates": {"last":
+        "15657.89"}, "avg_1h": 15552.123731338002, "avg_24h": 15613.72395310243, "avg_12h":
+        15673.440392111386}, "CAD": {"volume_btc": "41.52", "rates": {"last": "330.36"},
+        "avg_1h": 330.36, "avg_24h": 296.3621451815311, "avg_12h": 304.2733766198631},
+        "PLN": {"volume_btc": "1.36", "rates": {"last": "929.02"}, "avg_1h": 0, "avg_24h":
+        935.8568377641947, "avg_12h": 929.02}, "MXN": {"volume_btc": "2.08", "rates":
+        {"last": "4184.10"}, "avg_1h": 4184.1, "avg_24h": 3881.690549798503, "avg_12h":
+        4184.1}, "NOK": {"volume_btc": "8.13", "rates": {"last": "2032.33"}, "avg_1h":
+        0, "avg_24h": 2036.5666374010132, "avg_12h": 2026.8080469053687}, "PKR": {"volume_btc":
+        "0.22", "rates": {"last": "22244.89"}, "avg_1h": 0, "avg_24h": 22244.89, "avg_12h":
+        0}, "BRL": {"volume_btc": "0.06", "rates": {"last": "793.65"}, "avg_1h": 0,
+        "avg_24h": 793.65, "avg_12h": 0}, "NZD": {"volume_btc": "19.66", "rates":
+        {"last": "379.12"}, "avg_1h": 0, "avg_24h": 374.51214368187345, "avg_12h":
+        376.03122979984664}, "ARS": {"volume_btc": "2.74", "rates": {"last": "2901.25"},
+        "avg_1h": 2901.25, "avg_24h": 3060.145169417263, "avg_12h": 3097.594482905528},
+        "COP": {"volume_btc": "0.46", "rates": {"last": "635129.22"}, "avg_1h": 0,
+        "avg_24h": 635129.22, "avg_12h": 0}, "HKD": {"volume_btc": "9.60", "rates":
+        {"last": "1974.77"}, "avg_1h": 0, "avg_24h": 1937.0098630907141, "avg_12h":
+        1937.0098630907141}, "PHP": {"volume_btc": "33.08", "rates": {"last": "10752.08"},
+        "avg_1h": 0, "avg_24h": 11020.184466302666, "avg_12h": 11020.184466302666},
+        "JPY": {"volume_btc": "0.11", "rates": {"last": "45045.05"}, "avg_1h": 0,
+        "avg_24h": 45085.66357078449, "avg_12h": 45085.66357078449}, "CHF": {"volume_btc":
+        "28.25", "rates": {"last": "273.00"}, "avg_1h": 0, "avg_24h": 234.06784167466165,
+        "avg_12h": 234.06784167466165}, "SGD": {"volume_btc": "6.12", "rates": {"last":
+        "303.95"}, "avg_1h": 303.95, "avg_24h": 329.64863681657056, "avg_12h": 329.64863681657056},
+        "KES": {"volume_btc": "0.30", "rates": {"last": "26281.21"}, "avg_1h": 0,
+        "avg_24h": 26281.21, "avg_12h": 26281.21}, "HUF": {"volume_btc": "4.04", "rates":
+        {"last": "72115.38"}, "avg_1h": 0, "avg_24h": 76576.12958886796, "avg_12h":
+        76576.12958886796}, "TZS": {"volume_btc": "0.39", "rates": {"last": "636942.68"},
+        "avg_1h": 0, "avg_24h": 636942.68, "avg_12h": 636942.68}, "UAH": {"volume_btc":
+        "0.81", "rates": {"last": "6410.26"}, "avg_1h": 0, "avg_24h": 5173.366497973222,
+        "avg_12h": 5173.366497973222}, "DKK": {"volume_btc": "0.35", "rates": {"last":
+        "1988.07"}, "avg_1h": 0, "avg_24h": 1988.07, "avg_12h": 1988.07}}'
+    http_version: 
+  recorded_at: Mon, 22 Jun 2015 14:10:32 GMT
+recorded_with: VCR 2.9.3

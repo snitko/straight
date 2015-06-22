@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
   s.authors = ["Roman Snitko"]
-  s.date = "2015-05-30"
+  s.date = "2015-06-22"
   s.description = "An engine for the Straight payment gateway software. Requires no state to be saved (that is, no storage or DB). Its responsibilities only include processing data coming from an actual gateway."
   s.email = "roman.snitko@gmail.com"
   s.extra_rdoc_files = [
@@ -28,6 +28,8 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "lib/straight.rb",
+    "lib/straight/address_providers/base.rb",
+    "lib/straight/address_providers/bip32.rb",
     "lib/straight/blockchain_adapter.rb",
     "lib/straight/blockchain_adapters/biteasy_adapter.rb",
     "lib/straight/blockchain_adapters/blockchain_info_adapter.rb",
@@ -43,21 +45,6 @@ Gem::Specification.new do |s|
     "lib/straight/exchange_rate_adapters/okcoin_adapter.rb",
     "lib/straight/gateway.rb",
     "lib/straight/order.rb",
-    "spec/lib/blockchain_adapters/biteasy_adapter_spec.rb",
-    "spec/lib/blockchain_adapters/blockchain_info_adapter_spec.rb",
-    "spec/lib/blockchain_adapters/mycelium_adapter_spec.rb",
-    "spec/lib/exchange_rate_adapter_spec.rb",
-    "spec/lib/exchange_rate_adapters/average_rate_adapter_spec.rb",
-    "spec/lib/exchange_rate_adapters/bitpay_adapter_spec.rb",
-    "spec/lib/exchange_rate_adapters/bitstamp_adapter_spec.rb",
-    "spec/lib/exchange_rate_adapters/btce_adapter_spec.rb",
-    "spec/lib/exchange_rate_adapters/coinbase_adapter_spec.rb",
-    "spec/lib/exchange_rate_adapters/kraken_adapter_spec.rb",
-    "spec/lib/exchange_rate_adapters/localbitcoins_adapter_spec.rb",
-    "spec/lib/exchange_rate_adapters/okcoin_adapter_spec.rb",
-    "spec/lib/gateway_spec.rb",
-    "spec/lib/order_spec.rb",
-    "spec/spec_helper.rb",
     "straight.gemspec"
   ]
   s.homepage = "http://github.com/snitko/straight"
@@ -69,6 +56,7 @@ Gem::Specification.new do |s|
     s.specification_version = 4
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<btcruby>, [">= 0"])
       s.add_runtime_dependency(%q<money-tree>, ["= 0.9.0"])
       s.add_runtime_dependency(%q<satoshi-unit>, [">= 0"])
       s.add_runtime_dependency(%q<httparty>, [">= 0"])
@@ -76,6 +64,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<jeweler>, ["~> 2.0.1"])
       s.add_development_dependency(%q<github_api>, ["= 0.11.3"])
     else
+      s.add_dependency(%q<btcruby>, [">= 0"])
       s.add_dependency(%q<money-tree>, ["= 0.9.0"])
       s.add_dependency(%q<satoshi-unit>, [">= 0"])
       s.add_dependency(%q<httparty>, [">= 0"])
@@ -84,6 +73,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<github_api>, ["= 0.11.3"])
     end
   else
+    s.add_dependency(%q<btcruby>, [">= 0"])
     s.add_dependency(%q<money-tree>, ["= 0.9.0"])
     s.add_dependency(%q<satoshi-unit>, [">= 0"])
     s.add_dependency(%q<httparty>, [">= 0"])

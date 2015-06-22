@@ -2,6 +2,14 @@ require 'spec_helper'
 
 RSpec.describe Straight::ExchangeRate::BitstampAdapter do
 
+  before :all do
+    VCR.insert_cassette 'exchange_rate_bitstamp_adapter'
+  end
+
+  after :all do
+    VCR.eject_cassette
+  end
+
   before(:each) do
     @exchange_adapter = Straight::ExchangeRate::BitstampAdapter.instance
   end

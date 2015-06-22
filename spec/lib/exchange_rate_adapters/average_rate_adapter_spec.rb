@@ -2,6 +2,14 @@ require 'spec_helper'
 
 RSpec.describe Straight::ExchangeRate::AverageRateAdapter do
 
+  before :all do
+    VCR.insert_cassette 'exchange_rate_average_rate_adapter'
+  end
+
+  after :all do
+    VCR.eject_cassette
+  end
+
   before(:each) do
     @average_rates_adapter = Straight::ExchangeRate::AverageRateAdapter.instance(
       Straight::ExchangeRate::BitstampAdapter, 

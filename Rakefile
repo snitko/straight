@@ -21,5 +21,6 @@ Jeweler::Tasks.new do |gem|
   gem.description = %Q{An engine for the Straight payment gateway software. Requires no state to be saved (that is, no storage or DB). Its responsibilities only include processing data coming from an actual gateway.}
   gem.email = "roman.snitko@gmail.com"
   gem.authors = ["Roman Snitko"]
+  gem.files.exclude 'spec/**/*'
 end
 Jeweler::RubygemsDotOrgTasks.new

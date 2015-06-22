@@ -90,6 +90,10 @@ module Straight
           self.status = if t.nil?
             STATUSES[:new]
           else
+            puts "********************"
+            p t[:total_amount]
+            p amount
+            puts "********************"
             if t[:confirmations] >= gateway.confirmations_required
               if t[:total_amount] == amount
                 STATUSES[:paid]

@@ -19,7 +19,7 @@ RSpec.describe Straight::Order do
     @order.address     = 'address'
     @order.keychain_id = 1
     allow(@gateway).to receive(:order_status_changed).with(@order)
-    allow(@gateway).to receive(:fetch_transactions_for).with(@order.address).and_return([{ tid: 'xxx'}])
+    allow(@gateway).to receive(:fetch_transactions_for).with(@order.address).and_return([{ tid: 'xxx', total_amount: 10}])
   end
 
   it "follows status check schedule" do
@@ -131,13 +131,19 @@ RSpec.describe Straight::Order do
       expect(@order.old_status).to eq(0)
     end
 
-    it "check that order have paid status" do
-      @order.status = 0
-      expect(@order.paid_order?).to be_falsy
-      @order.status = 3
-      expect(@order.paid_order?).to be_truthy
+    it 'is have be nil in amount_paid if order not paid' do
+      @order.status
+      expect(@order.amount_paid).to eq(nil)
     end
-    
+
+    it 'is have amount_paid set to total_amount if order paid' do
+      transaction = { confirmations: 100, total_amount: 10 }
+      allow(@order).to receive(:transaction).and_return(transaction)
+
+      @order.status(reload: true)
+      expect(@order.amount_paid).to eq(10)
+    end
+ 
   end
 
 end

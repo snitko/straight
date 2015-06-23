@@ -22,7 +22,7 @@ module Straight
     # where we don't want to override AR getters and setters that set attribtues.
     def self.included(base)
       base.class_eval do
-        [:amount, :address, :gateway, :keychain_id, :status, :tid, :title, :callback_url].each do |field|
+        [:amount, :amount_paid, :address, :gateway, :keychain_id, :status, :tid, :title, :callback_url].each do |field|
           attr_reader field unless base.method_defined?(field)
           attr_writer field unless base.method_defined?("#{field}=")
         end
@@ -79,41 +79,17 @@ module Straight
         # Prohibit status update if the order was paid in some way.
         # This is just a caching workaround so we don't query
         # the blockchain needlessly. The actual safety switch is in the setter.
-        # Therefore, even if you remove the following line, status won't actually
-        # be allowed to change.
-        if @status && @status > 1
-          return as_sym ? STATUSES.invert[@status] : @status
+        if (reload || @status.nil?) && !status_locked?
+          self.status = get_transaction_status(reload: reload)
         end
 
-        if reload || !@status
-          t = transaction(reload: reload)
-          self.status = if t.nil?
-            STATUSES[:new]
-          else
-            puts "********************"
-            p t[:total_amount]
-            p amount
-            puts "********************"
-            if t[:confirmations] >= gateway.confirmations_required
-              if t[:total_amount] == amount
-                STATUSES[:paid]
-              elsif t[:total_amount] < amount
-                STATUSES[:underpaid]
-              else
-                STATUSES[:overpaid]
-              end
-            else
-              STATUSES[:unconfirmed]
-            end
-          end
-        end
         as_sym ? STATUSES.invert[@status] : @status
       end
 
       def status=(new_status)
         # Prohibit status update if the order was paid in some way,
         # so statuses above 1 are in fact immutable.
-        return false if @status && @status > 1
+        return false if status_locked?
 
         self.tid = transaction[:tid] if transaction
 
@@ -131,12 +107,36 @@ module Straight
         super if defined?(super)
       end
 
-      def status_changed?
-        @status_changed
+      def set_amount_paid(transaction)
+        self.amount_paid = transaction[:total_amount]
       end
 
-      def paid_order?
-        %i(paid overpaid underpaid).include? STATUSES.key(@status)
+      def get_transaction_status(reload: false)
+        t = transaction(reload: reload)
+        
+        return STATUSES[:new] if t.nil?
+        return STATUSES[:unconfirmed] if status_unconfirmed?(t[:confirmations])
+
+        set_amount_paid(t)
+        if t[:total_amount] == amount
+          STATUSES[:paid]
+        elsif t[:total_amount] < amount
+          STATUSES[:underpaid]
+        else
+          STATUSES[:overpaid]
+        end
+      end
+
+      def status_unconfirmed?(confirmations)
+        confirmations < gateway.confirmations_required
+      end
+
+      def status_locked?
+        @status && @status > 1
+      end
+
+      def status_changed?
+        @status_changed
       end
 
     end

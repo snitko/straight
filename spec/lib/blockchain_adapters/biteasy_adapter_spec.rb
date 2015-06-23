@@ -4,6 +4,14 @@ RSpec.describe Straight::Blockchain::BiteasyAdapter do
 
   subject(:adapter) { Straight::Blockchain::BiteasyAdapter.mainnet_adapter }
 
+  before :all do
+    VCR.insert_cassette 'blockchain_biteasy_adapter'
+  end
+
+  after :all do
+    VCR.eject_cassette
+  end
+
   it "fetches the balance for a given address" do
     address = "3B1QZ8FpAaHBgkSB5gFt76ag5AW9VeP8xp"
     expect(adapter.fetch_balance_for(address)).to be_kind_of(Integer)

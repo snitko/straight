@@ -4,6 +4,14 @@ RSpec.describe Straight::Blockchain::MyceliumAdapter do
 
   subject(:adapter) { Straight::Blockchain::MyceliumAdapter.mainnet_adapter }
 
+  before :all do
+    VCR.insert_cassette 'blockchain_mycelium_adapter'
+  end
+
+  after :all do
+    VCR.eject_cassette
+  end
+
   it "fetches all transactions for the current address" do
     address = "3B1QZ8FpAaHBgkSB5gFt76ag5AW9VeP8xp"
     expect(adapter).to receive(:straighten_transaction).with(anything, address: address).at_least(:once)

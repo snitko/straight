@@ -1,0 +1,45 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://btc-e.com/api/2/btc_usd/ticker
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Mon, 22 Jun 2015 14:10:30 GMT
+      Content-Type:
+      - text/html; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d84de25580d0b24d0880154fb74ee81f71434982230; expires=Tue, 21-Jun-16
+        14:10:30 GMT; path=/; domain=.btc-e.com; HttpOnly
+      X-Frame-Options:
+      - DENY
+      Cache-Control:
+      - no-cache, must-revalidate
+      Cf-Ray:
+      - 1fa8897b71930c71-AMS
+    body:
+      encoding: ASCII-8BIT
+      string: '{"ticker":{"high":247.99001,"low":240.567,"avg":244.278505,"vol":1559486.0021,"vol_cur":6379.59513,"last":245.985,"buy":245.986,"sell":245.985,"updated":1434982230,"server_time":1434982230}}'
+    http_version: 
+  recorded_at: Mon, 22 Jun 2015 14:10:30 GMT
+recorded_with: VCR 2.9.3

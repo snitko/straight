@@ -85,6 +85,8 @@ RSpec.describe Straight::Gateway do
     end
 
     it "simply fetches current exchange rate for 1 BTC" do
+      @adapter = @gateway.exchange_rate_adapters[-1]
+      allow(@adapter).to receive(:get_rate_value_from_hash).and_return('21.5')
       expect(@gateway.current_exchange_rate('USD')).not_to be_nil
     end
 

@@ -1,8 +1,12 @@
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     addressable (2.3.6)
+    btcruby (1.0.3)
+      ffi (~> 1.9, >= 1.9.3)
     builder (3.2.2)
+    crack (0.4.2)
+      safe_yaml (~> 1.0.0)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.2.5)
@@ -64,13 +68,19 @@ GEM
     rspec-mocks (3.1.0)
       rspec-support (~> 3.1.0)
     rspec-support (3.1.0)
+    safe_yaml (1.0.4)
     satoshi-unit (0.1.7)
     thread_safe (0.3.4)
+    vcr (2.9.3)
+    webmock (1.21.0)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  btcruby
   bundler (~> 1.0)
   github_api (= 0.11.3)
   httparty
@@ -78,3 +88,5 @@ DEPENDENCIES
   money-tree (= 0.9.0)
   rspec
   satoshi-unit
+  vcr
+  webmock

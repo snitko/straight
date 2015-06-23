@@ -1,0 +1,43 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.kraken.com/0/public/Ticker?pair=xbtusd
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Mon, 22 Jun 2015 14:10:31 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=dc7c83161a7d914febf2a2d9e61609e3e1434982231; expires=Tue, 21-Jun-16
+        14:10:31 GMT; path=/; domain=.kraken.com; HttpOnly
+      Vary:
+      - Accept-Encoding
+      Cf-Ray:
+      - 1fa88983ea07147f-AMS
+    body:
+      encoding: ASCII-8BIT
+      string: '{"error":[],"result":{"XXBTZUSD":{"a":["245.80522","1"],"b":["243.78633","1"],"c":["244.50000","1.00000000"],"v":["14.71088818","19.71088818"],"p":["244.99461","244.12416"],"t":[18,23],"l":["241.00000","241.00000"],"h":["246.65969","246.65969"],"o":"241.00000"}}}'
+    http_version: 
+  recorded_at: Mon, 22 Jun 2015 14:10:31 GMT
+recorded_with: VCR 2.9.3

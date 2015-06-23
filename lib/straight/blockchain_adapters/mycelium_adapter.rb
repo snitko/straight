@@ -3,15 +3,6 @@ module Straight
 
     class MyceliumAdapter < Adapter
 
-      class NoBitcoindInstalled < Exception
-        def message
-          "You need to install bitcoind on your server and have a `bitcoin-cli` executable in PATH.\n" +
-          "Note that you don't have to download the blockchain and you can run bitcoind in offline mode."
-        end
-      end
-
-      require 'base64'
-
       def self.mainnet_adapter
         instance = self.instance
         instance._initialize("https://mws2.mycelium.com/wapi/wapi")
@@ -70,13 +61,13 @@ module Straight
 
         def api_request(method, params={})
           begin
-            body = JSON.parse(HTTParty.post(
+            JSON.parse(HTTParty.post(
               "#{@base_url}/#{method}",
               body: params.merge({version: 1}).to_json,
               headers: { 'Content-Type' => 'application/json' },
               timeout: 15,
               verify: false
-            ).body)["r"]
+            ).body || '')['r']
           rescue HTTParty::Error => e
             raise RequestError, YAML::dump(e)
           rescue JSON::ParserError => e
@@ -92,26 +83,20 @@ module Straight
           block_height = transaction['height']
           tid          = transaction['txid']
 
-          # Converting from Base64 to hex
-          transaction = transaction['binary'].unpack("m0").first.unpack("H*").first
+          # Converting from Base64 to binary
+          transaction = transaction['binary'].unpack('m0')[0]
 
-          # Decoding with bitcoin-cli
-          begin
-            transaction = JSON.parse(`bitcoin-cli decoderawtransaction #{transaction}`)
-          rescue Errno::ENOENT => e
-            if e.message == 'No such file or directory - bitcoin-cli'
-              raise NoBitcoindInstalled
-            else
-              raise e
-            end
-          end
+          # Decoding
+          transaction = BTC::Transaction.new(data: transaction)
 
           outs         = []
           total_amount = 0
-          transaction['vout'].each do |out|
-            out['value'] = out['value']*10**8
-            total_amount += out['value'].round if address.nil? || out['scriptPubKey']['addresses'].include?(address)
-            outs << { amount: out['value'], receiving_address: out['scriptPubKey']['addresses'].first }
+
+          transaction.outputs.each do |out|
+            amount = out.value
+            receiving_address = out.script.standard_address
+            total_amount += amount if address.nil? || address == receiving_address
+            outs << {amount: amount, receiving_address: receiving_address}
           end
 
           {

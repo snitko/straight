@@ -8,6 +8,10 @@ require 'singleton'
 require 'httparty'
 require 'btcruby'
 
+module Straight
+  StraightError = Class.new(StandardError)
+end
+
 require_relative 'straight/blockchain_adapter'
 require_relative 'straight/blockchain_adapters/blockchain_info_adapter'
 require_relative 'straight/blockchain_adapters/biteasy_adapter'

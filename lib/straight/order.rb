@@ -47,7 +47,7 @@ module Straight
 
     attr_reader :old_status
 
-    class IncorrectAmount < Exception; end
+    class IncorrectAmount < StraightError; end
 
     # If you are defining methods in this module, it means you most likely want to
     # call super() somehwere inside those methods. An example would be the #status=

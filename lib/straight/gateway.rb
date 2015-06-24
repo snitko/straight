@@ -18,8 +18,8 @@ module Straight
   module GatewayModule
 
     # Raised when adapter's list (either Exchange or Blockchain adapters) is empty
-    class NoAdaptersAvailable < Exception;end
-    class OrderAmountInvalid  < ArgumentError;end
+    class NoAdaptersAvailable < StraightError;end
+    class OrderAmountInvalid  < StraightError;end
 
     # Only add getters and setters for those properties in the extended class
     # that don't already have them. This is very useful with ActiveRecord for example
@@ -168,7 +168,7 @@ module Straight
               result = yield(adapter)
               last_exception = nil
               return result
-            rescue Exception => e
+            rescue => e
               last_exception = e
               # If an Exception is raised, it passes on
               # to the next adapter and attempts to call a method on it.

@@ -38,6 +38,7 @@ module Straight
           :name,
           :address_provider,
           :address_derivation_scheme,
+          :test_mode
         ].each do |field|
           attr_reader field unless base.method_defined?(field)
           attr_writer field unless base.method_defined?("#{field}=")
@@ -57,6 +58,8 @@ module Straight
       return { period: period, iteration_index: iteration_index }
     end
 
+    TESTNET_ADAPTER = Straight::Blockchain::MyceliumAdapter.testnet_adapter
+
     # If you are defining methods in this module, it means you most likely want to
     # call super() somehwere inside those methods.
     #
@@ -66,6 +69,19 @@ module Straight
     end
 
     module Includable
+
+      def blockchain_adapters
+        return [GatewayModule::TESTNET_ADAPTER] if @test_mode
+        @blockchain_adapters
+      end
+
+      def enable_test_mode
+        @test_mode = true
+      end
+
+      def disable_test_mode
+        @test_mode = false
+      end
 
       # Creates a new order for the address derived from the pubkey and the keychain_id argument provided.
       # See explanation of this keychain_id argument is in the description for the AddressProvider::Base#new_address method.
@@ -154,7 +170,7 @@ module Straight
       end
 
       private
-        
+
         # Calls the block with each adapter until one of them does not fail.
         # Fails with the last exception.
         def try_adapters(adapters, type: nil, &block)
@@ -203,6 +219,8 @@ module Straight
       ]
       @status_check_schedule = DEFAULT_STATUS_CHECK_SCHEDULE
       @address_provider ||= AddressProvider::Bip32.new(self)
+      # Initialize gateway in test mode by default
+      enable_test_mode
     end
 
     def order_class

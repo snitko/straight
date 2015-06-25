@@ -92,4 +92,23 @@ RSpec.describe Straight::Gateway do
 
   end
 
+  describe "test mode" do
+
+    let(:testnet_adapters) { [Straight::Blockchain::MyceliumAdapter.testnet_adapter] }
+    
+    it "is activated on initialize" do
+      expect(@gateway.test_mode).to be true
+    end
+
+    it "is using testnet" do
+      expect(@gateway.blockchain_adapters).to eq(testnet_adapters)
+    end
+    
+    it "is disable test mode and return previous saved adapters" do
+      @gateway.disable_test_mode
+      expect(@gateway.test_mode).to be false
+      expect(@gateway.blockchain_adapters).to eq([@mock_adapter])
+    end
+  end
+
 end

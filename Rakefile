@@ -24,3 +24,11 @@ Jeweler::Tasks.new do |gem|
   gem.files.exclude 'spec/**/*'
 end
 Jeweler::RubygemsDotOrgTasks.new
+
+begin
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:spec)
+  task default: :spec
+rescue LoadError
+  # no rspec available
+end

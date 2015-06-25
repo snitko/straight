@@ -10,7 +10,7 @@ module Straight
       # Raised when blockchain data cannot be retrived for any reason.
       # We're not really intereste in the precise reason, although it is
       # stored in the message.
-      class RequestError < Exception; end
+      class RequestError < StraightError; end
 
       def fetch_transaction(tid)
         raise "Please implement #fetch_transaction in #{self.to_s}"

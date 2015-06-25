@@ -15,7 +15,7 @@ module Straight
         @adapters.each do |adapter|
           begin
             adapter.fetch_rates!
-          rescue Exception => e
+          rescue => e
             failed_fetches += 1
             raise e if failed_fetches == @adapters.size
           end

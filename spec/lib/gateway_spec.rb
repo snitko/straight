@@ -35,7 +35,7 @@ RSpec.describe Straight::Gateway do
   it "uses the next availabale adapter when something goes wrong with the current one" do
     another_mock_adapter = double("another_mock blockchain adapter")
     @gateway.instance_variable_set('@blockchain_adapters', [@mock_adapter, another_mock_adapter])
-    allow(@mock_adapter).to receive(:fetch_transaction).once.and_raise(Exception) 
+    allow(@mock_adapter).to receive(:fetch_transaction).once.and_raise(Straight::StraightError)
     expect(another_mock_adapter).to receive(:fetch_transaction).once 
     @gateway.fetch_transaction("xxx")
   end

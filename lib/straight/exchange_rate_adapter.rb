@@ -5,8 +5,8 @@ module Straight
 
       include Singleton
 
-      class FetchingFailed       < Exception; end
-      class CurrencyNotSupported < Exception; end
+      class FetchingFailed       < StraightError; end
+      class CurrencyNotSupported < StraightError; end
 
       def initialize(rates_expire_in: 1800)
         @rates_expire_in = rates_expire_in # in seconds

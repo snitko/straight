@@ -1,4 +1,4 @@
-require 'money-tree'
+require 'btcruby'
 require 'satoshi-unit'
 require 'json'
 require 'uri'
@@ -6,7 +6,6 @@ require 'open-uri'
 require 'yaml'
 require 'singleton'
 require 'httparty'
-require 'btcruby'
 
 module Straight
   StraightError = Class.new(StandardError)

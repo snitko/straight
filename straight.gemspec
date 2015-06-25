@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
   s.authors = ["Roman Snitko"]
-  s.date = "2015-06-22"
+  s.date = "2015-06-25"
   s.description = "An engine for the Straight payment gateway software. Requires no state to be saved (that is, no storage or DB). Its responsibilities only include processing data coming from an actual gateway."
   s.email = "roman.snitko@gmail.com"
   s.extra_rdoc_files = [
@@ -56,27 +56,24 @@ Gem::Specification.new do |s|
     s.specification_version = 4
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<btcruby>, [">= 0"])
-      s.add_runtime_dependency(%q<money-tree>, ["= 0.9.0"])
-      s.add_runtime_dependency(%q<satoshi-unit>, [">= 0"])
-      s.add_runtime_dependency(%q<httparty>, [">= 0"])
+      s.add_runtime_dependency(%q<btcruby>, ["~> 1.0"])
+      s.add_runtime_dependency(%q<satoshi-unit>, ["~> 0.1"])
+      s.add_runtime_dependency(%q<httparty>, ["~> 0.13.5"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 2.0.1"])
       s.add_development_dependency(%q<github_api>, ["= 0.11.3"])
     else
-      s.add_dependency(%q<btcruby>, [">= 0"])
-      s.add_dependency(%q<money-tree>, ["= 0.9.0"])
-      s.add_dependency(%q<satoshi-unit>, [">= 0"])
-      s.add_dependency(%q<httparty>, [">= 0"])
+      s.add_dependency(%q<btcruby>, ["~> 1.0"])
+      s.add_dependency(%q<satoshi-unit>, ["~> 0.1"])
+      s.add_dependency(%q<httparty>, ["~> 0.13.5"])
       s.add_dependency(%q<bundler>, ["~> 1.0"])
       s.add_dependency(%q<jeweler>, ["~> 2.0.1"])
       s.add_dependency(%q<github_api>, ["= 0.11.3"])
     end
   else
-    s.add_dependency(%q<btcruby>, [">= 0"])
-    s.add_dependency(%q<money-tree>, ["= 0.9.0"])
-    s.add_dependency(%q<satoshi-unit>, [">= 0"])
-    s.add_dependency(%q<httparty>, [">= 0"])
+    s.add_dependency(%q<btcruby>, ["~> 1.0"])
+    s.add_dependency(%q<satoshi-unit>, ["~> 0.1"])
+    s.add_dependency(%q<httparty>, ["~> 0.13.5"])
     s.add_dependency(%q<bundler>, ["~> 1.0"])
     s.add_dependency(%q<jeweler>, ["~> 2.0.1"])
     s.add_dependency(%q<github_api>, ["= 0.11.3"])

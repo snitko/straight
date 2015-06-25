@@ -1,5 +1,8 @@
 Straight
 ========
+
+[![Build Status](https://travis-ci.org/snitko/straight.svg)](https://travis-ci.org/snitko/straight)
+
 > Receive bitcoin payments directly into your wallet
 
 > Website: http://straight.romansnitko.com

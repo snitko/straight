@@ -71,16 +71,8 @@ module Straight
     module Includable
 
       def blockchain_adapters
-        return [GatewayModule::TESTNET_ADAPTER] if @test_mode
+        return [GatewayModule::TESTNET_ADAPTER] if self.test_mode
         @blockchain_adapters
-      end
-
-      def enable_test_mode
-        @test_mode = true
-      end
-
-      def disable_test_mode
-        @test_mode = false
       end
 
       # Creates a new order for the address derived from the pubkey and the keychain_id argument provided.
@@ -219,8 +211,7 @@ module Straight
       ]
       @status_check_schedule = DEFAULT_STATUS_CHECK_SCHEDULE
       @address_provider ||= AddressProvider::Bip32.new(self)
-      # Initialize gateway in test mode by default
-      enable_test_mode
+      @test_mode = true
     end
 
     def order_class

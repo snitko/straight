@@ -104,10 +104,9 @@ RSpec.describe Straight::Gateway do
       expect(@gateway.blockchain_adapters).to eq(testnet_adapters)
     end
     
-    it "is disable test mode and return previous saved adapters" do
-      @gateway.disable_test_mode
-      expect(@gateway.test_mode).to be false
-      expect(@gateway.blockchain_adapters).to eq([@mock_adapter])
+    it "is disabled and return previous saved adapters" do
+      @gateway.test_mode = false
+          expect(@gateway.blockchain_adapters).to eq([@mock_adapter])
     end
   end
 

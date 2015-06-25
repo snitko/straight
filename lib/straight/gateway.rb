@@ -117,7 +117,7 @@ module Straight
       end
 
       def keychain
-        @keychain ||= MoneyTree::Node.from_bip32(pubkey)
+        @keychain ||= BTC::Keychain.new(xpub: pubkey)
       end
 
       # This is a callback method called from each order

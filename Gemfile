@@ -1,14 +1,10 @@
 source "https://rubygems.org"
 
-# used by Blockchain::MyceliumAdapter
-gem 'btcruby'
-
-# Used to generate bip32 addresses
-gem 'money-tree', "0.9.0"
+gem 'btcruby', '~> 1.0'
 
 # Used in exchange rate adapters
-gem 'satoshi-unit'
-gem 'httparty'
+gem 'satoshi-unit', '~> 0.1'
+gem 'httparty', '~> 0.13.5'
 
 group :development do
   gem "bundler", "~> 1.0"

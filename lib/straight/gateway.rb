@@ -28,6 +28,7 @@ module Straight
       base.class_eval do
         [
           :pubkey,
+          :test_pubkey,
           :confirmations_required,
           :status_check_schedule,
           :blockchain_adapters,
@@ -71,7 +72,7 @@ module Straight
     module Includable
 
       def blockchain_adapters
-        return [GatewayModule::TESTNET_ADAPTER] if self.test_mode
+        return [GatewayModule::TESTNET_ADAPTER] if @test_mode
         @blockchain_adapters
       end
 
@@ -125,7 +126,8 @@ module Straight
       end
 
       def keychain
-        @keychain ||= BTC::Keychain.new(xpub: pubkey)
+        key = self.test_mode ? self.test_pubkey : self.pubkey
+        @keychain ||= BTC::Keychain.new(xpub: key)
       end
 
       # This is a callback method called from each order
@@ -159,6 +161,10 @@ module Straight
         try_adapters(@exchange_rate_adapters, type: "exchange rate") do |a|
           a.rate_for(currency)
         end
+      end
+
+      def test_pubkey_blank?
+        self.test_pubkey.nil? || self.test_pubkey.empty?
       end
 
       private
@@ -211,7 +217,7 @@ module Straight
       ]
       @status_check_schedule = DEFAULT_STATUS_CHECK_SCHEDULE
       @address_provider ||= AddressProvider::Bip32.new(self)
-      @test_mode = true
+      @test_mode = false
     end
 
     def order_class

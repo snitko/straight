@@ -4,13 +4,13 @@ module Straight
     class MyceliumAdapter < Adapter
 
       def self.mainnet_adapter
-        instance = self.instance
+        instance = new
         instance._initialize("https://mws2.mycelium.com/wapi/wapi")
         instance
       end
       
       def self.testnet_adapter
-        instance = self.instance
+        instance = new
         instance._initialize("https://node3.mycelium.com/wapitestnet/wapi")
         instance
       end

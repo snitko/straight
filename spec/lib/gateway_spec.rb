@@ -102,7 +102,8 @@ RSpec.describe Straight::Gateway do
 
     it "is using testnet" do
       @gateway.test_mode = true
-      expect(@gateway.blockchain_adapters).to eq(testnet_adapters)
+      expect(@gateway.blockchain_adapters.last.instance_variable_get(:@base_url))
+        .to eq(testnet_adapters.last.instance_variable_get(:@base_url))
     end
     
     it "is disabled and return previous saved adapters" do

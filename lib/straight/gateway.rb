@@ -72,7 +72,7 @@ module Straight
     module Includable
 
       def blockchain_adapters
-        return [GatewayModule::TESTNET_ADAPTER] if @test_mode
+        return [GatewayModule::TESTNET_ADAPTER] if test_mode
         @blockchain_adapters
       end
 
@@ -114,15 +114,15 @@ module Straight
       end
 
       def fetch_transaction(tid, address: nil)
-        try_adapters(@blockchain_adapters, type: "blockchain") { |b| b.fetch_transaction(tid, address: address) }
+        try_adapters(blockchain_adapters, type: "blockchain") { |b| b.fetch_transaction(tid, address: address) }
       end
       
       def fetch_transactions_for(address)
-        try_adapters(@blockchain_adapters, type: "blockchain") { |b| b.fetch_transactions_for(address) }
+        try_adapters(blockchain_adapters, type: "blockchain") { |b| b.fetch_transactions_for(address) }
       end
       
       def fetch_balance_for(address)
-        try_adapters(@blockchain_adapters, type: "blockchain") { |b| b.fetch_balance_for(address) }
+        try_adapters(blockchain_adapters, type: "blockchain") { |b| b.fetch_balance_for(address) }
       end
 
       def keychain

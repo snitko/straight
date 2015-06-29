@@ -38,6 +38,7 @@ module Straight
           :default_currency,
           :name,
           :address_provider,
+          :address_provider_type,
           :address_derivation_scheme,
           :test_mode
         ].each do |field|
@@ -163,8 +164,16 @@ module Straight
         end
       end
 
-      def test_pubkey_blank?
-        self.test_pubkey.nil? || self.test_pubkey.empty?
+      def test_pubkey_missing?
+        address_provider_type == :Bip32 && test_mode && test_pubkey.to_s.empty?
+      end
+
+      def pubkey_missing?
+        address_provider_type == :Bip32 && !test_mode && pubkey.to_s.empty?
+      end
+
+      def address_provider_type
+        @address_provider ? @address_provider.class.name.split('::')[-1].to_sym  : :Bip32
       end
 
       private
@@ -216,7 +225,7 @@ module Straight
         ExchangeRate::OkcoinAdapter.instance
       ]
       @status_check_schedule = DEFAULT_STATUS_CHECK_SCHEDULE
-      @address_provider ||= AddressProvider::Bip32.new(self)
+      @address_provider = AddressProvider::Bip32.new(self)
       @test_mode = false
     end
 

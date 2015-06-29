@@ -22,7 +22,7 @@ module Straight
     # where we don't want to override AR getters and setters that set attribtues.
     def self.included(base)
       base.class_eval do
-        [:amount, :amount_paid, :address, :gateway, :keychain_id, :status, :tid, :title, :callback_url].each do |field|
+        [:amount, :amount_paid, :address, :gateway, :keychain_id, :status, :tid, :title, :callback_url, :test_mode].each do |field|
           attr_reader field unless base.method_defined?(field)
           attr_writer field unless base.method_defined?("#{field}=")
         end

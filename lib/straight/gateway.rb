@@ -28,6 +28,7 @@ module Straight
       base.class_eval do
         [
           :pubkey,
+          :test_pubkey,
           :confirmations_required,
           :status_check_schedule,
           :blockchain_adapters,
@@ -38,6 +39,7 @@ module Straight
           :name,
           :address_provider,
           :address_derivation_scheme,
+          :test_mode
         ].each do |field|
           attr_reader field unless base.method_defined?(field)
           attr_writer field unless base.method_defined?("#{field}=")
@@ -57,6 +59,8 @@ module Straight
       return { period: period, iteration_index: iteration_index }
     end
 
+    TESTNET_ADAPTER = Straight::Blockchain::MyceliumAdapter.testnet_adapter
+
     # If you are defining methods in this module, it means you most likely want to
     # call super() somehwere inside those methods.
     #
@@ -66,6 +70,11 @@ module Straight
     end
 
     module Includable
+
+      def blockchain_adapters
+        return [GatewayModule::TESTNET_ADAPTER] if test_mode
+        @blockchain_adapters
+      end
 
       # Creates a new order for the address derived from the pubkey and the keychain_id argument provided.
       # See explanation of this keychain_id argument is in the description for the AddressProvider::Base#new_address method.
@@ -105,19 +114,20 @@ module Straight
       end
 
       def fetch_transaction(tid, address: nil)
-        try_adapters(@blockchain_adapters, type: "blockchain") { |b| b.fetch_transaction(tid, address: address) }
+        try_adapters(blockchain_adapters, type: "blockchain") { |b| b.fetch_transaction(tid, address: address) }
       end
       
       def fetch_transactions_for(address)
-        try_adapters(@blockchain_adapters, type: "blockchain") { |b| b.fetch_transactions_for(address) }
+        try_adapters(blockchain_adapters, type: "blockchain") { |b| b.fetch_transactions_for(address) }
       end
       
       def fetch_balance_for(address)
-        try_adapters(@blockchain_adapters, type: "blockchain") { |b| b.fetch_balance_for(address) }
+        try_adapters(blockchain_adapters, type: "blockchain") { |b| b.fetch_balance_for(address) }
       end
 
       def keychain
-        @keychain ||= BTC::Keychain.new(xpub: pubkey)
+        key = self.test_mode ? self.test_pubkey : self.pubkey
+        @keychain ||= BTC::Keychain.new(xpub: key)
       end
 
       # This is a callback method called from each order
@@ -153,8 +163,12 @@ module Straight
         end
       end
 
+      def test_pubkey_blank?
+        self.test_pubkey.nil? || self.test_pubkey.empty?
+      end
+
       private
-        
+
         # Calls the block with each adapter until one of them does not fail.
         # Fails with the last exception.
         def try_adapters(adapters, type: nil, &block)
@@ -203,6 +217,7 @@ module Straight
       ]
       @status_check_schedule = DEFAULT_STATUS_CHECK_SCHEDULE
       @address_provider ||= AddressProvider::Bip32.new(self)
+      @test_mode = false
     end
 
     def order_class

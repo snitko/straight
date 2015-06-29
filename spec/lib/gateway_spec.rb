@@ -92,4 +92,34 @@ RSpec.describe Straight::Gateway do
 
   end
 
+  describe "test mode" do
+
+    let(:testnet_adapters) { [Straight::Blockchain::MyceliumAdapter.testnet_adapter] }
+    
+    it "is not activated on initialize" do
+      expect(@gateway.test_mode).to be false
+    end
+
+    it "is using testnet" do
+      @gateway.test_mode = true
+      expect(@gateway.blockchain_adapters.last.instance_variable_get(:@base_url))
+        .to eq(testnet_adapters.last.instance_variable_get(:@base_url))
+    end
+    
+    it "is disabled and return previous saved adapters" do
+      expect(@gateway.blockchain_adapters).to eq([@mock_adapter])
+    end
+
+    it "generate get keychain in testnet" do
+      
+    end
+    it "creates new orders and addresses for them", focus: true do
+      @gateway.pubkey   = 'tpubDCzMzH5R7dvZAN7jNyZRUXxuo8XdRmMd7gmzvHs9LYG4w2EBvEjQ1Drm8ZXv4uwxrtUh3MqCZQJaq56oPMghsbtFnoLi9JBfG7vRLXLH21r' 
+      expected_address  = '1LUCZQ5habZZMRz6XeSqpAQUZEULggzzgE'
+      expect(@gateway.new_order(amount: 1, keychain_id: 1).address).to eq(expected_address)
+    end
+
+    
+  end
+
 end

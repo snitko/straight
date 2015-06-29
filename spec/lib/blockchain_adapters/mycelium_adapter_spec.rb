@@ -57,10 +57,20 @@ RSpec.describe Straight::Blockchain::MyceliumAdapter do
     expect( -> { adapter.send(:api_request, "/a-404-request") }).to raise_error(Straight::Blockchain::Adapter::RequestError)
   end
 
-  it "uses the same Singleton instance" do
-    a = Straight::Blockchain::MyceliumAdapter.mainnet_adapter
-    b = Straight::Blockchain::MyceliumAdapter.mainnet_adapter
-    expect(a).to eq(b)
+  # For now disable singleton instances for adapters
+  # it "uses the same Singleton instance" do
+  #   a = Straight::Blockchain::MyceliumAdapter.mainnet_adapter
+  #   b = Straight::Blockchain::MyceliumAdapter.mainnet_adapter
+  #   expect(a).to eq(b)
+  # end
+
+  it "fetches data from testnet for specific address" do
+    VCR.use_cassette "wapitestnet" do
+      adapter = Straight::Blockchain::MyceliumAdapter.testnet_adapter
+      address = "mjRmkmYzvZN3cA3aBKJgYJ65epn3WCG84H"
+      expect(adapter).to receive(:straighten_transaction).with(anything, address: address).at_least(:once).and_return(1)
+      expect(adapter.fetch_transactions_for(address)).to eq([1])
+    end
   end
 
 end

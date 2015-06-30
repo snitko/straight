@@ -12,6 +12,10 @@ module Straight
       # stored in the message.
       class RequestError < StraightError; end
 
+      # Raised when an invalid address is used, for example a mainnet address
+      # is used on testnet and vice versa.
+      class BitcoinAddressInvalid < StraightError; end
+
       def fetch_transaction(tid)
         raise "Please implement #fetch_transaction in #{self.to_s}"
       end

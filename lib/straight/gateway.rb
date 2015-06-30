@@ -118,7 +118,7 @@ module Straight
       end
       
       def fetch_transactions_for(address)
-        try_adapters(blockchain_adapters, type: "blockchain") { |b| b.fetch_transactions_for(address) }
+        try_adapters(blockchain_adapters, type: "blockchain", raise_exceptions: [Blockchain::Adapter::BitcoinAddressInvalid]) { |b| b.fetch_transactions_for(address) }
       end
       
       def fetch_balance_for(address)
@@ -171,7 +171,7 @@ module Straight
 
         # Calls the block with each adapter until one of them does not fail.
         # Fails with the last exception.
-        def try_adapters(adapters, type: nil, &block)
+        def try_adapters(adapters, type: nil, raise_exceptions: [], &block)
 
           # TODO: specify which adapters are unavailable (blockchain or exchange rate)
           raise NoAdaptersAvailable, "the list of #{type} adapters is empty or nil" if adapters.nil? || adapters.empty?
@@ -183,6 +183,7 @@ module Straight
               last_exception = nil
               return result
             rescue => e
+              raise e if raise_exceptions.include?(e)
               last_exception = e
               # If an Exception is raised, it passes on
               # to the next adapter and attempts to call a method on it.

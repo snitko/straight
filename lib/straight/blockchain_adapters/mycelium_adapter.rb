@@ -3,9 +3,9 @@ module Straight
 
     class MyceliumAdapter < Adapter
 
-      MAINNET_SERVERS = ["https://mws2.mycelium.com/wapi/wapi",
-                         "https://mws6.mycelium.com/wapi/wapi",
-                         "https://mws7.mycelium.com/wapi/wapi"]
+      MAINNET_SERVERS = ["https://mws6.mycelium.com/wapi/wapi",
+                         "https://mws7.mycelium.com/wapi/wapi",
+                         "https://mws2.mycelium.com/wapi/wapi"]
       TESTNET_SERVERS = ["https://node3.mycelium.com/wapitestnet/wapi"]
 
       def self.mainnet_adapter

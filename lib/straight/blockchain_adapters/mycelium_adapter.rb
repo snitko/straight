@@ -3,21 +3,38 @@ module Straight
 
     class MyceliumAdapter < Adapter
 
+      MAINNET_SERVERS = ["https://mws2.mycelium.com/wapi/wapi",
+                         "https://mws6.mycelium.com/wapi/wapi",
+                         "https://mws7.mycelium.com/wapi/wapi"]
+      TESTNET_SERVERS = ["https://node3.mycelium.com/wapitestnet/wapi"]
+
       def self.mainnet_adapter
         instance = new
-        instance._initialize("https://mws2.mycelium.com/wapi/wapi")
+        instance._initialize(MAINNET_SERVERS)
         instance
       end
       
       def self.testnet_adapter
         instance = new
-        instance._initialize("https://node3.mycelium.com/wapitestnet/wapi")
+        instance._initialize(TESTNET_SERVERS)
         instance
       end
       
-      def _initialize(base_url)
+      def _initialize(servers)
         @latest_block = { cache_timestamp: nil, block: nil }
-        @base_url = base_url
+        @api_servers = servers
+        set_base_url
+      end
+
+      # Set url for API request.
+      # @param num [Integer] a number of server in array
+      def set_base_url(num = 0)
+        return nil if num >= @api_servers.size
+        @base_url = @api_servers[num]
+      end
+
+      def next_server
+        set_base_url(@api_servers.index(@base_url) + 1)
       end
 
       # Returns transaction info for the tid
@@ -67,25 +84,23 @@ module Straight
       private
 
         def api_request(method, params={})
-          begin
-            JSON.parse(HTTParty.post(
-              "#{@base_url}/#{method}",
-              body: params.merge({version: 1}).to_json,
-              headers: { 'Content-Type' => 'application/json' },
-              timeout: 15,
-              verify: false
-            ).body || '')['r']
-          rescue HTTParty::Error => e
-            raise RequestError, YAML::dump(e)
-          rescue JSON::ParserError => e
-            raise RequestError, YAML::dump(e)
-          end
+          JSON.parse(HTTParty.post(
+            "#{@base_url}/#{method}",
+            body: params.merge({version: 1}).to_json,
+            headers: { 'Content-Type' => 'application/json' },
+            timeout: 15,
+            verify: false
+          ).body || '')['r']
+        rescue HTTParty::Error => e
+          retry if next_server
+          raise RequestError, YAML::dump(e)
+        rescue JSON::ParserError => e
+          raise RequestError, YAML::dump(e)
         end
 
         # Converts transaction info received from the source into the
         # unified format expected by users of BlockchainAdapter instances.
         def straighten_transaction(transaction, address: nil)
-
           # Get the block number this transaction was included into
           block_height = transaction['height']
           tid          = transaction['txid']

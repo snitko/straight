@@ -64,6 +64,24 @@ RSpec.describe Straight::Blockchain::MyceliumAdapter do
   #   expect(a).to eq(b)
   # end
 
+  it "using next server if previous failed" do
+    block_response = double('Blockchain info latest block response')
+    expect(block_response).to receive(:body).and_return('{ "r": { "height": 1 }}') 
+    expect(HTTParty).to receive(:post).with(Straight::Blockchain::MyceliumAdapter::MAINNET_SERVERS[0]+"/queryUnspentOutputs", anything).once.and_raise(HTTParty::Error)
+    expect(HTTParty).to receive(:post).with(Straight::Blockchain::MyceliumAdapter::MAINNET_SERVERS[1]+"/queryUnspentOutputs", anything).once.and_return(block_response)
+    adapter.send(:calculate_confirmations, 1)
+    expect(adapter.instance_variable_get(:@base_url)).to eq(Straight::Blockchain::MyceliumAdapter::MAINNET_SERVERS[1])
+  end
+
+  it "raise errors if all servers failed" do
+    Straight::Blockchain::MyceliumAdapter::MAINNET_SERVERS.each do |s|
+      expect(HTTParty).to receive(:post).with(s + "/queryUnspentOutputs", anything).once.and_raise(HTTParty::Error)
+    end
+    expect {
+      adapter.send(:calculate_confirmations, 1)
+    }.to raise_error(Straight::Blockchain::Adapter::RequestError)
+  end
+  
   it "fetches data from testnet for specific address" do
     VCR.use_cassette "wapitestnet" do
       adapter = Straight::Blockchain::MyceliumAdapter.testnet_adapter

@@ -1,0 +1,766 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://insight.mycelium.com/api/tx/ae0d040f48d75fdc46d9035236a1782164857d6f0cca1f864640281115898560
+    body:
+      encoding: UTF-8
+      string: Content-Type=application%2Fjson
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Server:
+      - nginx/1.6.3
+      Date:
+      - Wed, 08 Jul 2015 11:04:21 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '115'
+      Connection:
+      - keep-alive
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS, PUT, DELETE
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization
+      Access-Control-Expose-Headers:
+      - X-Email-Needs-Validation,X-Quota-Per-Item,X-Quota-Items-Limit,X-RateLimit-Limit,X-RateLimit-Remaining
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: UTF-8
+      string: '{"status":404,"url":"/api/tx/ae0d040f48d75fdc46d9035236a1782164857d6f0cca1f864640281115898560","error":"Not
+        found"}'
+    http_version: 
+  recorded_at: Wed, 08 Jul 2015 11:03:14 GMT
+- request:
+    method: get
+    uri: https://insight.mycelium.com/api/tx/ae0d040f48d75fdc46d9035236a1782164857d6f0cca1f864640281115898560
+    body:
+      encoding: UTF-8
+      string: Content-Type=application%2Fjson
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Server:
+      - nginx/1.6.3
+      Date:
+      - Wed, 08 Jul 2015 11:36:56 GMT
+      Content-Type:
+      - text/html; charset=utf-8
+      Content-Length:
+      - '9'
+      Connection:
+      - keep-alive
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS, PUT, DELETE
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization
+      Access-Control-Expose-Headers:
+      - X-Email-Needs-Validation,X-Quota-Per-Item,X-Quota-Items-Limit,X-RateLimit-Limit,X-RateLimit-Remaining
+      Etag:
+      - '"1890952009"'
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: UTF-8
+      string: Not found
+    http_version: 
+  recorded_at: Wed, 08 Jul 2015 11:35:49 GMT
+- request:
+    method: get
+    uri: https://insight.mycelium.com/api/tx/b168b57a9ae38c0671c5eef3be6c8305782bd1351e75028dac491185388d5424
+    body:
+      encoding: UTF-8
+      string: Content-Type=application%2Fjson
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.6.3
+      Date:
+      - Wed, 08 Jul 2015 11:52:10 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS, PUT, DELETE
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization
+      Access-Control-Expose-Headers:
+      - X-Email-Needs-Validation,X-Quota-Per-Item,X-Quota-Items-Limit,X-RateLimit-Limit,X-RateLimit-Remaining
+      Etag:
+      - '"1743052601"'
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: '{"txid":"b168b57a9ae38c0671c5eef3be6c8305782bd1351e75028dac491185388d5424","version":1,"locktime":0,"vin":[{"txid":"a48637c382c65858b569409c74147d25a606db1ca4f341eaec40f4ba2e239691","vout":0,"scriptSig":{"asm":"3044022060877aa4485463fa72e87762bd163231155f4f0165ea05eb38bac961665ccb5f0220449180c81b7a1db604b537eecf5a5ce10810603ecda59d3190a8fc095e19e3f401
+        04a09f26dab2886c732b17fc041b04b0974ffebe1c0a2574e51f8503a9949882d398fce64c051b6b2859165d403d3d74daced1fe168d4baf7e585dadf9466d1c58","hex":"473044022060877aa4485463fa72e87762bd163231155f4f0165ea05eb38bac961665ccb5f0220449180c81b7a1db604b537eecf5a5ce10810603ecda59d3190a8fc095e19e3f4014104a09f26dab2886c732b17fc041b04b0974ffebe1c0a2574e51f8503a9949882d398fce64c051b6b2859165d403d3d74daced1fe168d4baf7e585dadf9466d1c58"},"sequence":4294967295,"n":0,"addr":"1FCzPT4Ve59ojviH8R2MMWCsVEEq8xrc53","valueSat":500000000,"value":5,"doubleSpentTxID":null}],"vout":[{"value":"1.87000000","n":0,"scriptPubKey":{"asm":"OP_DUP
+        OP_HASH160 7aa6944d611413e062e97a8668154e39b27b5efc OP_EQUALVERIFY OP_CHECKSIG","hex":"76a9147aa6944d611413e062e97a8668154e39b27b5efc88ac","reqSigs":1,"type":"pubkeyhash","addresses":["1CBWzY7PEnUtT4b36bth4UZuNmby9pTT7A"]}},{"value":"3.12900000","n":1,"scriptPubKey":{"asm":"OP_DUP
+        OP_HASH160 9bd63da8b392b1066f182a8a618e520107a83352 OP_EQUALVERIFY OP_CHECKSIG","hex":"76a9149bd63da8b392b1066f182a8a618e520107a8335288ac","reqSigs":1,"type":"pubkeyhash","addresses":["1FCzPT4Ve59ojviH8R2MMWCsVEEq8xrc53"]}}],"valueOut":4.999,"size":257,"valueIn":5,"fees":0.001}'
+    http_version: 
+  recorded_at: Wed, 08 Jul 2015 11:51:02 GMT
+- request:
+    method: get
+    uri: https://insight.mycelium.com/api/addr/1CBWzY7PEnUtT4b36bth4UZuNmby9pTT7A
+    body:
+      encoding: UTF-8
+      string: Content-Type=application%2Fjson
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.6.3
+      Date:
+      - Wed, 08 Jul 2015 12:59:50 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '623'
+      Connection:
+      - keep-alive
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS, PUT, DELETE
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization
+      Access-Control-Expose-Headers:
+      - X-Email-Needs-Validation,X-Quota-Per-Item,X-Quota-Items-Limit,X-RateLimit-Limit,X-RateLimit-Remaining
+      Etag:
+      - '"-938702409"'
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: UTF-8
+      string: '{"addrStr":"1CBWzY7PEnUtT4b36bth4UZuNmby9pTT7A","balance":3.74,"balanceSat":374000000,"totalReceived":4.49,"totalReceivedSat":449000000,"totalSent":0.75,"totalSentSat":75000000,"unconfirmedBalance":0,"unconfirmedBalanceSat":0,"unconfirmedTxApperances":0,"txApperances":5,"transactions":["b168b57a9ae38c0671c5eef3be6c8305782bd1351e75028dac491185388d5424","1a00e2945c31a73da1e97cf06c0adbdbdecb92a17834a4efd75b78444da997d5","09597b18dca4e6b32c0956f0ff23704cf3a9f98ec0915d74a5ae50a3bf39b915","35c5a73d05bcd5b74a379eb9f01dc3203dbc313cd43958a4aaff39a9f03ff663","90db27ed495ca7330b1ce622384fb9d9ca664580672b3f3bde6f32b3e67ec4e3"]}'
+    http_version: 
+  recorded_at: Wed, 08 Jul 2015 12:58:42 GMT
+- request:
+    method: get
+    uri: https://insight.mycelium.com/api/tx/b168b57a9ae38c0671c5eef3be6c8305782bd1351e75028dac491185388d5424
+    body:
+      encoding: UTF-8
+      string: Content-Type=application%2Fjson
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.6.3
+      Date:
+      - Wed, 08 Jul 2015 14:21:53 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS, PUT, DELETE
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization
+      Access-Control-Expose-Headers:
+      - X-Email-Needs-Validation,X-Quota-Per-Item,X-Quota-Items-Limit,X-RateLimit-Limit,X-RateLimit-Remaining
+      Etag:
+      - '"-1732622975"'
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: '{"txid":"b168b57a9ae38c0671c5eef3be6c8305782bd1351e75028dac491185388d5424","version":1,"locktime":0,"vin":[{"txid":"a48637c382c65858b569409c74147d25a606db1ca4f341eaec40f4ba2e239691","vout":0,"scriptSig":{"asm":"3044022060877aa4485463fa72e87762bd163231155f4f0165ea05eb38bac961665ccb5f0220449180c81b7a1db604b537eecf5a5ce10810603ecda59d3190a8fc095e19e3f401
+        04a09f26dab2886c732b17fc041b04b0974ffebe1c0a2574e51f8503a9949882d398fce64c051b6b2859165d403d3d74daced1fe168d4baf7e585dadf9466d1c58","hex":"473044022060877aa4485463fa72e87762bd163231155f4f0165ea05eb38bac961665ccb5f0220449180c81b7a1db604b537eecf5a5ce10810603ecda59d3190a8fc095e19e3f4014104a09f26dab2886c732b17fc041b04b0974ffebe1c0a2574e51f8503a9949882d398fce64c051b6b2859165d403d3d74daced1fe168d4baf7e585dadf9466d1c58"},"sequence":4294967295,"n":0,"addr":"1FCzPT4Ve59ojviH8R2MMWCsVEEq8xrc53","valueSat":500000000,"value":5,"doubleSpentTxID":null}],"vout":[{"value":"1.87000000","n":0,"scriptPubKey":{"asm":"OP_DUP
+        OP_HASH160 7aa6944d611413e062e97a8668154e39b27b5efc OP_EQUALVERIFY OP_CHECKSIG","hex":"76a9147aa6944d611413e062e97a8668154e39b27b5efc88ac","reqSigs":1,"type":"pubkeyhash","addresses":["1CBWzY7PEnUtT4b36bth4UZuNmby9pTT7A"]}},{"value":"3.12900000","n":1,"scriptPubKey":{"asm":"OP_DUP
+        OP_HASH160 9bd63da8b392b1066f182a8a618e520107a83352 OP_EQUALVERIFY OP_CHECKSIG","hex":"76a9149bd63da8b392b1066f182a8a618e520107a8335288ac","reqSigs":1,"type":"pubkeyhash","addresses":["1FCzPT4Ve59ojviH8R2MMWCsVEEq8xrc53"]},"spentTxId":"b3a947af37d36ddd0a1cd00fa913794373861d78ae937f76113d51d0b53834eb","spentIndex":0,"spentTs":1436359326}],"blockhash":"00000000000000000b26638ad830025fbb9f7246eae7a6cbaeb00dc3a6786238","confirmations":13,"time":1436357480,"blocktime":1436357480,"valueOut":4.999,"size":257,"valueIn":5,"fees":0.001}'
+    http_version: 
+  recorded_at: Wed, 08 Jul 2015 14:20:45 GMT
+- request:
+    method: get
+    uri: https://insight.mycelium.com/api/addr/1CBWzY7PEnUtT4b36bth4UZuNmby9pTT7A
+    body:
+      encoding: UTF-8
+      string: Content-Type=application%2Fjson
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.6.3
+      Date:
+      - Wed, 08 Jul 2015 14:34:52 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '623'
+      Connection:
+      - keep-alive
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS, PUT, DELETE
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization
+      Access-Control-Expose-Headers:
+      - X-Email-Needs-Validation,X-Quota-Per-Item,X-Quota-Items-Limit,X-RateLimit-Limit,X-RateLimit-Remaining
+      Etag:
+      - '"-938702409"'
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: UTF-8
+      string: '{"addrStr":"1CBWzY7PEnUtT4b36bth4UZuNmby9pTT7A","balance":3.74,"balanceSat":374000000,"totalReceived":4.49,"totalReceivedSat":449000000,"totalSent":0.75,"totalSentSat":75000000,"unconfirmedBalance":0,"unconfirmedBalanceSat":0,"unconfirmedTxApperances":0,"txApperances":5,"transactions":["b168b57a9ae38c0671c5eef3be6c8305782bd1351e75028dac491185388d5424","1a00e2945c31a73da1e97cf06c0adbdbdecb92a17834a4efd75b78444da997d5","09597b18dca4e6b32c0956f0ff23704cf3a9f98ec0915d74a5ae50a3bf39b915","35c5a73d05bcd5b74a379eb9f01dc3203dbc313cd43958a4aaff39a9f03ff663","90db27ed495ca7330b1ce622384fb9d9ca664580672b3f3bde6f32b3e67ec4e3"]}'
+    http_version: 
+  recorded_at: Wed, 08 Jul 2015 14:33:44 GMT
+- request:
+    method: get
+    uri: https://insight.mycelium.com/api/tx/b168b57a9ae38c0671c5eef3be6c8305782bd1351e75028dac491185388d5424
+    body:
+      encoding: UTF-8
+      string: Content-Type=application%2Fjson
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.6.3
+      Date:
+      - Wed, 08 Jul 2015 14:34:53 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS, PUT, DELETE
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization
+      Access-Control-Expose-Headers:
+      - X-Email-Needs-Validation,X-Quota-Per-Item,X-Quota-Items-Limit,X-RateLimit-Limit,X-RateLimit-Remaining
+      Etag:
+      - '"-1732622975"'
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: '{"txid":"b168b57a9ae38c0671c5eef3be6c8305782bd1351e75028dac491185388d5424","version":1,"locktime":0,"vin":[{"txid":"a48637c382c65858b569409c74147d25a606db1ca4f341eaec40f4ba2e239691","vout":0,"scriptSig":{"asm":"3044022060877aa4485463fa72e87762bd163231155f4f0165ea05eb38bac961665ccb5f0220449180c81b7a1db604b537eecf5a5ce10810603ecda59d3190a8fc095e19e3f401
+        04a09f26dab2886c732b17fc041b04b0974ffebe1c0a2574e51f8503a9949882d398fce64c051b6b2859165d403d3d74daced1fe168d4baf7e585dadf9466d1c58","hex":"473044022060877aa4485463fa72e87762bd163231155f4f0165ea05eb38bac961665ccb5f0220449180c81b7a1db604b537eecf5a5ce10810603ecda59d3190a8fc095e19e3f4014104a09f26dab2886c732b17fc041b04b0974ffebe1c0a2574e51f8503a9949882d398fce64c051b6b2859165d403d3d74daced1fe168d4baf7e585dadf9466d1c58"},"sequence":4294967295,"n":0,"addr":"1FCzPT4Ve59ojviH8R2MMWCsVEEq8xrc53","valueSat":500000000,"value":5,"doubleSpentTxID":null}],"vout":[{"value":"1.87000000","n":0,"scriptPubKey":{"asm":"OP_DUP
+        OP_HASH160 7aa6944d611413e062e97a8668154e39b27b5efc OP_EQUALVERIFY OP_CHECKSIG","hex":"76a9147aa6944d611413e062e97a8668154e39b27b5efc88ac","reqSigs":1,"type":"pubkeyhash","addresses":["1CBWzY7PEnUtT4b36bth4UZuNmby9pTT7A"]}},{"value":"3.12900000","n":1,"scriptPubKey":{"asm":"OP_DUP
+        OP_HASH160 9bd63da8b392b1066f182a8a618e520107a83352 OP_EQUALVERIFY OP_CHECKSIG","hex":"76a9149bd63da8b392b1066f182a8a618e520107a8335288ac","reqSigs":1,"type":"pubkeyhash","addresses":["1FCzPT4Ve59ojviH8R2MMWCsVEEq8xrc53"]},"spentTxId":"b3a947af37d36ddd0a1cd00fa913794373861d78ae937f76113d51d0b53834eb","spentIndex":0,"spentTs":1436359326}],"blockhash":"00000000000000000b26638ad830025fbb9f7246eae7a6cbaeb00dc3a6786238","confirmations":13,"time":1436357480,"blocktime":1436357480,"valueOut":4.999,"size":257,"valueIn":5,"fees":0.001}'
+    http_version: 
+  recorded_at: Wed, 08 Jul 2015 14:33:45 GMT
+- request:
+    method: get
+    uri: https://insight.mycelium.com/api/tx/b168b57a9ae38c0671c5eef3be6c8305782bd1351e75028dac491185388d5424
+    body:
+      encoding: UTF-8
+      string: Content-Type=application%2Fjson
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.6.3
+      Date:
+      - Wed, 08 Jul 2015 14:51:10 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS, PUT, DELETE
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization
+      Access-Control-Expose-Headers:
+      - X-Email-Needs-Validation,X-Quota-Per-Item,X-Quota-Items-Limit,X-RateLimit-Limit,X-RateLimit-Remaining
+      Etag:
+      - '"-1732622975"'
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: '{"txid":"b168b57a9ae38c0671c5eef3be6c8305782bd1351e75028dac491185388d5424","version":1,"locktime":0,"vin":[{"txid":"a48637c382c65858b569409c74147d25a606db1ca4f341eaec40f4ba2e239691","vout":0,"scriptSig":{"asm":"3044022060877aa4485463fa72e87762bd163231155f4f0165ea05eb38bac961665ccb5f0220449180c81b7a1db604b537eecf5a5ce10810603ecda59d3190a8fc095e19e3f401
+        04a09f26dab2886c732b17fc041b04b0974ffebe1c0a2574e51f8503a9949882d398fce64c051b6b2859165d403d3d74daced1fe168d4baf7e585dadf9466d1c58","hex":"473044022060877aa4485463fa72e87762bd163231155f4f0165ea05eb38bac961665ccb5f0220449180c81b7a1db604b537eecf5a5ce10810603ecda59d3190a8fc095e19e3f4014104a09f26dab2886c732b17fc041b04b0974ffebe1c0a2574e51f8503a9949882d398fce64c051b6b2859165d403d3d74daced1fe168d4baf7e585dadf9466d1c58"},"sequence":4294967295,"n":0,"addr":"1FCzPT4Ve59ojviH8R2MMWCsVEEq8xrc53","valueSat":500000000,"value":5,"doubleSpentTxID":null}],"vout":[{"value":"1.87000000","n":0,"scriptPubKey":{"asm":"OP_DUP
+        OP_HASH160 7aa6944d611413e062e97a8668154e39b27b5efc OP_EQUALVERIFY OP_CHECKSIG","hex":"76a9147aa6944d611413e062e97a8668154e39b27b5efc88ac","reqSigs":1,"type":"pubkeyhash","addresses":["1CBWzY7PEnUtT4b36bth4UZuNmby9pTT7A"]}},{"value":"3.12900000","n":1,"scriptPubKey":{"asm":"OP_DUP
+        OP_HASH160 9bd63da8b392b1066f182a8a618e520107a83352 OP_EQUALVERIFY OP_CHECKSIG","hex":"76a9149bd63da8b392b1066f182a8a618e520107a8335288ac","reqSigs":1,"type":"pubkeyhash","addresses":["1FCzPT4Ve59ojviH8R2MMWCsVEEq8xrc53"]},"spentTxId":"b3a947af37d36ddd0a1cd00fa913794373861d78ae937f76113d51d0b53834eb","spentIndex":0,"spentTs":1436359326}],"blockhash":"00000000000000000b26638ad830025fbb9f7246eae7a6cbaeb00dc3a6786238","confirmations":13,"time":1436357480,"blocktime":1436357480,"valueOut":4.999,"size":257,"valueIn":5,"fees":0.001}'
+    http_version: 
+  recorded_at: Wed, 08 Jul 2015 14:50:02 GMT
+- request:
+    method: get
+    uri: https://insight.mycelium.com/api/tx/b168b57a9ae38c0671c5eef3be6c8305782bd1351e75028dac491185388d5424
+    body:
+      encoding: UTF-8
+      string: Content-Type=application%2Fjson
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.6.3
+      Date:
+      - Wed, 08 Jul 2015 14:51:11 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS, PUT, DELETE
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization
+      Access-Control-Expose-Headers:
+      - X-Email-Needs-Validation,X-Quota-Per-Item,X-Quota-Items-Limit,X-RateLimit-Limit,X-RateLimit-Remaining
+      Etag:
+      - '"-1732622975"'
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: '{"txid":"b168b57a9ae38c0671c5eef3be6c8305782bd1351e75028dac491185388d5424","version":1,"locktime":0,"vin":[{"txid":"a48637c382c65858b569409c74147d25a606db1ca4f341eaec40f4ba2e239691","vout":0,"scriptSig":{"asm":"3044022060877aa4485463fa72e87762bd163231155f4f0165ea05eb38bac961665ccb5f0220449180c81b7a1db604b537eecf5a5ce10810603ecda59d3190a8fc095e19e3f401
+        04a09f26dab2886c732b17fc041b04b0974ffebe1c0a2574e51f8503a9949882d398fce64c051b6b2859165d403d3d74daced1fe168d4baf7e585dadf9466d1c58","hex":"473044022060877aa4485463fa72e87762bd163231155f4f0165ea05eb38bac961665ccb5f0220449180c81b7a1db604b537eecf5a5ce10810603ecda59d3190a8fc095e19e3f4014104a09f26dab2886c732b17fc041b04b0974ffebe1c0a2574e51f8503a9949882d398fce64c051b6b2859165d403d3d74daced1fe168d4baf7e585dadf9466d1c58"},"sequence":4294967295,"n":0,"addr":"1FCzPT4Ve59ojviH8R2MMWCsVEEq8xrc53","valueSat":500000000,"value":5,"doubleSpentTxID":null}],"vout":[{"value":"1.87000000","n":0,"scriptPubKey":{"asm":"OP_DUP
+        OP_HASH160 7aa6944d611413e062e97a8668154e39b27b5efc OP_EQUALVERIFY OP_CHECKSIG","hex":"76a9147aa6944d611413e062e97a8668154e39b27b5efc88ac","reqSigs":1,"type":"pubkeyhash","addresses":["1CBWzY7PEnUtT4b36bth4UZuNmby9pTT7A"]}},{"value":"3.12900000","n":1,"scriptPubKey":{"asm":"OP_DUP
+        OP_HASH160 9bd63da8b392b1066f182a8a618e520107a83352 OP_EQUALVERIFY OP_CHECKSIG","hex":"76a9149bd63da8b392b1066f182a8a618e520107a8335288ac","reqSigs":1,"type":"pubkeyhash","addresses":["1FCzPT4Ve59ojviH8R2MMWCsVEEq8xrc53"]},"spentTxId":"b3a947af37d36ddd0a1cd00fa913794373861d78ae937f76113d51d0b53834eb","spentIndex":0,"spentTs":1436359326}],"blockhash":"00000000000000000b26638ad830025fbb9f7246eae7a6cbaeb00dc3a6786238","confirmations":13,"time":1436357480,"blocktime":1436357480,"valueOut":4.999,"size":257,"valueIn":5,"fees":0.001}'
+    http_version: 
+  recorded_at: Wed, 08 Jul 2015 14:50:03 GMT
+- request:
+    method: get
+    uri: https://insight.mycelium.com/api/addr/1CBWzY7PEnUtT4b36bth4UZuNmby9pTT7A
+    body:
+      encoding: UTF-8
+      string: Content-Type=application%2Fjson
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.6.3
+      Date:
+      - Wed, 08 Jul 2015 14:51:11 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '623'
+      Connection:
+      - keep-alive
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS, PUT, DELETE
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization
+      Access-Control-Expose-Headers:
+      - X-Email-Needs-Validation,X-Quota-Per-Item,X-Quota-Items-Limit,X-RateLimit-Limit,X-RateLimit-Remaining
+      Etag:
+      - '"-938702409"'
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: UTF-8
+      string: '{"addrStr":"1CBWzY7PEnUtT4b36bth4UZuNmby9pTT7A","balance":3.74,"balanceSat":374000000,"totalReceived":4.49,"totalReceivedSat":449000000,"totalSent":0.75,"totalSentSat":75000000,"unconfirmedBalance":0,"unconfirmedBalanceSat":0,"unconfirmedTxApperances":0,"txApperances":5,"transactions":["b168b57a9ae38c0671c5eef3be6c8305782bd1351e75028dac491185388d5424","1a00e2945c31a73da1e97cf06c0adbdbdecb92a17834a4efd75b78444da997d5","09597b18dca4e6b32c0956f0ff23704cf3a9f98ec0915d74a5ae50a3bf39b915","35c5a73d05bcd5b74a379eb9f01dc3203dbc313cd43958a4aaff39a9f03ff663","90db27ed495ca7330b1ce622384fb9d9ca664580672b3f3bde6f32b3e67ec4e3"]}'
+    http_version: 
+  recorded_at: Wed, 08 Jul 2015 14:50:03 GMT
+- request:
+    method: get
+    uri: https://insight.mycelium.com/api/tx/b168b57a9ae38c0671c5eef3be6c8305782bd1351e75028dac491185388d5424
+    body:
+      encoding: UTF-8
+      string: Content-Type=application%2Fjson
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.6.3
+      Date:
+      - Wed, 08 Jul 2015 14:52:19 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS, PUT, DELETE
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization
+      Access-Control-Expose-Headers:
+      - X-Email-Needs-Validation,X-Quota-Per-Item,X-Quota-Items-Limit,X-RateLimit-Limit,X-RateLimit-Remaining
+      Etag:
+      - '"-1732622975"'
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: '{"txid":"b168b57a9ae38c0671c5eef3be6c8305782bd1351e75028dac491185388d5424","version":1,"locktime":0,"vin":[{"txid":"a48637c382c65858b569409c74147d25a606db1ca4f341eaec40f4ba2e239691","vout":0,"scriptSig":{"asm":"3044022060877aa4485463fa72e87762bd163231155f4f0165ea05eb38bac961665ccb5f0220449180c81b7a1db604b537eecf5a5ce10810603ecda59d3190a8fc095e19e3f401
+        04a09f26dab2886c732b17fc041b04b0974ffebe1c0a2574e51f8503a9949882d398fce64c051b6b2859165d403d3d74daced1fe168d4baf7e585dadf9466d1c58","hex":"473044022060877aa4485463fa72e87762bd163231155f4f0165ea05eb38bac961665ccb5f0220449180c81b7a1db604b537eecf5a5ce10810603ecda59d3190a8fc095e19e3f4014104a09f26dab2886c732b17fc041b04b0974ffebe1c0a2574e51f8503a9949882d398fce64c051b6b2859165d403d3d74daced1fe168d4baf7e585dadf9466d1c58"},"sequence":4294967295,"n":0,"addr":"1FCzPT4Ve59ojviH8R2MMWCsVEEq8xrc53","valueSat":500000000,"value":5,"doubleSpentTxID":null}],"vout":[{"value":"1.87000000","n":0,"scriptPubKey":{"asm":"OP_DUP
+        OP_HASH160 7aa6944d611413e062e97a8668154e39b27b5efc OP_EQUALVERIFY OP_CHECKSIG","hex":"76a9147aa6944d611413e062e97a8668154e39b27b5efc88ac","reqSigs":1,"type":"pubkeyhash","addresses":["1CBWzY7PEnUtT4b36bth4UZuNmby9pTT7A"]}},{"value":"3.12900000","n":1,"scriptPubKey":{"asm":"OP_DUP
+        OP_HASH160 9bd63da8b392b1066f182a8a618e520107a83352 OP_EQUALVERIFY OP_CHECKSIG","hex":"76a9149bd63da8b392b1066f182a8a618e520107a8335288ac","reqSigs":1,"type":"pubkeyhash","addresses":["1FCzPT4Ve59ojviH8R2MMWCsVEEq8xrc53"]},"spentTxId":"b3a947af37d36ddd0a1cd00fa913794373861d78ae937f76113d51d0b53834eb","spentIndex":0,"spentTs":1436359326}],"blockhash":"00000000000000000b26638ad830025fbb9f7246eae7a6cbaeb00dc3a6786238","confirmations":13,"time":1436357480,"blocktime":1436357480,"valueOut":4.999,"size":257,"valueIn":5,"fees":0.001}'
+    http_version: 
+  recorded_at: Wed, 08 Jul 2015 14:51:11 GMT
+- request:
+    method: get
+    uri: https://insight.mycelium.com/api/addr/16iKJsRM3LrA4k7NeTQbCB9ZDpV64Fkm6
+    body:
+      encoding: UTF-8
+      string: Content-Type=application%2Fjson
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.6.3
+      Date:
+      - Wed, 08 Jul 2015 14:53:43 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '256'
+      Connection:
+      - keep-alive
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS, PUT, DELETE
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization
+      Access-Control-Expose-Headers:
+      - X-Email-Needs-Validation,X-Quota-Per-Item,X-Quota-Items-Limit,X-RateLimit-Limit,X-RateLimit-Remaining
+      Etag:
+      - '"2057968110"'
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: UTF-8
+      string: '{"addrStr":"16iKJsRM3LrA4k7NeTQbCB9ZDpV64Fkm6","balance":0,"balanceSat":0,"totalReceived":0,"totalReceivedSat":0,"totalSent":0,"totalSentSat":0,"unconfirmedBalance":0,"unconfirmedBalanceSat":0,"unconfirmedTxApperances":0,"txApperances":0,"transactions":[]}'
+    http_version: 
+  recorded_at: Wed, 08 Jul 2015 14:52:35 GMT
+- request:
+    method: get
+    uri: https://insight.mycelium.com/wrong_api/tx/b168b57a9ae38c0671c5eef3be6c8305782bd1351e75028dac491185388d5424
+    body:
+      encoding: UTF-8
+      string: Content-Type=application%2Fjson
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.6.3
+      Date:
+      - Wed, 08 Jul 2015 15:15:53 GMT
+      Content-Type:
+      - text/html; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS, PUT, DELETE
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization
+      Access-Control-Expose-Headers:
+      - X-Email-Needs-Validation,X-Quota-Per-Item,X-Quota-Items-Limit,X-RateLimit-Limit,X-RateLimit-Remaining
+      Accept-Ranges:
+      - bytes
+      Etag:
+      - '"3181-1435065629000"'
+      Cache-Control:
+      - public, max-age=0
+      Last-Modified:
+      - Tue, 23 Jun 2015 13:20:29 GMT
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: "<!doctype html>\n<html lang=\"en\" data-ng-app=\"insight\" data-ng-csp>\n<head>\n\t<meta
+        charset=\"UTF-8\">\n\t<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\">\n\t<meta
+        name=\"viewport\" content=\"width=device-width,initial-scale=1.0\">\n\t<meta
+        name=\"fragment\" content=\"!\">\n\t<title data-ng-bind=\"$root.title + $root.titleDetail
+        + ' | Insight'\">Insight</title>\n\t<meta name=\"keywords\" content=\"bitcoins,
+        transactions, blocks, address, block chain, best block, mining difficulty,
+        hash serialized\">\n\t<meta name=\"description\" content=\"Bitcoin Insight.
+        View detailed information on all bitcoin transactions and block. {{ $root.title
+        + $root.titleDetail }}\">\n\t<link rel=\"shortcut icon\" href=\"/img/icons/favicon.ico\"
+        type=\"image/x-icon\">\n\t<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,400italic\">\n\t<link
+        rel=\"stylesheet\" href=\"/css/main.min.css\">\n</head>\n<body ng-cloak class=\"ng-cloak\">\n
+        \ <div>\n    <script type=\"text/ng-template\" id=\"scannerModal.html\">\n
+        \     <div class=\"modal-header\">\n        <h3 class=\"modal-title\">Scan
+        Code</h3>\n      </div>\n      <div class=\"modal-body text-center\">\n        <canvas
+        id=\"qr-canvas\" width=\"200\" height=\"150\"></canvas>\n        <div data-ng-show=\"isMobile\">\n
+        \         <div id=\"file-input-wrapper\" class=\"btn btn-primary\">\n            <span
+        class=\"pull-left text-center\">\n              <i class=\"glyphicon glyphicon-refresh
+        icon-rotate\"></i>\n              Get QR code\n            </span>\n            <input
+        id=\"qrcode-camera\" type=\"file\" capture=\"camera\" accept=\"image/*\">\n
+        \         </div>\n        </div>\n        <div data-ng-hide=\"isMobile\">\n
+        \         <video id=\"qrcode-scanner-video\" width=\"300\" height=\"225\"
+        data-ng-hide=\"isMobile\"></video>\n        </div>\n      </div>\n      <div
+        class=\"modal-footer\">\n        <button class=\"btn btn-default\" data-ng-click=\"cancel()\"
+        data-dismiss=\"modal\">Close</button>\n      </div>\n    </script>\n  </div>\n\t<div
+        id=\"wrap\">\n\t\t<div class=\"navbar navbar-default navbar-fixed-top\" data-ng-include=\"'/views/includes/header.html'\"
+        role='navigation'></div>\n\t\t<section class=\"container\" data-ng-view></section>\n\t</div>\n\t<div
+        id=\"footer\" role=\"navigation\">\n    <div class=\"container\" data-ng-controller=\"FooterController\">\n
+        \     <div class=\"links m20t pull-left\">\n        <span class=\"languages\"
+        ng-show=\"availableLanguages.0\">\n          [\n          <a href=\"#\"\n
+        \           ng-click=\"setLanguage(l.isoCode)\"\n            ng-class=\"{'selected':
+        defaultLanguage == l.isoCode}\"\n            ng-repeat=\"l in availableLanguages\">\n
+        \           <span ng-show=\"!$first\"> &middot; </span> {{l.name}}\n          </a>\n
+        \         ]\n        </span>\n        &nbsp;\n        [\n        <a href=\"/messages/verify\"
+        translate>verify message</a>\n        <span> &middot; </span>\n        <a
+        href=\"/tx/send\" translate>broadcast transaction</a>\n        ]\n      </div>\n
+        \     <a class=\"insight m10v pull-right\" target=\"_blank\" href=\"http://insight.is\">insight
+        <small>API v{{version}}</small></a>\n    </div>\n  </div>\n\t<script src=\"/socket.io/socket.io.js\"></script>\n\t<script
+        src=\"/js/vendors.min.js\"></script>\n\t<script src=\"/js/angularjs-all.min.js\"></script>\n\t<script
+        src=\"/js/main.min.js\"></script>\n</body>\n</html>\n"
+    http_version: 
+  recorded_at: Wed, 08 Jul 2015 15:14:45 GMT
+- request:
+    method: get
+    uri: https://insight.mycelium.com/api/a-404-requesttid
+    body:
+      encoding: UTF-8
+      string: Content-Type=application%2Fjson
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.6.3
+      Date:
+      - Wed, 08 Jul 2015 15:19:17 GMT
+      Content-Type:
+      - text/html; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS, PUT, DELETE
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization
+      Access-Control-Expose-Headers:
+      - X-Email-Needs-Validation,X-Quota-Per-Item,X-Quota-Items-Limit,X-RateLimit-Limit,X-RateLimit-Remaining
+      Accept-Ranges:
+      - bytes
+      Etag:
+      - '"3181-1435065629000"'
+      Cache-Control:
+      - public, max-age=0
+      Last-Modified:
+      - Tue, 23 Jun 2015 13:20:29 GMT
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: "<!doctype html>\n<html lang=\"en\" data-ng-app=\"insight\" data-ng-csp>\n<head>\n\t<meta
+        charset=\"UTF-8\">\n\t<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\">\n\t<meta
+        name=\"viewport\" content=\"width=device-width,initial-scale=1.0\">\n\t<meta
+        name=\"fragment\" content=\"!\">\n\t<title data-ng-bind=\"$root.title + $root.titleDetail
+        + ' | Insight'\">Insight</title>\n\t<meta name=\"keywords\" content=\"bitcoins,
+        transactions, blocks, address, block chain, best block, mining difficulty,
+        hash serialized\">\n\t<meta name=\"description\" content=\"Bitcoin Insight.
+        View detailed information on all bitcoin transactions and block. {{ $root.title
+        + $root.titleDetail }}\">\n\t<link rel=\"shortcut icon\" href=\"/img/icons/favicon.ico\"
+        type=\"image/x-icon\">\n\t<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,400italic\">\n\t<link
+        rel=\"stylesheet\" href=\"/css/main.min.css\">\n</head>\n<body ng-cloak class=\"ng-cloak\">\n
+        \ <div>\n    <script type=\"text/ng-template\" id=\"scannerModal.html\">\n
+        \     <div class=\"modal-header\">\n        <h3 class=\"modal-title\">Scan
+        Code</h3>\n      </div>\n      <div class=\"modal-body text-center\">\n        <canvas
+        id=\"qr-canvas\" width=\"200\" height=\"150\"></canvas>\n        <div data-ng-show=\"isMobile\">\n
+        \         <div id=\"file-input-wrapper\" class=\"btn btn-primary\">\n            <span
+        class=\"pull-left text-center\">\n              <i class=\"glyphicon glyphicon-refresh
+        icon-rotate\"></i>\n              Get QR code\n            </span>\n            <input
+        id=\"qrcode-camera\" type=\"file\" capture=\"camera\" accept=\"image/*\">\n
+        \         </div>\n        </div>\n        <div data-ng-hide=\"isMobile\">\n
+        \         <video id=\"qrcode-scanner-video\" width=\"300\" height=\"225\"
+        data-ng-hide=\"isMobile\"></video>\n        </div>\n      </div>\n      <div
+        class=\"modal-footer\">\n        <button class=\"btn btn-default\" data-ng-click=\"cancel()\"
+        data-dismiss=\"modal\">Close</button>\n      </div>\n    </script>\n  </div>\n\t<div
+        id=\"wrap\">\n\t\t<div class=\"navbar navbar-default navbar-fixed-top\" data-ng-include=\"'/views/includes/header.html'\"
+        role='navigation'></div>\n\t\t<section class=\"container\" data-ng-view></section>\n\t</div>\n\t<div
+        id=\"footer\" role=\"navigation\">\n    <div class=\"container\" data-ng-controller=\"FooterController\">\n
+        \     <div class=\"links m20t pull-left\">\n        <span class=\"languages\"
+        ng-show=\"availableLanguages.0\">\n          [\n          <a href=\"#\"\n
+        \           ng-click=\"setLanguage(l.isoCode)\"\n            ng-class=\"{'selected':
+        defaultLanguage == l.isoCode}\"\n            ng-repeat=\"l in availableLanguages\">\n
+        \           <span ng-show=\"!$first\"> &middot; </span> {{l.name}}\n          </a>\n
+        \         ]\n        </span>\n        &nbsp;\n        [\n        <a href=\"/messages/verify\"
+        translate>verify message</a>\n        <span> &middot; </span>\n        <a
+        href=\"/tx/send\" translate>broadcast transaction</a>\n        ]\n      </div>\n
+        \     <a class=\"insight m10v pull-right\" target=\"_blank\" href=\"http://insight.is\">insight
+        <small>API v{{version}}</small></a>\n    </div>\n  </div>\n\t<script src=\"/socket.io/socket.io.js\"></script>\n\t<script
+        src=\"/js/vendors.min.js\"></script>\n\t<script src=\"/js/angularjs-all.min.js\"></script>\n\t<script
+        src=\"/js/main.min.js\"></script>\n</body>\n</html>\n"
+    http_version: 
+  recorded_at: Wed, 08 Jul 2015 15:18:08 GMT
+recorded_with: VCR 2.9.3

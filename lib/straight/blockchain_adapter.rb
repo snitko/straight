@@ -38,5 +38,14 @@ module Straight
 
     end
 
+    # Look for the adapter without namespace if not found it in a specific module
+    # @return nil
+    def self.const_missing(name)
+      Kernel.const_get(name)
+    rescue NameError
+      puts "WARNING: No blockchain adapter with the name #{name.to_s} was found!"
+      nil
+    end
+
   end
 end

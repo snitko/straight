@@ -7,6 +7,10 @@ module Straight
         new(host_url)
       end
 
+      def self.testnet_adapter
+        raise "Not Supported Yet"
+      end
+
       def initialize(host_url)
         @base_url = host_url
       end

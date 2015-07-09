@@ -214,7 +214,8 @@ module Straight
       @default_currency = 'BTC'
       @blockchain_adapters = [
         Blockchain::BlockchainInfoAdapter.mainnet_adapter,
-        Blockchain::MyceliumAdapter.mainnet_adapter
+        Blockchain::MyceliumAdapter.mainnet_adapter,
+        Blockchain::InsightAdapter.mainnet_adapter("https://insight.mycelium.com/api")
       ]
       @exchange_rate_adapters = [
         ExchangeRate::BitpayAdapter.instance, 

@@ -3,7 +3,7 @@ module Straight
     
     class InsightAdapter < Adapter
 
-      def self.mainnet(host_url)
+      def self.mainnet_adapter(host_url)
         new(host_url)
       end
 

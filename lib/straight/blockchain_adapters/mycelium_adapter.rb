@@ -96,6 +96,9 @@ module Straight
           raise RequestError, YAML::dump(e)
         rescue JSON::ParserError => e
           raise RequestError, YAML::dump(e)
+        rescue Net::ReadTimeout
+          sleep 0.2
+          retry
         end
 
         # Converts transaction info received from the source into the

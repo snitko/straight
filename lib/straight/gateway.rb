@@ -60,8 +60,6 @@ module Straight
       return { period: period, iteration_index: iteration_index }
     end
 
-    TESTNET_ADAPTER = Straight::Blockchain::MyceliumAdapter.testnet_adapter
-
     # If you are defining methods in this module, it means you most likely want to
     # call super() somehwere inside those methods.
     #
@@ -73,8 +71,12 @@ module Straight
     module Includable
 
       def blockchain_adapters
-        return [GatewayModule::TESTNET_ADAPTER] if test_mode
+        return test_blockchain_adapters if test_mode
         @blockchain_adapters
+      end
+
+      def test_blockchain_adapters
+        @blockchain_adapters.map{ |el| el.class.testnet_adapter rescue next }.compact
       end
 
       # Creates a new order for the address derived from the pubkey and the keychain_id argument provided.
@@ -215,7 +217,7 @@ module Straight
       @blockchain_adapters = [
         Blockchain::BlockchainInfoAdapter.mainnet_adapter,
         Blockchain::MyceliumAdapter.mainnet_adapter,
-        Blockchain::InsightAdapter.mainnet_adapter("https://insight.mycelium.com/api")
+        Blockchain::InsightAdapter.mainnet_adapter(main_url: "https://insight.mycelium.com/api")
       ]
       @exchange_rate_adapters = [
         ExchangeRate::BitpayAdapter.instance, 

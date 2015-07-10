@@ -763,4 +763,98 @@ http_interactions:
         src=\"/js/main.min.js\"></script>\n</body>\n</html>\n"
     http_version: 
   recorded_at: Wed, 08 Jul 2015 15:18:08 GMT
+- request:
+    method: get
+    uri: https://insight.mycelium.com/api/addr/wrong_address
+    body:
+      encoding: UTF-8
+      string: Content-Type=application%2Fjson
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Server:
+      - nginx/1.6.3
+      Date:
+      - Thu, 09 Jul 2015 14:57:53 GMT
+      Content-Type:
+      - text/html; charset=utf-8
+      Content-Length:
+      - '72'
+      Connection:
+      - keep-alive
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS, PUT, DELETE
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization
+      Access-Control-Expose-Headers:
+      - X-Email-Needs-Validation,X-Quota-Per-Item,X-Quota-Items-Limit,X-RateLimit-Limit,X-RateLimit-Remaining
+      Etag:
+      - '"-1523394150"'
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: UTF-8
+      string: Invalid address:Unspecified operation for type undefined for add. Code:1
+    http_version: 
+  recorded_at: Thu, 09 Jul 2015 14:57:53 GMT
+- request:
+    method: get
+    uri: https://insight.mycelium.com/api/addr/12X3JTpcGPS1GXmuJn9gT3gspP6YFsFT6W
+    body:
+      encoding: UTF-8
+      string: Content-Type=application%2Fjson
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.6.3
+      Date:
+      - Fri, 10 Jul 2015 08:44:02 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '257'
+      Connection:
+      - keep-alive
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS, PUT, DELETE
+      Access-Control-Allow-Headers:
+      - X-Requested-With,Content-Type,Authorization
+      Access-Control-Expose-Headers:
+      - X-Email-Needs-Validation,X-Quota-Per-Item,X-Quota-Items-Limit,X-RateLimit-Limit,X-RateLimit-Remaining
+      Etag:
+      - '"1131642747"'
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: UTF-8
+      string: '{"addrStr":"12X3JTpcGPS1GXmuJn9gT3gspP6YFsFT6W","balance":0,"balanceSat":0,"totalReceived":0,"totalReceivedSat":0,"totalSent":0,"totalSentSat":0,"unconfirmedBalance":0,"unconfirmedBalanceSat":0,"unconfirmedTxApperances":0,"txApperances":0,"transactions":[]}'
+    http_version: 
+  recorded_at: Fri, 10 Jul 2015 08:44:01 GMT
 recorded_with: VCR 2.9.3

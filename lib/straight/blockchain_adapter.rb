@@ -16,6 +16,9 @@ module Straight
       # is used on testnet and vice versa.
       class BitcoinAddressInvalid < StraightError; end
 
+      # How much times try to connect to servers if ReadTimeout error appears
+      MAX_TRIES = 5
+
       def fetch_transaction(tid)
         raise "Please implement #fetch_transaction in #{self.to_s}"
       end

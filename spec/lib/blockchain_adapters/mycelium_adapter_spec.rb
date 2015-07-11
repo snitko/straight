@@ -73,6 +73,13 @@ RSpec.describe Straight::Blockchain::MyceliumAdapter do
     expect(adapter.instance_variable_get(:@base_url)).to eq(Straight::Blockchain::MyceliumAdapter::MAINNET_SERVERS[1])
   end
 
+  it "should make MAX_TRIES attempts if Net::ReadTimeout error appears" do
+    allow(HTTParty).to receive(:post).and_raise(Net::ReadTimeout)
+    expect(HTTParty).to receive(:post).exactly(Straight::Blockchain::Adapter::MAX_TRIES).times
+    expect { adapter.fetch_transactions_for('address') }.to raise_error(HTTParty::Error)
+  end
+
+
   it "raise errors if all servers failed" do
     Straight::Blockchain::MyceliumAdapter::MAINNET_SERVERS.each do |s|
       expect(HTTParty).to receive(:post).with(s + "/queryUnspentOutputs", anything).once.and_raise(HTTParty::Error)

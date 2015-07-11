@@ -84,18 +84,26 @@ module Straight
       private
 
         def api_request(method, params={})
-          JSON.parse(HTTParty.post(
-            "#{@base_url}/#{method}",
-            body: params.merge({version: 1}).to_json,
-            headers: { 'Content-Type' => 'application/json' },
-            timeout: 15,
-            verify: false
-          ).body || '')['r']
-        rescue HTTParty::Error => e
-          retry if next_server
-          raise RequestError, YAML::dump(e)
-        rescue JSON::ParserError => e
-          raise RequestError, YAML::dump(e)
+          attempts = 0
+          begin
+            attempts += 1
+            JSON.parse(HTTParty.post(
+              "#{@base_url}/#{method}",
+              body: params.merge({version: 1}).to_json,
+              headers: { 'Content-Type' => 'application/json' },
+              timeout: 15,
+              verify: false
+            ).body || '')['r']
+          rescue HTTParty::Error => e
+            retry if next_server
+            raise RequestError, YAML::dump(e)
+          rescue JSON::ParserError => e
+            raise RequestError, YAML::dump(e)
+          rescue Net::ReadTimeout
+            raise HTTParty::Error if attempts >= MAX_TRIES
+            sleep 0.5
+            retry
+          end
         end
 
         # Converts transaction info received from the source into the

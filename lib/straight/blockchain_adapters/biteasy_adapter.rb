@@ -36,7 +36,9 @@ module Straight
       private
 
         def api_request(url)
+          attempts = 0
           begin
+            attempts += 1
             response = HTTParty.get("#{@base_url}/#{url}", timeout: 4, verify: false)
             unless response.code == 200
               raise RequestError, "Cannot access remote API, response code was #{response.code}"
@@ -46,6 +48,10 @@ module Straight
             raise RequestError, YAML::dump(e)
           rescue JSON::ParserError => e
             raise RequestError, YAML::dump(e)
+          rescue Net::ReadTimeout
+            raise HTTParty::Error if attempts >= MAX_TRIES
+            sleep 0.5
+            retry
           end
         end
 

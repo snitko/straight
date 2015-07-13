@@ -5,6 +5,7 @@ gem 'btcruby', '~> 1.0'
 # Used in exchange rate adapters
 gem 'satoshi-unit', '~> 0.1'
 gem 'httparty', '~> 0.13.5'
+gem 'faraday'
 
 group :development do
   gem "bundler", "~> 1.0"

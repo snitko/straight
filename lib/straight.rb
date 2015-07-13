@@ -6,6 +6,7 @@ require 'open-uri'
 require 'yaml'
 require 'singleton'
 require 'httparty'
+require 'faraday'
 
 module Straight
   StraightError = Class.new(StandardError)

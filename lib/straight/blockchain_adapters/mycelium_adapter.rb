@@ -84,25 +84,20 @@ module Straight
       private
 
         def api_request(method, params={})
-          attempts = 0
           begin
-            attempts += 1
-            JSON.parse(HTTParty.post(
-              "#{@base_url}/#{method}",
-              body: params.merge({version: 1}).to_json,
-              headers: { 'Content-Type' => 'application/json' },
-              timeout: 15,
-              verify: false
-            ).body || '')['r']
-          rescue HTTParty::Error => e
-            retry if next_server
-            raise RequestError, YAML::dump(e)
+            conn = Faraday.new(url: "#{@base_url}/#{method}", ssl: { verify: false }) do |faraday|
+              faraday.request  :url_encoded             # form-encode POST params
+              faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
+            end
+            result = conn.post do |req|
+              req.body = params.merge({version: 1}).to_json
+              req.headers['Content-Type'] = 'application/json'
+            end
+            JSON.parse(result.body || '')['r']
           rescue JSON::ParserError => e
             raise RequestError, YAML::dump(e)
-          rescue Net::ReadTimeout
-            raise HTTParty::Error if attempts >= MAX_TRIES
-            sleep 0.5
-            retry
+          rescue Exception => e
+            next_server ? retry : (raise e)
           end
         end
 

@@ -43,9 +43,11 @@ RSpec.describe Straight::Blockchain::MyceliumAdapter do
   end
 
   it "caches latestblock requests" do
-    latest_block_response = double('Blockchain info latest block response')
+    latest_block_response = double('Mycelium WAPI latest block response')
     expect(latest_block_response).to receive(:body).and_return('{ "r": { "height": 1 }}') 
-    expect(HTTParty).to receive(:post).with("https://mws2.mycelium.com/wapi/wapi/queryUnspentOutputs", anything).once.and_return(latest_block_response)
+    faraday_mock = double("Faraday Request Mock")
+    expect(faraday_mock).to receive(:post).and_return(latest_block_response) 
+    expect(Faraday).to receive(:new).once.and_return(faraday_mock)
     adapter.send(:calculate_confirmations, 1, force_latest_block_reload: true)
     adapter.send(:calculate_confirmations, 1)
     adapter.send(:calculate_confirmations, 1)
@@ -65,25 +67,22 @@ RSpec.describe Straight::Blockchain::MyceliumAdapter do
   # end
 
   it "using next server if previous failed" do
-    block_response = double('Blockchain info latest block response')
-    expect(block_response).to receive(:body).and_return('{ "r": { "height": 1 }}') 
-    expect(HTTParty).to receive(:post).with(Straight::Blockchain::MyceliumAdapter::MAINNET_SERVERS[0]+"/queryUnspentOutputs", anything).once.and_raise(HTTParty::Error)
-    expect(HTTParty).to receive(:post).with(Straight::Blockchain::MyceliumAdapter::MAINNET_SERVERS[1]+"/queryUnspentOutputs", anything).once.and_return(block_response)
-    adapter.send(:calculate_confirmations, 1)
-    expect(adapter.instance_variable_get(:@base_url)).to eq(Straight::Blockchain::MyceliumAdapter::MAINNET_SERVERS[1])
+    block_response = double('Mycelium WAPI latest block response')
+    expect(Faraday).to receive(:new).once.and_raise(Exception)
+    begin
+      adapter.send(:calculate_confirmations, 1)
+    rescue Exception
+      expect(adapter.instance_variable_get(:@base_url)).to eq(Straight::Blockchain::MyceliumAdapter::MAINNET_SERVERS[2])
+    end
   end
-
-  it "should make MAX_TRIES attempts if Net::ReadTimeout error appears" do
-    allow(HTTParty).to receive(:post).and_raise(Net::ReadTimeout)
-    expect(HTTParty).to receive(:post).exactly(Straight::Blockchain::Adapter::MAX_TRIES).times
-    expect { adapter.fetch_transactions_for('address') }.to raise_error(HTTParty::Error)
-  end
-
 
   it "raise errors if all servers failed" do
-    Straight::Blockchain::MyceliumAdapter::MAINNET_SERVERS.each do |s|
-      expect(HTTParty).to receive(:post).with(s + "/queryUnspentOutputs", anything).once.and_raise(HTTParty::Error)
-    end
+    response_mock = double("Faraday Response Mock")
+    latest_block_response = double('Mycelium WAPI latest block response')
+    expect(latest_block_response).to receive(:body).and_return('') 
+    faraday_mock = double("Faraday Request Mock")
+    expect(faraday_mock).to receive(:post).and_return(latest_block_response)
+    expect(Faraday).to receive(:new).once.and_return(faraday_mock)
     expect {
       adapter.send(:calculate_confirmations, 1)
     }.to raise_error(Straight::Blockchain::Adapter::RequestError)

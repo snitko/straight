@@ -4,6 +4,7 @@ RSpec.describe Straight::Gateway do
 
   before(:each) do
     @mock_adapter                  = double("mock blockchain adapter")
+    allow(@mock_adapter).to receive(:testnet_adapter)
     @gateway                       = Straight::Gateway.new
     @gateway.pubkey                = "pubkey"
     @gateway.order_class           = "Straight::Order"
@@ -102,8 +103,8 @@ RSpec.describe Straight::Gateway do
 
     it "is using testnet" do
       @gateway.test_mode = true
-      expect(@gateway.blockchain_adapters.last.instance_variable_get(:@base_url))
-        .to eq(testnet_adapters.last.instance_variable_get(:@base_url))
+      allow(@mock_adapter).to receive(:testnet_adapters).and_return(true)
+      expect(@gateway.blockchain_adapters).to eq(@gateway.test_blockchain_adapters)
     end
     
     it "is disabled and return previous saved adapters" do
@@ -113,7 +114,7 @@ RSpec.describe Straight::Gateway do
     it "generate get keychain in testnet" do
       
     end
-    it "creates new orders and addresses for them", focus: true do
+    it "creates new orders and addresses for them" do
       @gateway.pubkey   = 'tpubDCzMzH5R7dvZAN7jNyZRUXxuo8XdRmMd7gmzvHs9LYG4w2EBvEjQ1Drm8ZXv4uwxrtUh3MqCZQJaq56oPMghsbtFnoLi9JBfG7vRLXLH21r' 
       expected_address  = '1LUCZQ5habZZMRz6XeSqpAQUZEULggzzgE'
       expect(@gateway.new_order(amount: 1, keychain_id: 1).address).to eq(expected_address)

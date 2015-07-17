@@ -20,18 +20,18 @@ module Straight
 
       # Returns transaction info for the tid
       def fetch_transaction(tid, address: nil)
-        straighten_transaction JSON.parse(api_request("/rawtx/#{tid}"), address: address)
+        straighten_transaction(api_request("/rawtx/#{tid}"), address: address)
       end
 
       # Returns all transactions for the address
       def fetch_transactions_for(address)
-        transactions = JSON.parse(api_request("/rawaddr/#{address}"))['txs']
+        transactions = api_request("/rawaddr/#{address}")['txs']
         transactions.map { |t| straighten_transaction(t, address: address) }
       end
 
       # Returns the current balance of the address
       def fetch_balance_for(address)
-        JSON.parse(api_request("/rawaddr/#{address}"))['final_balance']
+        api_request("/rawaddr/#{address}")['final_balance']
       end
 
       def latest_block(force_reload: false)
@@ -42,7 +42,7 @@ module Straight
            force_reload
           @latest_block = {
             cache_timestamp: Time.now,
-            block: JSON.parse(api_request("/latestblock"))
+            block: api_request("/latestblock")
           }
         else
           @latest_block
@@ -52,23 +52,15 @@ module Straight
       private
 
         def api_request(url)
-          attempts = 0
-          begin
-            attempts += 1
-            response = HTTParty.get("#{@base_url}/#{url}", timeout: 4, verify: false)
-            unless response.code == 200
-              raise RequestError, "Cannot access remote API, response code was #{response.code}"
-            end
-            response.body
-          rescue HTTParty::Error => e
-            raise RequestError, YAML::dump(e)
-          rescue JSON::ParserError => e
-            raise RequestError, YAML::dump(e)
-          rescue Net::ReadTimeout
-            raise HTTParty::Error if atempts >= MAX_TRIES
-            sleep 0.5
-            retry
+          conn = Faraday.new(url: "#{@base_url}/#{url}", ssl: { verify: false }) do |faraday|
+            faraday.adapter Faraday.default_adapter
           end
+          result = conn.get
+          JSON.parse(result.body)
+        rescue JSON::ParserError => e
+          raise RequestError, YAML::dump(e)
+        rescue Exception => e
+          raise RequestError, YAML::dump(e)
         end
 
         # Converts transaction info received from the source into the

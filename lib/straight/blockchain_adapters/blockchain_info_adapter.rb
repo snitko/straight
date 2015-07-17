@@ -56,6 +56,9 @@ module Straight
             faraday.adapter Faraday.default_adapter
           end
           result = conn.get
+          unless result.status == 200
+            raise RequestError, "Cannot access remote API, response code was #{result.code}"
+          end
           JSON.parse(result.body)
         rescue JSON::ParserError => e
           raise RequestError, YAML::dump(e)

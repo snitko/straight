@@ -39,17 +39,17 @@ module Straight
 
       def api_request(place, val)
         req_url = @base_url + place + val
-        res = HTTParty.get(
-          req_url,
-          body: { 'Content-Type' => 'application/json' },
-          timeout: 15,
-          verify: false
-        ).body
-        JSON.parse(res)
-      rescue HTTParty::Error => e
-        raise RequestError, YAML::dump(e)
+        conn = Faraday.new(url: req_url, ssl: { verify: false }) do |faraday|
+          faraday.adapter Faraday.default_adapter
+        end
+        result = conn.get do |req|
+          req.headers['Content-Type'] = 'application/json'
+        end
+        JSON.parse(result.body)
       rescue JSON::ParserError => e
         raise BitcoinAddressInvalid, message: "address in question: #{val}" if e.message.include?("Invalid address")
+        raise RequestError, YAML::dump(e)
+      rescue Exception => e
         raise RequestError, YAML::dump(e)
       end
 

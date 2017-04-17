@@ -39,7 +39,7 @@ RSpec.describe Straight::Blockchain::BlockchainInfoAdapter do
   end
 
   it "caches blockchain.info latestblock requests" do
-    expect(adapter).to receive(:api_request).once.and_return('{ "height": 1 }')
+    expect(adapter).to receive(:api_request).once.and_return({ "height" => 1 })
     adapter.send(:calculate_confirmations, { "block_height" => 1 }, force_latest_block_reload: true)
     adapter.send(:calculate_confirmations, { "block_height" => 1 })
     adapter.send(:calculate_confirmations, { "block_height" => 1 })
